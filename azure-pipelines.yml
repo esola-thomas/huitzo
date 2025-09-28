@@ -17,9 +17,9 @@ pool:
 variables:
   # These will be set in Azure DevOps pipeline variables (keep them secret)
   - name: GITHUB_REPO_URL
-    value: 'https://github.com/your-username/huitzo-site.git'  # Update this
+    value: 'https://github.com/esola-thomas/huitzo'
   - name: GITHUB_USERNAME
-    value: 'your-github-username'  # Update this
+    value: 'esola-thomas'
 
 stages:
 - stage: SyncToGitHub
@@ -56,7 +56,7 @@ stages:
         git fetch origin
 
         echo "Checking out main branch..."
-        git checkout main || git checkout master || git checkout -b main
+        git checkout main || git checkout -b main
 
         echo "Pushing to GitHub..."
         git push github HEAD:main --force-with-lease
