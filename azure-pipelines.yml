@@ -1,5 +1,5 @@
-# Azure Pipeline to sync Azure DevOps repository to GitHub
-# Triggers on main/master in Azure DevOps; pushes to GitHub (main)
+# Azure Pipeline to sync Azure DevOps repository to GitHub (main)
+# Uses self-hosted pool 'Default' and a Library variable group containing GITHUB_PERSONAL_ACCESS_TOKEN
 
 trigger:
   branches:
@@ -9,15 +9,15 @@ trigger:
 
 pr: none
 
-# Self-hosted pool; switch to vmImage if you move back to Microsoft-hosted
+# Self-hosted agent pool
 pool:
   name: 'Default'
 
 variables:
-# Import your Library variable group with the PAT secret
+# Import your Library variable group (must contain secret: GITHUB_PERSONAL_ACCESS_TOKEN)
 - group: 'GitHub Public repo sync'
 
-# Centralize GitHub settings
+# GitHub settings
 - name: GITHUB_OWNER
   value: 'esola-thomas'
 - name: GITHUB_REPO
@@ -45,17 +45,17 @@ stages:
         git config --global user.email "pipeline@azuredevops.com"
       displayName: 'Configure Git User'
 
-    # OPTION B: Auth rewrite (no token in remote URL)
+    # Safer auth: rewrite https://github.com to include username + PAT (token not embedded in remote URL)
     - script: |
         set -euo pipefail
-        # Any HTTPS call to github.com will transparently use the PAT
-        git config --global url."https://${GITHUB_PAT}@github.com/".insteadOf "https://github.com/"
-        # (Re)add remote without embedding token
+        git config --global url."https://${GITHUB_USER}:${GITHUB_PAT}@github.com/".insteadOf "https://github.com/"
+        # (Re)add a clean remote without token in URL
         git remote remove github 2>/dev/null || true
         git remote add github "https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}.git"
         git remote get-url github
       displayName: 'Configure Git Auth (no token in remote)'
       env:
+        GITHUB_USER: esola-thomas
         GITHUB_PAT: $(GITHUB_PERSONAL_ACCESS_TOKEN)
 
     - script: |
@@ -80,6 +80,7 @@ stages:
       env:
         GITHUB_BRANCH: $(GITHUB_BRANCH)
 
+    # Optional: tag a release on GitHub (disabled by default)
     - script: |
         set -euo pipefail
         TAG_NAME="v$(date +%Y.%m.%d)-build$(Build.BuildNumber)"
@@ -100,7 +101,7 @@ stages:
     - script: |
         if [ "$(Agent.JobStatus)" = "Succeeded" ]; then
           echo "✅ Successfully synced to GitHub!"
-          echo "GitHub Pages/Actions should trigger on pushes to $(GITHUB_BRANCH)."
+          echo "GitHub Actions/Pages should trigger on pushes to $(GITHUB_BRANCH)."
           echo "Check: https://github.com/$(GITHUB_OWNER)/$(GITHUB_REPO)/actions"
         else
           echo "❌ GitHub sync failed. Please check the logs."
