@@ -43,7 +43,7 @@ stages:
 
     # Add GitHub as a remote repository
     - script: |
-        git remote add github https://$(GITHUB_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo-site.git
+        git remote add github https://$(GITHUB_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git
         git remote -v
       displayName: 'Add GitHub Remote'
       env:
@@ -94,7 +94,7 @@ stages:
         if [ "$(Agent.JobStatus)" = "Succeeded" ]; then
           echo "✅ Successfully synced to GitHub!"
           echo "GitHub Pages deployment should start automatically."
-          echo "Check: https://github.com/$(GITHUB_USERNAME)/huitzo-site/actions"
+          echo "Check: https://github.com/$(GITHUB_USERNAME)/huitzo/actions"
         else
           echo "❌ GitHub sync failed. Please check the logs."
         fi
