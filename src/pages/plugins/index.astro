@@ -1,0 +1,246 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PluginCard from '../../components/PluginCard.astro';
+
+// Import plugin data
+import financialPlugin from '../../data/plugins/financial.json';
+
+// For now, we only have the financial plugin, but we'll create a coming soon card
+const plugins = [financialPlugin];
+
+const comingSoonPlugin = {
+  id: 'coming-soon',
+  slug: 'coming-soon',
+  name: 'More Plugins Coming Soon',
+  version: '0.0.0',
+  author: 'Huitzo Team',
+  icon: '📊',
+  tagline: 'Additional intelligence services in development',
+  description: 'We\'re working on expanding our plugin ecosystem. Check our roadmap to see what\'s coming next in our intelligence service offerings.',
+  category: 'general',
+  status: 'coming-soon'
+};
+
+const allPlugins = [...plugins, comingSoonPlugin];
+
+// Categories for filtering
+const categories = ['All', 'Finance', 'Coming Soon'];
+const statuses = ['All', 'Active', 'Coming Soon'];
+---
+
+<Layout
+  title="Available Plugins | Huitzo"
+  description="Extend Huitzo with specialized intelligence services. Browse our plugin directory to find tools for financial analysis and more."
+>
+  <!-- Header Section -->
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-4xl lg:text-5xl font-bold text-text-primary mb-6">
+          Available <span class="text-gradient">Plugins</span>
+        </h1>
+        <p class="text-lg text-text-secondary mb-8 max-w-2xl mx-auto">
+          Extend Huitzo with specialized intelligence services. Each plugin provides
+          a complete solution for a specific data analysis domain.
+        </p>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-3 gap-6 max-w-lg mx-auto">
+          <div class="text-center">
+            <div class="text-2xl font-bold text-huitzo-accent font-mono">
+              {plugins.filter(p => p.status === 'active').length}
+            </div>
+            <div class="text-sm text-text-muted">Active Plugins</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl font-bold text-huitzo-accent font-mono">
+              {plugins.filter(p => p.pricing?.free?.available).length}
+            </div>
+            <div class="text-sm text-text-muted">Free Tiers</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl font-bold text-huitzo-accent font-mono">∞</div>
+            <div class="text-sm text-text-muted">Possibilities</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search and Filter Section -->
+  <section class="py-12 bg-huitzo-secondary/30">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row gap-4 items-center justify-between mb-8">
+          <!-- Search Bar -->
+          <div class="flex-1 max-w-md">
+            <div class="relative">
+              <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+              <input
+                type="text"
+                id="plugin-search"
+                placeholder="Search plugins..."
+                class="w-full pl-10 pr-4 py-3 bg-huitzo-tertiary border border-huitzo-border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-huitzo-accent transition-colors"
+              />
+            </div>
+          </div>
+
+          <!-- Filters -->
+          <div class="flex gap-4">
+            <select
+              id="category-filter"
+              class="px-4 py-3 bg-huitzo-tertiary border border-huitzo-border rounded-lg text-text-primary focus:outline-none focus:border-huitzo-accent transition-colors"
+            >
+              {categories.map(category => (
+                <option value={category.toLowerCase()}>{category}</option>
+              ))}
+            </select>
+
+            <select
+              id="status-filter"
+              class="px-4 py-3 bg-huitzo-tertiary border border-huitzo-border rounded-lg text-text-primary focus:outline-none focus:border-huitzo-accent transition-colors"
+            >
+              {statuses.map(status => (
+                <option value={status.toLowerCase()}>{status}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Plugins Grid -->
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <div id="plugins-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {allPlugins.map(plugin => (
+            <div class="plugin-card" data-category={plugin.category} data-status={plugin.status} data-name={plugin.name.toLowerCase()}>
+              <PluginCard plugin={plugin} />
+            </div>
+          ))}
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center py-20">
+          <div class="text-6xl mb-4">🔍</div>
+          <h3 class="text-xl font-semibold text-text-primary mb-2">No plugins found</h3>
+          <p class="text-text-secondary mb-6">
+            No plugins match your current search criteria.
+          </p>
+          <div class="space-x-4">
+            <button id="clear-filters" class="btn-secondary">
+              Clear Filters
+            </button>
+            <a href="/roadmap" class="btn-primary">
+              View Roadmap →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="py-20 bg-huitzo-secondary/30">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl font-bold text-text-primary mb-6">
+          Ready to get <span class="text-gradient">started</span>?
+        </h2>
+        <p class="text-lg text-text-secondary mb-8">
+          Install plugins and start building intelligent analysis workflows with simple commands.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="btn-primary">
+            Launch CLI →
+          </a>
+          <a href="/roadmap" class="btn-secondary">
+            View Roadmap
+          </a>
+        </div>
+
+        <!-- Plugin Request -->
+        <div class="mt-12 pt-8 border-t border-huitzo-border">
+          <h3 class="text-lg font-semibold text-text-primary mb-2">Need a specific plugin?</h3>
+          <p class="text-sm text-text-muted mb-4">
+            Have an idea for an intelligence service that doesn't exist yet?
+          </p>
+          <a href="mailto:ernesto@solathomas.com?subject=Plugin Request" class="text-huitzo-accent hover:underline">
+            Send us your plugin request →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('plugin-search');
+    const categoryFilter = document.getElementById('category-filter');
+    const statusFilter = document.getElementById('status-filter');
+    const pluginsGrid = document.getElementById('plugins-grid');
+    const emptyState = document.getElementById('empty-state');
+    const clearFiltersBtn = document.getElementById('clear-filters');
+
+    function filterPlugins() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const selectedCategory = categoryFilter.value;
+      const selectedStatus = statusFilter.value;
+
+      const pluginCards = pluginsGrid.querySelectorAll('.plugin-card');
+      let visibleCount = 0;
+
+      pluginCards.forEach(card => {
+        const cardName = card.dataset.name;
+        const cardCategory = card.dataset.category;
+        const cardStatus = card.dataset.status;
+
+        const matchesSearch = cardName.includes(searchTerm);
+        const matchesCategory = selectedCategory === 'all' ||
+                              (selectedCategory === 'finance' && cardCategory === 'finance') ||
+                              (selectedCategory === 'coming soon' && cardStatus === 'coming-soon');
+        const matchesStatus = selectedStatus === 'all' ||
+                            (selectedStatus === 'active' && cardStatus === 'active') ||
+                            (selectedStatus === 'coming soon' && cardStatus === 'coming-soon');
+
+        if (matchesSearch && matchesCategory && matchesStatus) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Show/hide empty state
+      if (visibleCount === 0) {
+        pluginsGrid.style.display = 'none';
+        emptyState.classList.remove('hidden');
+      } else {
+        pluginsGrid.style.display = 'grid';
+        emptyState.classList.add('hidden');
+      }
+    }
+
+    function clearFilters() {
+      searchInput.value = '';
+      categoryFilter.value = 'all';
+      statusFilter.value = 'all';
+      filterPlugins();
+    }
+
+    // Event listeners
+    searchInput?.addEventListener('input', filterPlugins);
+    categoryFilter?.addEventListener('change', filterPlugins);
+    statusFilter?.addEventListener('change', filterPlugins);
+    clearFiltersBtn?.addEventListener('click', clearFilters);
+
+    // Initial filter
+    filterPlugins();
+  });
+</script>

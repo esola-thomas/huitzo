@@ -1,0 +1,77 @@
+{
+  "lastUpdated": "2025-10-01",
+  "milestones": [
+    {
+      "id": "kickoff",
+      "status": "completed",
+      "title": "Project Kickoff",
+      "date": "2025-10-01",
+      "description": "Architecture defined, planning complete, documentation suite created"
+    },
+    {
+      "id": "core-mvp",
+      "status": "in-progress",
+      "title": "Core CLI Platform MVP",
+      "targetDate": "2025-12-15",
+      "progress": 40,
+      "description": "Build core Huitzo CLI platform with plugin architecture",
+      "deliverables": [
+        "Web-based terminal interface",
+        "Plugin system with hot-reload",
+        "User authentication",
+        "Database schema with RLS",
+        "Basic API documentation"
+      ]
+    },
+    {
+      "id": "financial-plugin",
+      "status": "upcoming",
+      "title": "Financial Analysis Plugin",
+      "targetDate": "2026-01-31",
+      "description": "First Intelligence-as-a-Service offering with financial market analysis"
+    },
+    {
+      "id": "beta-launch",
+      "status": "upcoming",
+      "title": "Beta Launch (Friends & Family)",
+      "targetDate": "2026-03-01",
+      "description": "Beta testing with early adopters, feedback collection and refinement"
+    },
+    {
+      "id": "public-launch",
+      "status": "upcoming",
+      "title": "Public Launch",
+      "targetDate": "2026-05-01",
+      "description": "Public platform launch with subscription billing and marketing"
+    },
+    {
+      "id": "plugin-ecosystem",
+      "status": "upcoming",
+      "title": "Plugin Ecosystem Expansion",
+      "targetDate": "2026-08-01",
+      "description": "3-5 additional plugins available, plugin marketplace foundation"
+    }
+  ],
+  "metrics": {
+    "activeUsers": {
+      "current": 0,
+      "target": 1000,
+      "unit": "users"
+    },
+    "subscribers": {
+      "current": 0,
+      "target": 500,
+      "unit": "paying users"
+    },
+    "plugins": {
+      "current": 1,
+      "target": 5,
+      "unit": "plugins"
+    },
+    "mrr": {
+      "current": 0,
+      "target": 25000,
+      "unit": "USD"
+    }
+  }
+}

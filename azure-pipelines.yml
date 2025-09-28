@@ -1,0 +1,101 @@
+# Azure Pipeline to sync Azure DevOps repository to GitHub
+# This pipeline runs when changes are pushed to the main branch in Azure DevOps
+# It syncs the changes to GitHub, which then triggers GitHub Pages deployment
+
+trigger:
+  branches:
+    include:
+      - main
+      - master
+
+# No PR triggers - we only want to sync on direct pushes to main
+pr: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  # These will be set in Azure DevOps pipeline variables (keep them secret)
+  - name: GITHUB_REPO_URL
+    value: 'https://github.com/your-username/huitzo-site.git'  # Update this
+  - name: GITHUB_USERNAME
+    value: 'your-github-username'  # Update this
+
+stages:
+- stage: SyncToGitHub
+  displayName: 'Sync to GitHub Repository'
+  jobs:
+  - job: GitHubSync
+    displayName: 'Sync Repository to GitHub'
+    steps:
+
+    # Checkout the source code from Azure DevOps
+    - checkout: self
+      persistCredentials: true
+      clean: true
+      fetchDepth: 0  # Full clone for proper git history
+
+    # Configure Git user for the sync
+    - script: |
+        git config --global user.name "Azure DevOps Pipeline"
+        git config --global user.email "pipeline@azuredevops.com"
+      displayName: 'Configure Git User'
+
+    # Add GitHub as a remote repository
+    - script: |
+        git remote add github https://$(GITHUB_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo-site.git
+        git remote -v
+      displayName: 'Add GitHub Remote'
+      env:
+        GITHUB_TOKEN: $(GITHUB_PERSONAL_ACCESS_TOKEN)
+
+    # Sync the main branch to GitHub
+    - script: |
+        echo "Current branch: $(git branch --show-current)"
+        echo "Fetching latest from origin..."
+        git fetch origin
+
+        echo "Checking out main branch..."
+        git checkout main || git checkout master || git checkout -b main
+
+        echo "Pushing to GitHub..."
+        git push github HEAD:main --force-with-lease
+
+        echo "Sync completed successfully!"
+      displayName: 'Sync to GitHub'
+      env:
+        GITHUB_TOKEN: $(GITHUB_PERSONAL_ACCESS_TOKEN)
+
+    # Optional: Create a GitHub release tag for major updates
+    - script: |
+        if [ "$(Build.SourceBranch)" = "refs/heads/main" ] && [ "$(CREATE_GITHUB_RELEASE)" = "true" ]; then
+          TAG_NAME="v$(date +%Y.%m.%d)-build$(Build.BuildNumber)"
+          echo "Creating GitHub release tag: $TAG_NAME"
+          git tag -a "$TAG_NAME" -m "Automated release from Azure DevOps - Build $(Build.BuildNumber)"
+          git push github "$TAG_NAME"
+        else
+          echo "Skipping GitHub release creation"
+        fi
+      displayName: 'Create GitHub Release (Optional)'
+      env:
+        GITHUB_TOKEN: $(GITHUB_PERSONAL_ACCESS_TOKEN)
+      condition: and(succeeded(), eq(variables['CREATE_GITHUB_RELEASE'], 'true'))
+
+# Optional: Notification stage to confirm sync
+- stage: Notification
+  displayName: 'Sync Notification'
+  dependsOn: SyncToGitHub
+  condition: always()
+  jobs:
+  - job: NotifySync
+    displayName: 'Notify Sync Status'
+    steps:
+    - script: |
+        if [ "$(Agent.JobStatus)" = "Succeeded" ]; then
+          echo "✅ Successfully synced to GitHub!"
+          echo "GitHub Pages deployment should start automatically."
+          echo "Check: https://github.com/$(GITHUB_USERNAME)/huitzo-site/actions"
+        else
+          echo "❌ GitHub sync failed. Please check the logs."
+        fi
+      displayName: 'Sync Status'

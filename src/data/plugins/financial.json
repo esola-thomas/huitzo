@@ -1,0 +1,106 @@
+{
+  "id": "financial-analysis",
+  "slug": "financial",
+  "name": "Financial Analysis",
+  "version": "1.0.0",
+  "author": "Huitzo Team",
+  "icon": "💰",
+  "tagline": "Personalized market insights delivered to your inbox",
+  "description": "Get personalized financial market analysis delivered straight to your inbox. Configure your portfolio, set your investment constraints, and receive automated insights powered by real-time market data and AI-driven analysis.",
+  "category": "finance",
+  "status": "active",
+  "features": [
+    "Real-time market data integration via Polygon.io",
+    "Personalized portfolio analysis based on your holdings",
+    "Email delivery with interactive LLM-powered Q&A",
+    "Customizable investment constraints and preferences",
+    "Natural language reports you can actually understand",
+    "Scheduled report generation (daily, weekly, monthly)"
+  ],
+  "pricing": {
+    "free": {
+      "available": true,
+      "limits": "10 reports/month",
+      "features": [
+        "Daily market updates",
+        "Email support",
+        "Basic portfolio analysis"
+      ]
+    },
+    "pro": {
+      "price": "$10/month",
+      "features": [
+        "Unlimited reports",
+        "Real-time alerts",
+        "Priority support",
+        "Advanced metrics",
+        "Custom analysis parameters"
+      ]
+    }
+  },
+  "installation": {
+    "command": "huitzo plugin install financial",
+    "requirements": [
+      "Huitzo Core v1.0+",
+      "Python 3.11+",
+      "Valid Polygon.io API key (free tier available)"
+    ]
+  },
+  "quickstart": [
+    {
+      "step": 1,
+      "title": "Initialize the plugin",
+      "command": "finance setup",
+      "description": ""
+    },
+    {
+      "step": 2,
+      "title": "Configure your portfolio",
+      "command": "finance configure --portfolio AAPL,GOOGL,MSFT",
+      "description": ""
+    },
+    {
+      "step": 3,
+      "title": "Set your preferences",
+      "command": "finance preferences --risk-tolerance moderate --goals growth",
+      "description": ""
+    },
+    {
+      "step": 4,
+      "title": "Generate your first report",
+      "command": "finance report",
+      "description": ""
+    }
+  ],
+  "commands": [
+    {
+      "name": "finance setup",
+      "description": "Initialize plugin and configure API credentials"
+    },
+    {
+      "name": "finance configure",
+      "description": "Set up your portfolio holdings and constraints"
+    },
+    {
+      "name": "finance preferences",
+      "description": "Customize analysis parameters and report frequency"
+    },
+    {
+      "name": "finance status",
+      "description": "View current configuration and subscription status"
+    },
+    {
+      "name": "finance report",
+      "description": "Generate and deliver a market analysis report"
+    },
+    {
+      "name": "finance help",
+      "description": "Display detailed help for all commands"
+    }
+  ],
+  "links": {
+    "documentation": "/docs/plugins/financial",
+    "repository": "https://dev.azure.com/huitzo-cli/Huitzo%20Site/_git/Huitzo_Site",
+    "support": "mailto:ernesto@solathomas.com"
+  }
+}

@@ -1,0 +1,24 @@
+---
+export interface Props {
+  lines: string[];
+  animate?: boolean;
+  class?: string;
+}
+
+const { lines, animate = false, class: className = '' } = Astro.props;
+---
+
+<div class={`terminal-prompt ${className}`}>
+  {lines.map((line, index) => (
+    <div class={animate ? 'typing-effect' : ''} style={animate ? `animation-delay: ${index * 0.5}s` : ''}>
+      {line.startsWith('$') ? (
+        <span class="text-huitzo-accent">{line}</span>
+      ) : line.startsWith('>') ? (
+        <span class="text-text-primary">{line}</span>
+      ) : (
+        <span class="text-text-secondary">{line}</span>
+      )}
+    </div>
+  ))}
+  {animate && <span class="inline-block w-2 h-5 bg-huitzo-accent animate-pulse ml-1"></span>}
+</div>

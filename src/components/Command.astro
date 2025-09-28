@@ -1,0 +1,61 @@
+---
+export interface Props {
+  command: string;
+  description?: string;
+  class?: string;
+}
+
+const { command, description, class: className = '' } = Astro.props;
+---
+
+<div class={`command-block ${className}`}>
+  <div>
+    <code class="text-huitzo-accent">$ {command}</code>
+    {description && (
+      <div class="text-xs text-text-muted mt-1">{description}</div>
+    )}
+  </div>
+  <button class="copy-btn" data-clipboard-text={command} data-command={command}>
+    Copy
+  </button>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const copyButtons = document.querySelectorAll('.copy-btn');
+
+    copyButtons.forEach(button => {
+      button.addEventListener('click', async function() {
+        const command = this.getAttribute('data-clipboard-text');
+        const originalText = this.textContent;
+
+        try {
+          await navigator.clipboard.writeText(command);
+          this.textContent = 'Copied!';
+          this.style.color = 'var(--color-success)';
+
+          setTimeout(() => {
+            this.textContent = originalText;
+            this.style.color = '';
+          }, 2000);
+        } catch (err) {
+          // Fallback for older browsers
+          const textArea = document.createElement('textarea');
+          textArea.value = command;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+
+          this.textContent = 'Copied!';
+          this.style.color = 'var(--color-success)';
+
+          setTimeout(() => {
+            this.textContent = originalText;
+            this.style.color = '';
+          }, 2000);
+        }
+      });
+    });
+  });
+</script>

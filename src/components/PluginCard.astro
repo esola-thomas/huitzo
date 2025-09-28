@@ -1,0 +1,77 @@
+---
+export interface Props {
+  plugin: {
+    id: string;
+    slug: string;
+    name: string;
+    version: string;
+    author: string;
+    icon: string;
+    tagline: string;
+    description: string;
+    category: string;
+    status: string;
+    pricing?: {
+      free?: {
+        available: boolean;
+        limits?: string;
+      };
+      pro?: {
+        price: string;
+      };
+    };
+  };
+  showFullDescription?: boolean;
+  class?: string;
+}
+
+const { plugin, showFullDescription = false, class: className = '' } = Astro.props;
+
+const description = showFullDescription
+  ? plugin.description
+  : plugin.description.length > 120
+    ? plugin.description.substring(0, 120) + '...'
+    : plugin.description;
+
+const pricingBadge = plugin.pricing?.free?.available ? 'Free Tier' :
+                    plugin.pricing?.pro?.price ? plugin.pricing.pro.price :
+                    plugin.status === 'coming-soon' ? 'Coming Soon' : 'Free';
+---
+
+<div class={`card ${className}`}>
+  <div class="flex items-start justify-between mb-4">
+    <div class="text-3xl">{plugin.icon}</div>
+    <span class={`text-xs px-2 py-1 rounded-full ${
+      plugin.status === 'active' ? 'bg-status-success/20 text-status-success' :
+      plugin.status === 'coming-soon' ? 'bg-status-warning/20 text-status-warning' :
+      'bg-huitzo-border/20 text-text-muted'
+    }`}>
+      {pricingBadge}
+    </span>
+  </div>
+
+  <h3 class="text-xl font-semibold mb-1 text-text-primary">{plugin.name}</h3>
+  <p class="text-sm text-text-muted mb-3">v{plugin.version} • By {plugin.author}</p>
+
+  <p class="text-text-secondary leading-relaxed mb-6">{description}</p>
+
+  <div class="flex flex-col sm:flex-row gap-2 mt-auto">
+    {plugin.pricing?.free?.available && (
+      <span class="text-xs text-status-success font-medium">Free Tier Available</span>
+    )}
+    <div class="flex-1"></div>
+    {plugin.status === 'active' ? (
+      <a href={`/plugins/${plugin.slug}`} class="btn-primary text-sm">
+        Learn More →
+      </a>
+    ) : plugin.status === 'coming-soon' ? (
+      <a href="/roadmap" class="btn-secondary text-sm">
+        View Roadmap →
+      </a>
+    ) : (
+      <span class="btn-secondary text-sm opacity-50 cursor-not-allowed">
+        Coming Soon
+      </span>
+    )}
+  </div>
+</div>

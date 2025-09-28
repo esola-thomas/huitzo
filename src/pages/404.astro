@@ -1,0 +1,54 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CTAButton from '../components/CTAButton.astro';
+---
+
+<Layout title="Page Not Found | Huitzo">
+  <section class="py-20 min-h-[60vh] flex items-center">
+    <div class="container mx-auto px-4">
+      <div class="max-w-2xl mx-auto text-center">
+        <!-- Terminal-style 404 -->
+        <div class="terminal-prompt mb-8 max-w-md mx-auto">
+          <div class="text-huitzo-accent">$ huitzo --find-page</div>
+          <div class="text-status-error mt-2">Error: Page not found (404)</div>
+          <div class="text-text-secondary mt-1">> The requested resource does not exist</div>
+          <div class="text-text-secondary">$ _</div>
+        </div>
+
+        <h1 class="text-4xl lg:text-5xl font-bold text-text-primary mb-6">
+          Page Not <span class="text-gradient">Found</span>
+        </h1>
+
+        <p class="text-lg text-text-secondary mb-8">
+          Looks like this page doesn't exist in our system.
+          Let's get you back on track.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <CTAButton href="/">
+            ← Back to Home
+          </CTAButton>
+          <CTAButton href="/plugins" variant="secondary">
+            Browse Plugins
+          </CTAButton>
+        </div>
+
+        <!-- Helpful Links -->
+        <div class="mt-12 pt-8 border-t border-huitzo-border">
+          <h2 class="text-lg font-semibold text-text-primary mb-4">Looking for something specific?</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+            <a href="/roadmap" class="text-huitzo-accent hover:underline">
+              Development Roadmap
+            </a>
+            <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="text-huitzo-accent hover:underline">
+              CLI Platform
+            </a>
+            <a href="mailto:ernesto@solathomas.com" class="text-huitzo-accent hover:underline">
+              Contact Support
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

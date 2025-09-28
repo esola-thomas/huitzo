@@ -1,0 +1,276 @@
+---
+import Layout from '../layouts/Layout.astro';
+import RoadmapTimeline from '../components/RoadmapTimeline.astro';
+
+// Import roadmap data
+const roadmapData = await import('../data/roadmap.json');
+const { milestones, metrics, lastUpdated } = roadmapData.default;
+
+function formatCurrency(amount) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
+
+function formatNumber(number) {
+  return new Intl.NumberFormat('en-US').format(number);
+}
+---
+
+<Layout
+  title="Development Roadmap | Huitzo"
+  description="Track our journey from concept to launch. See our milestones, progress, and targets for the Huitzo Intelligence-as-a-Service platform."
+>
+  <!-- Header Section -->
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-4xl lg:text-5xl font-bold text-text-primary mb-6">
+          Development <span class="text-gradient">Roadmap</span>
+        </h1>
+        <p class="text-lg text-text-secondary mb-8 max-w-2xl mx-auto">
+          Track our journey from concept to launch. Follow our progress as we build
+          the future of intelligent data analysis.
+        </p>
+
+        <!-- Last Updated -->
+        <div class="inline-flex items-center gap-2 text-sm text-text-muted bg-huitzo-secondary/50 px-3 py-2 rounded-lg">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Last updated: {new Date(lastUpdated).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline Visualization -->
+  <section class="py-12 bg-huitzo-secondary/30">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-2xl font-bold text-text-primary mb-8 text-center">Project Timeline</h2>
+
+        <!-- Visual Timeline -->
+        <div class="relative mb-12">
+          <div class="flex items-center justify-between mb-8 overflow-x-auto pb-4">
+            <div class="flex items-center min-w-max space-x-8">
+              <!-- Timeline Points -->
+              <div class="flex flex-col items-center">
+                <div class="w-4 h-4 rounded-full bg-status-success border-2 border-status-success"></div>
+                <div class="text-xs text-status-success font-medium mt-2">Oct 2025</div>
+                <div class="text-xs text-text-muted">Kickoff</div>
+              </div>
+
+              <div class="flex-1 h-0.5 bg-huitzo-accent"></div>
+
+              <div class="flex flex-col items-center">
+                <div class="w-4 h-4 rounded-full bg-huitzo-accent border-2 border-huitzo-accent glow"></div>
+                <div class="text-xs text-huitzo-accent font-medium mt-2">Dec 2025</div>
+                <div class="text-xs text-text-muted">Core MVP</div>
+              </div>
+
+              <div class="flex-1 h-0.5 bg-huitzo-border"></div>
+
+              <div class="flex flex-col items-center">
+                <div class="w-4 h-4 rounded-full bg-huitzo-dark border-2 border-huitzo-border"></div>
+                <div class="text-xs text-text-muted font-medium mt-2">Jan 2026</div>
+                <div class="text-xs text-text-muted">Financial Plugin</div>
+              </div>
+
+              <div class="flex-1 h-0.5 bg-huitzo-border"></div>
+
+              <div class="flex flex-col items-center">
+                <div class="w-4 h-4 rounded-full bg-huitzo-dark border-2 border-huitzo-border"></div>
+                <div class="text-xs text-text-muted font-medium mt-2">Mar 2026</div>
+                <div class="text-xs text-text-muted">Beta Launch</div>
+              </div>
+
+              <div class="flex-1 h-0.5 bg-huitzo-border"></div>
+
+              <div class="flex flex-col items-center">
+                <div class="w-4 h-4 rounded-full bg-huitzo-dark border-2 border-huitzo-border"></div>
+                <div class="text-xs text-text-muted font-medium mt-2">May 2026</div>
+                <div class="text-xs text-text-muted">Public Launch</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detailed Milestones -->
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold text-text-primary mb-12 text-center">Milestone Details</h2>
+
+        <!-- Milestone Categories -->
+        <div class="mb-12">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Completed -->
+            <div class="text-center">
+              <div class="text-2xl font-bold text-status-success mb-2">
+                {milestones.filter(m => m.status === 'completed').length}
+              </div>
+              <div class="text-sm text-text-secondary">✓ COMPLETED</div>
+            </div>
+
+            <!-- In Progress -->
+            <div class="text-center">
+              <div class="text-2xl font-bold text-huitzo-accent mb-2">
+                {milestones.filter(m => m.status === 'in-progress').length}
+              </div>
+              <div class="text-sm text-text-secondary">⏳ IN PROGRESS</div>
+            </div>
+
+            <!-- Upcoming -->
+            <div class="text-center">
+              <div class="text-2xl font-bold text-text-muted mb-2">
+                {milestones.filter(m => m.status === 'upcoming').length}
+              </div>
+              <div class="text-sm text-text-secondary">○ UPCOMING</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline Component -->
+        <RoadmapTimeline milestones={milestones} />
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Metrics Dashboard -->
+  <section class="py-20 bg-huitzo-secondary/30">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold text-text-primary mb-12 text-center">
+          Project <span class="text-gradient">Targets</span>
+        </h2>
+
+        <div class="card">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="border-b border-huitzo-border">
+                  <th class="text-left py-4 px-4 text-text-primary font-semibold">Metric</th>
+                  <th class="text-center py-4 px-4 text-text-primary font-semibold">Current</th>
+                  <th class="text-center py-4 px-4 text-text-primary font-semibold">12-Month Target</th>
+                  <th class="text-right py-4 px-4 text-text-primary font-semibold">Progress</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-huitzo-border">
+                <tr>
+                  <td class="py-4 px-4 text-text-secondary">Active Users</td>
+                  <td class="py-4 px-4 text-center font-mono text-text-primary">
+                    {formatNumber(metrics.activeUsers.current)}
+                  </td>
+                  <td class="py-4 px-4 text-center font-mono text-huitzo-accent">
+                    {formatNumber(metrics.activeUsers.target)}
+                  </td>
+                  <td class="py-4 px-4 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                      <div class="w-16 h-2 bg-huitzo-tertiary rounded-full overflow-hidden">
+                        <div class="h-full bg-huitzo-accent" style={`width: ${(metrics.activeUsers.current / metrics.activeUsers.target) * 100}%`}></div>
+                      </div>
+                      <span class="text-xs text-text-muted font-mono">
+                        {Math.round((metrics.activeUsers.current / metrics.activeUsers.target) * 100)}%
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="py-4 px-4 text-text-secondary">Paying Subscribers</td>
+                  <td class="py-4 px-4 text-center font-mono text-text-primary">
+                    {formatNumber(metrics.subscribers.current)}
+                  </td>
+                  <td class="py-4 px-4 text-center font-mono text-huitzo-accent">
+                    {formatNumber(metrics.subscribers.target)}
+                  </td>
+                  <td class="py-4 px-4 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                      <div class="w-16 h-2 bg-huitzo-tertiary rounded-full overflow-hidden">
+                        <div class="h-full bg-huitzo-accent" style={`width: ${(metrics.subscribers.current / metrics.subscribers.target) * 100}%`}></div>
+                      </div>
+                      <span class="text-xs text-text-muted font-mono">
+                        {Math.round((metrics.subscribers.current / metrics.subscribers.target) * 100)}%
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="py-4 px-4 text-text-secondary">Available Plugins</td>
+                  <td class="py-4 px-4 text-center font-mono text-text-primary">
+                    {formatNumber(metrics.plugins.current)}
+                  </td>
+                  <td class="py-4 px-4 text-center font-mono text-huitzo-accent">
+                    {formatNumber(metrics.plugins.target)}
+                  </td>
+                  <td class="py-4 px-4 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                      <div class="w-16 h-2 bg-huitzo-tertiary rounded-full overflow-hidden">
+                        <div class="h-full bg-huitzo-accent" style={`width: ${(metrics.plugins.current / metrics.plugins.target) * 100}%`}></div>
+                      </div>
+                      <span class="text-xs text-text-muted font-mono">
+                        {Math.round((metrics.plugins.current / metrics.plugins.target) * 100)}%
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="py-4 px-4 text-text-secondary">Monthly Recurring Revenue</td>
+                  <td class="py-4 px-4 text-center font-mono text-text-primary">
+                    {formatCurrency(metrics.mrr.current)}
+                  </td>
+                  <td class="py-4 px-4 text-center font-mono text-huitzo-accent">
+                    {formatCurrency(metrics.mrr.target)}
+                  </td>
+                  <td class="py-4 px-4 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                      <div class="w-16 h-2 bg-huitzo-tertiary rounded-full overflow-hidden">
+                        <div class="h-full bg-huitzo-accent" style={`width: ${(metrics.mrr.current / metrics.mrr.target) * 100}%`}></div>
+                      </div>
+                      <span class="text-xs text-text-muted font-mono">
+                        {Math.round((metrics.mrr.current / metrics.mrr.target) * 100)}%
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-2xl mx-auto text-center">
+        <h2 class="text-3xl font-bold text-text-primary mb-6">
+          Want to follow our <span class="text-gradient">progress</span>?
+        </h2>
+        <p class="text-lg text-text-secondary mb-8">
+          This roadmap is updated regularly as we hit milestones.
+          Check back frequently or follow our development.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="https://dev.azure.com/huitzo-cli/Huitzo%20Site/_git/Huitzo_Site" target="_blank" rel="noopener" class="btn-primary">
+            Follow on Azure DevOps →
+          </a>
+          <a href="/plugins" class="btn-secondary">
+            Explore Plugins
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,39 @@
+{
+  "id": "plugin-id",
+  "slug": "plugin-slug",
+  "name": "Plugin Name",
+  "version": "0.0.1",
+  "author": "Author Name",
+  "icon": "📦",
+  "tagline": "Short one-liner description",
+  "description": "Longer description explaining what this plugin does and why users would want it.",
+  "category": "category-name",
+  "status": "coming-soon",
+  "features": [
+    "Feature 1",
+    "Feature 2",
+    "Feature 3"
+  ],
+  "pricing": {
+    "free": {
+      "available": true,
+      "limits": "Usage limits",
+      "features": []
+    },
+    "pro": {
+      "price": "$X/month",
+      "features": []
+    }
+  },
+  "installation": {
+    "command": "huitzo plugin install plugin-name",
+    "requirements": []
+  },
+  "quickstart": [],
+  "commands": [],
+  "links": {
+    "documentation": "",
+    "repository": "",
+    "support": ""
+  }
+}
