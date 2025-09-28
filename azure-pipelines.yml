@@ -1,5 +1,5 @@
 # Azure Pipeline to sync Azure DevOps repository to GitHub (main)
-# Uses self-hosted pool 'Default' and a Library variable group containing GITHUB_PERSONAL_ACCESS_TOKEN
+# Self-hosted pool 'Default' + Library variable group with GITHUB_PERSONAL_ACCESS_TOKEN
 
 trigger:
   branches:
@@ -9,12 +9,11 @@ trigger:
 
 pr: none
 
-# Self-hosted agent pool
 pool:
-  name: 'Default'
+  name: 'Default'   # your self-hosted agent pool
 
 variables:
-# Import your Library variable group (must contain secret: GITHUB_PERSONAL_ACCESS_TOKEN)
+# Import your Library variable group containing the secret: GITHUB_PERSONAL_ACCESS_TOKEN
 - group: 'GitHub Public repo sync'
 
 # GitHub settings
@@ -45,17 +44,24 @@ stages:
         git config --global user.email "pipeline@azuredevops.com"
       displayName: 'Configure Git User'
 
-    # Safer auth: rewrite https://github.com to include username + PAT (token not embedded in remote URL)
+    # Auth: use x-access-token:<PAT> and keep remote tokenless
     - script: |
         set -euo pipefail
-        git config --global url."https://${GITHUB_USER}:${GITHUB_PAT}@github.com/".insteadOf "https://github.com/"
-        # (Re)add a clean remote without token in URL
+
+        # 1) Ensure Git will use the PAT for any https://github.com/* URL
+        git config --global url."https://x-access-token:${GITHUB_PAT}@github.com/".insteadOf "https://github.com/"
+
+        # 2) Also provision a credentials file as a fallback (some Git versions/extensions prefer helper)
+        git config --global credential.helper 'store --file ~/.git-credentials'
+        printf "https://x-access-token:%s@github.com\n" "${GITHUB_PAT}" > ~/.git-credentials
+        chmod 600 ~/.git-credentials
+
+        # 3) Remote without embedding token
         git remote remove github 2>/dev/null || true
         git remote add github "https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}.git"
         git remote get-url github
-      displayName: 'Configure Git Auth (no token in remote)'
+      displayName: 'Configure Git Auth (tokenless remote)'
       env:
-        GITHUB_USER: esola-thomas
         GITHUB_PAT: $(GITHUB_PERSONAL_ACCESS_TOKEN)
 
     - script: |
