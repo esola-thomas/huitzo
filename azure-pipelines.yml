@@ -63,14 +63,11 @@ stages:
         echo "Fetching latest from origin..."
         git fetch origin
 
-        echo "Checking out main branch..."
-        git checkout main || git checkout -b main
+        # Get the latest commit info from Azure DevOps origin/main (not local main)
+        AZURE_COMMIT_HASH=$(git rev-parse origin/main)
+        AZURE_COMMIT_MSG=$(git log -1 --pretty=format:"%s" origin/main)
+        AZURE_AUTHOR=$(git log -1 --pretty=format:"%an" origin/main)
 
-        # Get the latest commit info from Azure DevOps
-        AZURE_COMMIT_HASH=$(git rev-parse HEAD)
-        AZURE_COMMIT_MSG=$(git log -1 --pretty=format:"%s")
-        AZURE_AUTHOR=$(git log -1 --pretty=format:"%an")
-        
         echo "Latest Azure DevOps commit: $AZURE_COMMIT_HASH"
         echo "Original commit message: $AZURE_COMMIT_MSG"
         echo "Original author: $AZURE_AUTHOR"
@@ -79,29 +76,30 @@ stages:
         if git show-ref --verify --quiet refs/remotes/github/main; then
           echo "GitHub main branch exists, checking for differences..."
           GITHUB_COMMIT_HASH=$(git rev-parse github/main)
-          
+
           # Check if the commits are different
           if [ "$AZURE_COMMIT_HASH" = "$GITHUB_COMMIT_HASH" ]; then
             echo "No changes to sync - commits are identical"
             exit 0
           fi
-          
-          # Create a new branch from GitHub main
+
+          echo "Changes detected, creating sync branch from GitHub main..."
           git checkout -b sync-branch github/main
         else
           echo "GitHub main branch doesn't exist, creating new branch..."
-          git checkout -b sync-branch
+          git checkout -b sync-branch origin/main
         fi
 
-        # Reset to match Azure DevOps main (gets all the file changes)
+        # Reset to match Azure DevOps main (gets all the latest file changes)
+        echo "Syncing latest changes from Azure DevOps origin/main..."
         git reset --hard origin/main
 
         # Create custom commit message with timestamp
         TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
         CUSTOM_COMMIT_MSG="sync_${TIMESTAMP}: ${AZURE_COMMIT_MSG}"
-        
+
         echo "Creating new commit with message: $CUSTOM_COMMIT_MSG"
-        
+
         # Amend the commit with new message
         git commit --amend -m "$CUSTOM_COMMIT_MSG" --no-edit
 
