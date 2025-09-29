@@ -35,6 +35,18 @@ stages:
       clean: true
       fetchDepth: 0  # Full clone for proper git history
 
+    # Clean up workspace and ensure clean state
+    - script: |
+        echo "Cleaning up workspace..."
+        # Clean any untracked files and directories
+        git clean -fdx || true
+        # Reset any local changes
+        git reset --hard HEAD || true
+        # Delete any local branches except main/master
+        git branch | grep -v "main\|master" | xargs -r git branch -D || true
+        echo "Workspace cleaned"
+      displayName: 'Clean Workspace'
+
     # Configure Git user for the sync
     - script: |
         git config --global user.name "Azure DevOps Pipeline"
@@ -63,14 +75,21 @@ stages:
         echo "Fetching latest from origin..."
         git fetch origin
 
-        # Get the latest commit info from Azure DevOps origin/main (not local main)
-        AZURE_COMMIT_HASH=$(git rev-parse origin/main)
-        AZURE_COMMIT_MSG=$(git log -1 --pretty=format:"%s" origin/main)
-        AZURE_AUTHOR=$(git log -1 --pretty=format:"%an" origin/main)
+        echo "Checking out main branch..."
+        git checkout main || git checkout -b main
+
+        # Get the latest commit info from Azure DevOps
+        AZURE_COMMIT_HASH=$(git rev-parse HEAD)
+        AZURE_COMMIT_MSG=$(git log -1 --pretty=format:"%s")
+        AZURE_AUTHOR=$(git log -1 --pretty=format:"%an")
 
         echo "Latest Azure DevOps commit: $AZURE_COMMIT_HASH"
         echo "Original commit message: $AZURE_COMMIT_MSG"
         echo "Original author: $AZURE_AUTHOR"
+
+        # Clean up any existing sync-branch
+        echo "Cleaning up any existing sync-branch..."
+        git branch -D sync-branch 2>/dev/null || echo "No existing sync-branch to delete"
 
         # Check if GitHub repo exists and has commits
         if git show-ref --verify --quiet refs/remotes/github/main; then
@@ -84,14 +103,15 @@ stages:
           fi
 
           echo "Changes detected, creating sync branch from GitHub main..."
+          # Create a new branch from GitHub main
           git checkout -b sync-branch github/main
         else
           echo "GitHub main branch doesn't exist, creating new branch..."
           git checkout -b sync-branch origin/main
         fi
 
-        # Reset to match Azure DevOps main (gets all the latest file changes)
         echo "Syncing latest changes from Azure DevOps origin/main..."
+        # Reset to match Azure DevOps main (gets all the file changes)
         git reset --hard origin/main
 
         # Create custom commit message with timestamp
@@ -100,13 +120,31 @@ stages:
 
         echo "Creating new commit with message: $CUSTOM_COMMIT_MSG"
 
-        # Amend the commit with new message
-        git commit --amend -m "$CUSTOM_COMMIT_MSG" --no-edit
+        # Amend the commit with new message (preserving original author)
+        git commit --amend -m "$CUSTOM_COMMIT_MSG" --author="${AZURE_AUTHOR} <${AZURE_AUTHOR}@azuredevops.com>" --no-edit
 
         echo "Pushing to GitHub main branch..."
-        git push github sync-branch:main --force-with-lease
+        # Use the token directly in the URL for authentication
+        if git push https://$(GITHUB_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git sync-branch:main --force-with-lease; then
+          echo "✅ Push successful!"
 
-        echo "Sync completed successfully!"
+          # Clean up the sync-branch after successful push
+          git checkout main
+          git branch -D sync-branch
+          echo "Sync completed successfully!"
+        else
+          echo "❌ Push failed. Attempting force push..."
+          # Try force push if force-with-lease fails (in case of diverged histories)
+          if git push https://$(GITHUB_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git sync-branch:main --force; then
+            echo "✅ Force push successful!"
+            git checkout main
+            git branch -D sync-branch
+            echo "Sync completed successfully!"
+          else
+            echo "❌ Push failed even with force. Check GitHub token permissions."
+            exit 1
+          fi
+        fi
       displayName: 'Sync to GitHub with Custom Commit'
       env:
         GITHUB_TOKEN: $(GITHUB_PERSONAL_ACCESS_TOKEN)
