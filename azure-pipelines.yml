@@ -15,7 +15,9 @@ pool:
   name: 'Default'
 
 variables:
-  # These will be set in Azure DevOps pipeline variables (keep them secret)
+  # Reference the variable group from Azure DevOps Library
+  - group: 'GitHub Public repo sync'
+  # Additional variables
   - name: GITHUB_REPO_URL
     value: 'https://github.com/esola-thomas/huitzo'
   - name: GITHUB_USERNAME
@@ -55,19 +57,15 @@ stages:
 
     # Add GitHub as a remote repository
     - script: |
-        git remote add github https://$(GITHUB_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git
+        git remote add github https://$(GITHUB_PERSONAL_ACCESS_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git
         git remote -v
       displayName: 'Add GitHub Remote'
-      env:
-        GITHUB_TOKEN: $(GITHUB_PERSONAL_ACCESS_TOKEN)
 
     # Fetch GitHub main branch to compare
     - script: |
         echo "Fetching GitHub main branch..."
         git fetch github main:github-main 2>/dev/null || echo "GitHub main branch doesn't exist yet"
       displayName: 'Fetch GitHub Branch'
-      env:
-        GITHUB_TOKEN: $(GITHUB_PERSONAL_ACCESS_TOKEN)
 
     # Create new commit with custom message and sync to GitHub
     - script: |
@@ -125,7 +123,7 @@ stages:
 
         echo "Pushing to GitHub main branch..."
         # Use the token directly in the URL for authentication
-        if git push https://$(GITHUB_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git sync-branch:main --force-with-lease; then
+        if git push https://$(GITHUB_PERSONAL_ACCESS_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git sync-branch:main --force-with-lease; then
           echo "✅ Push successful!"
 
           # Clean up the sync-branch after successful push
@@ -135,7 +133,7 @@ stages:
         else
           echo "❌ Push failed. Attempting force push..."
           # Try force push if force-with-lease fails (in case of diverged histories)
-          if git push https://$(GITHUB_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git sync-branch:main --force; then
+          if git push https://$(GITHUB_PERSONAL_ACCESS_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git sync-branch:main --force; then
             echo "✅ Force push successful!"
             git checkout main
             git branch -D sync-branch
@@ -146,8 +144,6 @@ stages:
           fi
         fi
       displayName: 'Sync to GitHub with Custom Commit'
-      env:
-        GITHUB_TOKEN: $(GITHUB_PERSONAL_ACCESS_TOKEN)
 
     # Optional: Create a GitHub release tag for major updates
     - script: |
@@ -160,8 +156,6 @@ stages:
           echo "Skipping GitHub release creation"
         fi
       displayName: 'Create GitHub Release (Optional)'
-      env:
-        GITHUB_TOKEN: $(GITHUB_PERSONAL_ACCESS_TOKEN)
       condition: and(succeeded(), eq(variables['CREATE_GITHUB_RELEASE'], 'true'))
 
 # Optional: Notification stage to confirm sync
