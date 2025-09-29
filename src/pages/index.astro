@@ -110,7 +110,7 @@ const currentMilestone = roadmapData.default.milestones.find(m => m.status === '
           </div>
 
           <div class="mt-8 pt-6 border-t border-huitzo-border">
-            <CTAButton href="/roadmap" variant="secondary">
+            <CTAButton href={`${import.meta.env.BASE_URL}roadmap`} variant="secondary">
               View Full Roadmap →
             </CTAButton>
           </div>
@@ -154,7 +154,7 @@ const currentMilestone = roadmapData.default.milestones.find(m => m.status === '
           <CTAButton href="https://cli.huitzo.com" target="_blank" rel="noopener">
             Launch CLI (COMING SOON) →
           </CTAButton>
-          <CTAButton href="/plugins" variant="secondary">
+          <CTAButton href={`${import.meta.env.BASE_URL}plugins`} variant="secondary">
             Browse Plugins
           </CTAButton>
         </div>

@@ -78,15 +78,15 @@ import '../styles/global.css';
       <nav class="container mx-auto px-4 py-4">
         <div class="flex items-center justify-between">
           <!-- Logo -->
-          <a href="/" class="flex items-center space-x-2">
+          <a href={import.meta.env.BASE_URL} class="flex items-center space-x-2">
             <span class="font-mono text-xl font-semibold text-huitzo-accent">huitzo.$</span>
           </a>
 
           <!-- Desktop Navigation -->
           <div class="hidden md:flex items-center space-x-8">
-            <a href="/" class="text-text-secondary hover:text-huitzo-accent transition-colors">Home</a>
-            <a href="/roadmap" class="text-text-secondary hover:text-huitzo-accent transition-colors">Roadmap</a>
-            <a href="/plugins" class="text-text-secondary hover:text-huitzo-accent transition-colors">Plugins</a>
+            <a href={import.meta.env.BASE_URL} class="text-text-secondary hover:text-huitzo-accent transition-colors">Home</a>
+            <a href={`${import.meta.env.BASE_URL}roadmap`} class="text-text-secondary hover:text-huitzo-accent transition-colors">Roadmap</a>
+            <a href={`${import.meta.env.BASE_URL}plugins`} class="text-text-secondary hover:text-huitzo-accent transition-colors">Plugins</a>
             <a href="https://github.com/esola-thomas/huitzo/issues/new" target="_blank" rel="noopener" class="text-text-secondary hover:text-huitzo-accent transition-colors">Report an issue</a>
           </div>
 
@@ -121,9 +121,9 @@ import '../styles/global.css';
             <!-- Mobile Menu Links -->
             <div class="flex-1 py-6">
               <div class="flex flex-col space-y-4 px-4">
-                <a href="/" class="text-text-secondary hover:text-huitzo-accent transition-colors py-2">Home</a>
-                <a href="/roadmap" class="text-text-secondary hover:text-huitzo-accent transition-colors py-2">Roadmap</a>
-                <a href="/plugins" class="text-text-secondary hover:text-huitzo-accent transition-colors py-2">Plugins</a>
+                <a href={import.meta.env.BASE_URL} class="text-text-secondary hover:text-huitzo-accent transition-colors py-2">Home</a>
+                <a href={`${import.meta.env.BASE_URL}roadmap`} class="text-text-secondary hover:text-huitzo-accent transition-colors py-2">Roadmap</a>
+                <a href={`${import.meta.env.BASE_URL}plugins`} class="text-text-secondary hover:text-huitzo-accent transition-colors py-2">Plugins</a>
                 <a href="https://github.com/esola-thomas/huitzo/issues/new" target="_blank" rel="noopener" class="text-text-secondary hover:text-huitzo-accent transition-colors py-2">Report an issue</a>
               </div>
             </div>
@@ -165,8 +165,8 @@ import '../styles/global.css';
           <div>
             <h3 class="text-text-primary font-semibold mb-4">Platform</h3>
             <div class="space-y-2">
-              <a href="/roadmap" class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">Roadmap</a>
-              <a href="/plugins" class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">Plugins</a>
+              <a href={`${import.meta.env.BASE_URL}roadmap`} class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">Roadmap</a>
+              <a href={`${import.meta.env.BASE_URL}plugins`} class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">Plugins</a>
               <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">CLI Platform (COMING SOON)</a>
             </div>
           </div>
