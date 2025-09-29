@@ -25,10 +25,10 @@ import CTAButton from '../components/CTAButton.astro';
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <CTAButton href="/">
+          <CTAButton href={import.meta.env.BASE_URL}>
             ← Back to Home
           </CTAButton>
-          <CTAButton href="/plugins" variant="secondary">
+          <CTAButton href={`${import.meta.env.BASE_URL}plugins`} variant="secondary">
             Browse Plugins
           </CTAButton>
         </div>
@@ -37,7 +37,7 @@ import CTAButton from '../components/CTAButton.astro';
         <div class="mt-12 pt-8 border-t border-huitzo-border">
           <h2 class="text-lg font-semibold text-text-primary mb-4">Looking for something specific?</h2>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
-            <a href="/roadmap" class="text-huitzo-accent hover:underline">
+            <a href={`${import.meta.env.BASE_URL}roadmap`} class="text-huitzo-accent hover:underline">
               Development Roadmap
             </a>
             <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="text-huitzo-accent hover:underline">

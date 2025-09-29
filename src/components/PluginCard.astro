@@ -61,11 +61,11 @@ const pricingBadge = plugin.pricing?.free?.available ? 'Free Tier' :
     )}
     <div class="flex-1"></div>
     {plugin.status === 'active' ? (
-      <a href={`/plugins/${plugin.slug}`} class="btn-primary text-sm">
+      <a href={`${import.meta.env.BASE_URL}plugins/${plugin.slug}`} class="btn-primary text-sm">
         Learn More →
       </a>
     ) : plugin.status === 'coming-soon' ? (
-      <a href="/roadmap" class="btn-secondary text-sm">
+      <a href={`${import.meta.env.BASE_URL}roadmap`} class="btn-secondary text-sm">
         View Roadmap →
       </a>
     ) : (
