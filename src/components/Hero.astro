@@ -9,11 +9,11 @@ export interface Props {
 const { class: className = '' } = Astro.props;
 
 const terminalLines = [
-  '$ huitzo --about',
-  '> Intelligence-as-a-Service Platform',
-  '> Democratize intelligent data analysis',
-  '> Build powerful tools with simple CLI commands',
-  '> _'
+  '!$ huitzo --about',
+  'i> Intelligence-as-a-Service Platform',
+  's> Democratize intelligent data analysis',
+  'w> Build powerful tools with simple CLI commands',
+  'e> _'
 ];
 ---
 
@@ -25,7 +25,7 @@ const terminalLines = [
         <div>
           <h1 class="text-4xl lg:text-6xl font-bold text-text-primary mb-6 leading-tight">
             Intelligence-as-a-Service
-            <span class="text-gradient block">Platform</span>
+            <span class="text-gradient animated-gradient block">Platform</span>
           </h1>
 
           <p class="text-xl text-text-secondary mb-8 leading-relaxed">
@@ -35,7 +35,7 @@ const terminalLines = [
 
           <div class="flex flex-col sm:flex-row gap-4 mb-12">
             <CTAButton href="https://cli.huitzo.com" target="_blank" rel="noopener">
-              Launch CLI →
+              Launch CLI (COMING SOON) →
             </CTAButton>
             <CTAButton href="/plugins" variant="secondary">
               Explore Plugins

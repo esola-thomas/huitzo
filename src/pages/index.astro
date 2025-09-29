@@ -12,7 +12,10 @@ const roadmapData = await import('../data/roadmap.json');
 const currentMilestone = roadmapData.default.milestones.find(m => m.status === 'in-progress');
 ---
 
-<Layout title="Huitzo - Intelligence-as-a-Service Platform">
+<Layout 
+  title="Huitzo - Intelligence-as-a-Service Platform"
+  description="Huitzo is an Intelligence-as-a-Service platform that democratizes intelligent data analysis through a plugin-based architecture. Build powerful tools with simple CLI commands."
+>
   <!-- Hero Section -->
   <Hero />
 
@@ -22,7 +25,7 @@ const currentMilestone = roadmapData.default.milestones.find(m => m.status === '
       <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
           <h2 class="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
-            What is <span class="text-gradient">Huitzo</span>?
+            What is <span class="text-gradient animated-gradient">Huitzo</span>?
           </h2>
           <p class="text-lg text-text-secondary max-w-2xl mx-auto">
             A revolutionary platform that makes complex data analysis as simple as having a conversation
@@ -58,7 +61,7 @@ const currentMilestone = roadmapData.default.milestones.find(m => m.status === '
       <div class="max-w-4xl mx-auto">
         <div class="text-center mb-12">
           <h2 class="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
-            Project <span class="text-gradient">Status</span>
+            Project <span class="text-gradient animated-gradient">Status</span>
           </h2>
         </div>
 
@@ -122,7 +125,7 @@ const currentMilestone = roadmapData.default.milestones.find(m => m.status === '
       <div class="max-w-4xl mx-auto">
         <div class="text-center mb-12">
           <h2 class="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
-            Featured <span class="text-gradient">Plugin</span>
+            Featured <span class="text-gradient animated-gradient">Plugin</span>
           </h2>
           <p class="text-lg text-text-secondary">
             Get a preview of what's possible with our first Intelligence-as-a-Service offering
@@ -141,7 +144,7 @@ const currentMilestone = roadmapData.default.milestones.find(m => m.status === '
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto text-center">
         <h2 class="text-3xl lg:text-4xl font-bold text-text-primary mb-6">
-          Ready to get <span class="text-gradient">started</span>?
+          Ready to get <span class="text-gradient animated-gradient">started</span>?
         </h2>
         <p class="text-lg text-text-secondary mb-8">
           Start building powerful data analysis tools with simple commands
@@ -149,7 +152,7 @@ const currentMilestone = roadmapData.default.milestones.find(m => m.status === '
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <CTAButton href="https://cli.huitzo.com" target="_blank" rel="noopener">
-            Launch CLI →
+            Launch CLI (COMING SOON) →
           </CTAButton>
           <CTAButton href="/plugins" variant="secondary">
             Browse Plugins
@@ -160,7 +163,7 @@ const currentMilestone = roadmapData.default.milestones.find(m => m.status === '
         <div class="mt-12 pt-8 border-t border-huitzo-border">
           <p class="text-sm text-text-muted">
             Questions? Get in touch at
-            <a href="mailto:ernesto@solathomas.com" class="text-huitzo-accent hover:underline">ernesto@solathomas.com</a>
+            <a href="mailto:info@solathomas.com" class="text-huitzo-accent hover:underline">info@solathomas.com</a>
           </p>
         </div>
       </div>

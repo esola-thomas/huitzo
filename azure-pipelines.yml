@@ -1,5 +1,6 @@
-# Azure Pipeline to sync Azure DevOps repository to GitHub (main)
-# Self-hosted pool 'Default' + Library variable group with GITHUB_PERSONAL_ACCESS_TOKEN
+# Azure Pipeline to sync Azure DevOps repository to GitHub
+# This pipeline runs when changes are pushed to the main branch in Azure DevOps
+# It syncs the changes to GitHub, which then triggers GitHub Pages deployment
 
 trigger:
   branches:
@@ -7,24 +8,18 @@ trigger:
       - main
       - master
 
+# No PR triggers - we only want to sync on direct pushes to main
 pr: none
 
 pool:
-  name: 'Default'   # your self-hosted agent pool
+  name: 'Default'
 
 variables:
-# Import your Library variable group containing the secret: GITHUB_PERSONAL_ACCESS_TOKEN
-- group: 'GitHub Public repo sync'
-
-# GitHub settings
-- name: GITHUB_OWNER
-  value: 'esola-thomas'
-- name: GITHUB_REPO
-  value: 'huitzo'
-- name: GITHUB_BRANCH
-  value: 'main'
-- name: CREATE_GITHUB_RELEASE
-  value: 'false'
+  # These will be set in Azure DevOps pipeline variables (keep them secret)
+  - name: GITHUB_REPO_URL
+    value: 'https://github.com/esola-thomas/huitzo'
+  - name: GITHUB_USERNAME
+    value: 'esola-thomas'
 
 stages:
 - stage: SyncToGitHub
@@ -33,69 +28,107 @@ stages:
   - job: GitHubSync
     displayName: 'Sync Repository to GitHub'
     steps:
+
+    # Checkout the source code from Azure DevOps
     - checkout: self
       persistCredentials: true
       clean: true
-      fetchDepth: 0
+      fetchDepth: 0  # Full clone for proper git history
 
+    # Configure Git user for the sync
     - script: |
-        set -euo pipefail
         git config --global user.name "Azure DevOps Pipeline"
         git config --global user.email "pipeline@azuredevops.com"
       displayName: 'Configure Git User'
 
-    # Auth: use x-access-token:<PAT> and keep remote tokenless
+    # Add GitHub as a remote repository
     - script: |
-        set -euo pipefail
-
-        # 1) Ensure Git will use the PAT for any https://github.com/* URL
-        git config --global url."https://x-access-token:${GITHUB_PAT}@github.com/".insteadOf "https://github.com/"
-
-        # 2) Also provision a credentials file as a fallback (some Git versions/extensions prefer helper)
-        git config --global credential.helper 'store --file ~/.git-credentials'
-        printf "https://x-access-token:%s@github.com\n" "${GITHUB_PAT}" > ~/.git-credentials
-        chmod 600 ~/.git-credentials
-
-        # 3) Remote without embedding token
-        git remote remove github 2>/dev/null || true
-        git remote add github "https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}.git"
-        git remote get-url github
-      displayName: 'Configure Git Auth (tokenless remote)'
+        git remote add github https://$(GITHUB_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git
+        git remote -v
+      displayName: 'Add GitHub Remote'
       env:
-        GITHUB_PAT: $(GITHUB_PERSONAL_ACCESS_TOKEN)
+        GITHUB_TOKEN: $(GITHUB_PERSONAL_ACCESS_TOKEN)
 
+    # Fetch GitHub main branch to compare
     - script: |
-        set -euo pipefail
-        echo "Source branch: $(Build.SourceBranch)"
-        SRC_BRANCH="$(Build.SourceBranchName)"
+        echo "Fetching GitHub main branch..."
+        git fetch github main:github-main 2>/dev/null || echo "GitHub main branch doesn't exist yet"
+      displayName: 'Fetch GitHub Branch'
+      env:
+        GITHUB_TOKEN: $(GITHUB_PERSONAL_ACCESS_TOKEN)
 
+    # Create new commit with custom message and sync to GitHub
+    - script: |
+        echo "Current branch: $(git branch --show-current)"
         echo "Fetching latest from origin..."
-        git fetch origin --prune
+        git fetch origin
 
-        echo "Checking out ${SRC_BRANCH}..."
-        git checkout "${SRC_BRANCH}" || git checkout -b "${SRC_BRANCH}"
+        echo "Checking out main branch..."
+        git checkout main || git checkout -b main
 
-        echo "Fast-forwarding local branch from origin/${SRC_BRANCH}..."
-        git pull --ff-only origin "${SRC_BRANCH}"
+        # Get the latest commit info from Azure DevOps
+        AZURE_COMMIT_HASH=$(git rev-parse HEAD)
+        AZURE_COMMIT_MSG=$(git log -1 --pretty=format:"%s")
+        AZURE_AUTHOR=$(git log -1 --pretty=format:"%an")
+        
+        echo "Latest Azure DevOps commit: $AZURE_COMMIT_HASH"
+        echo "Original commit message: $AZURE_COMMIT_MSG"
+        echo "Original author: $AZURE_AUTHOR"
 
-        echo "Pushing ${SRC_BRANCH} -> ${GITHUB_BRANCH} to GitHub..."
-        git push github "HEAD:${GITHUB_BRANCH}" --force-with-lease
+        # Check if GitHub repo exists and has commits
+        if git show-ref --verify --quiet refs/remotes/github/main; then
+          echo "GitHub main branch exists, checking for differences..."
+          GITHUB_COMMIT_HASH=$(git rev-parse github/main)
+          
+          # Check if the commits are different
+          if [ "$AZURE_COMMIT_HASH" = "$GITHUB_COMMIT_HASH" ]; then
+            echo "No changes to sync - commits are identical"
+            exit 0
+          fi
+          
+          # Create a new branch from GitHub main
+          git checkout -b sync-branch github/main
+        else
+          echo "GitHub main branch doesn't exist, creating new branch..."
+          git checkout -b sync-branch
+        fi
 
-        echo "✅ Sync completed."
-      displayName: 'Sync to GitHub'
+        # Reset to match Azure DevOps main (gets all the file changes)
+        git reset --hard origin/main
+
+        # Create custom commit message with timestamp
+        TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+        CUSTOM_COMMIT_MSG="sync_${TIMESTAMP}: ${AZURE_COMMIT_MSG}"
+        
+        echo "Creating new commit with message: $CUSTOM_COMMIT_MSG"
+        
+        # Amend the commit with new message
+        git commit --amend -m "$CUSTOM_COMMIT_MSG" --no-edit
+
+        echo "Pushing to GitHub main branch..."
+        git push github sync-branch:main --force-with-lease
+
+        echo "Sync completed successfully!"
+      displayName: 'Sync to GitHub with Custom Commit'
       env:
-        GITHUB_BRANCH: $(GITHUB_BRANCH)
+        GITHUB_TOKEN: $(GITHUB_PERSONAL_ACCESS_TOKEN)
 
-    # Optional: tag a release on GitHub (disabled by default)
+    # Optional: Create a GitHub release tag for major updates
     - script: |
-        set -euo pipefail
-        TAG_NAME="v$(date +%Y.%m.%d)-build$(Build.BuildNumber)"
-        echo "Creating GitHub release tag: $TAG_NAME"
-        git tag -a "$TAG_NAME" -m "Automated release from Azure DevOps - Build $(Build.BuildNumber)"
-        git push github "$TAG_NAME"
+        if [ "$(Build.SourceBranch)" = "refs/heads/main" ] && [ "$(CREATE_GITHUB_RELEASE)" = "true" ]; then
+          TAG_NAME="v$(date +%Y.%m.%d)-build$(Build.BuildNumber)"
+          echo "Creating GitHub release tag: $TAG_NAME"
+          git tag -a "$TAG_NAME" -m "Automated release from Azure DevOps - Build $(Build.BuildNumber)"
+          git push github "$TAG_NAME"
+        else
+          echo "Skipping GitHub release creation"
+        fi
       displayName: 'Create GitHub Release (Optional)'
+      env:
+        GITHUB_TOKEN: $(GITHUB_PERSONAL_ACCESS_TOKEN)
       condition: and(succeeded(), eq(variables['CREATE_GITHUB_RELEASE'], 'true'))
 
+# Optional: Notification stage to confirm sync
 - stage: Notification
   displayName: 'Sync Notification'
   dependsOn: SyncToGitHub
@@ -107,8 +140,8 @@ stages:
     - script: |
         if [ "$(Agent.JobStatus)" = "Succeeded" ]; then
           echo "✅ Successfully synced to GitHub!"
-          echo "GitHub Actions/Pages should trigger on pushes to $(GITHUB_BRANCH)."
-          echo "Check: https://github.com/$(GITHUB_OWNER)/$(GITHUB_REPO)/actions"
+          echo "GitHub Pages deployment should start automatically."
+          echo "Check: https://github.com/$(GITHUB_USERNAME)/huitzo/actions"
         else
           echo "❌ GitHub sync failed. Please check the logs."
         fi

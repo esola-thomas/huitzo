@@ -161,6 +161,10 @@ GitHub Pages (Hosting)
 - Mobile-responsive design
 - CI/CD pipeline automation
 
+## 📊 Analytics
+
+- **GoatCounter Dashboard:** https://hutzo-cli.goatcounter.com/
+
 ## 📊 Performance Features
 
 - **Zero JavaScript by default** (Astro islands for interactivity)
@@ -173,7 +177,7 @@ GitHub Pages (Hosting)
 
 - **CLI Platform:** https://cli.huitzo.com (to be built)
 - **Azure DevOps:** https://dev.azure.com/huitzo-cli/Huitzo%20Site/_git/Huitzo_Site
-- **Contact:** ernesto@solathomas.com
+- **Contact:** info@solathomas.com
 
 ## 📝 License
 

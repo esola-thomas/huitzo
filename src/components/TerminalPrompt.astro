@@ -13,8 +13,18 @@ const { lines, animate = false, class: className = '' } = Astro.props;
     <div class={animate ? 'typing-effect' : ''} style={animate ? `animation-delay: ${index * 0.5}s` : ''}>
       {line.startsWith('$') ? (
         <span class="text-huitzo-accent">{line}</span>
+      ) : line.startsWith('!') ? (
+        <span class="text-huitzo-green">{line.substring(1)}</span>
+      ) : line.startsWith('i>') ? (
+        <span class="text-ansi-blue">{line.substring(2)}</span>
+      ) : line.startsWith('s>') ? (
+        <span class="text-ansi-green">{line.substring(2)}</span>
+      ) : line.startsWith('w>') ? (
+        <span class="text-ansi-yellow">{line.substring(2)}</span>
+      ) : line.startsWith('e>') ? (
+        <span class="text-ansi-red">{line.substring(2)}</span>
       ) : line.startsWith('>') ? (
-        <span class="text-text-primary">{line}</span>
+        <span class="text-text-primary">{line.substring(1)}</span>
       ) : (
         <span class="text-text-secondary">{line}</span>
       )}

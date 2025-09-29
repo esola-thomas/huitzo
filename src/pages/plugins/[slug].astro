@@ -30,12 +30,33 @@ function formatPrice(price) {
 }
 ---
 
-<Layout
-  title={`${plugin.name} Plugin | Huitzo`}
-  description={plugin.description}
->
-  <!-- Header Section -->
-  <section class="py-20">
+  <Layout
+    title={`${plugin.name} Plugin | Huitzo`}
+    description={plugin.description}
+  >
+
+  <!-- Structured Data for SoftwareApplication -->
+  <script type="application/ld+json" is:inline>
+    {{
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": plugin.name,
+      "description": plugin.description,
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Any",
+      "author": {
+        "@type": "Person",
+        "name": plugin.author
+      },
+      "offers": plugin.pricing.free.available ? {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      } : undefined
+    }}
+  </script>
+
+    <!-- Header Section -->  <section class="py-20">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto">
         <!-- Back Link -->
@@ -114,55 +135,62 @@ function formatPrice(price) {
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
           <h2 class="text-3xl font-bold text-text-primary mb-8 text-center">Pricing</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Free Tier -->
-            {plugin.pricing.free && plugin.pricing.free.available && (
-              <div class="card">
-                <div class="text-center mb-6">
-                  <h3 class="text-xl font-semibold text-text-primary mb-2">Free Tier</h3>
-                  <div class="text-3xl font-bold text-huitzo-accent mb-2">$0</div>
-                  <div class="text-sm text-text-muted">{plugin.pricing.free.limits}</div>
+          {plugin.pricing.status === 'coming-soon' ? (
+            <div class="card text-center">
+              <h3 class="text-2xl font-semibold text-text-primary mb-4">Pricing Coming Soon</h3>
+              <p class="text-text-secondary">We are still finalizing the pricing for this plugin. Please check back later for more information.</p>
+            </div>
+          ) : (
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Free Tier -->
+              {plugin.pricing.free && plugin.pricing.free.available && (
+                <div class="card">
+                  <div class="text-center mb-6">
+                    <h3 class="text-xl font-semibold text-text-primary mb-2">Free Tier</h3>
+                    <div class="text-3xl font-bold text-huitzo-accent mb-2">$0</div>
+                    <div class="text-sm text-text-muted">{plugin.pricing.free.limits}</div>
+                  </div>
+                  <ul class="space-y-3 mb-6">
+                    {plugin.pricing.free.features.map((feature) => (
+                      <li class="flex items-start gap-2">
+                        <span class="text-status-success mt-1">✓</span>
+                        <span class="text-text-secondary text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div class="text-center">
+                    <CTAButton href="https://cli.huitzo.com" target="_blank" rel="noopener" variant="secondary">
+                      Get Started Free
+                    </CTAButton>
+                  </div>
                 </div>
-                <ul class="space-y-3 mb-6">
-                  {plugin.pricing.free.features.map((feature) => (
-                    <li class="flex items-start gap-2">
-                      <span class="text-status-success mt-1">✓</span>
-                      <span class="text-text-secondary text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div class="text-center">
-                  <CTAButton href="https://cli.huitzo.com" target="_blank" rel="noopener" variant="secondary">
-                    Get Started Free
-                  </CTAButton>
-                </div>
-              </div>
-            )}
+              )}
 
-            <!-- Pro Tier -->
-            {plugin.pricing.pro && (
-              <div class="card border-huitzo-accent">
-                <div class="text-center mb-6">
-                  <h3 class="text-xl font-semibold text-text-primary mb-2">Pro</h3>
-                  <div class="text-3xl font-bold text-huitzo-accent mb-2">{formatPrice(plugin.pricing.pro.price)}</div>
-                  <div class="text-sm text-text-muted">per month</div>
+              <!-- Pro Tier -->
+              {plugin.pricing.pro && (
+                <div class="card border-huitzo-accent">
+                  <div class="text-center mb-6">
+                    <h3 class="text-xl font-semibold text-text-primary mb-2">Pro</h3>
+                    <div class="text-3xl font-bold text-huitzo-accent mb-2">{formatPrice(plugin.pricing.pro.price)}</div>
+                    <div class="text-sm text-text-muted">per month</div>
+                  </div>
+                  <ul class="space-y-3 mb-6">
+                    {plugin.pricing.pro.features.map((feature) => (
+                      <li class="flex items-start gap-2">
+                        <span class="text-status-success mt-1">✓</span>
+                        <span class="text-text-secondary text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div class="text-center">
+                    <CTAButton href="https://cli.huitzo.com" target="_blank" rel="noopener">
+                      Upgrade to Pro
+                    </CTAButton>
+                  </div>
                 </div>
-                <ul class="space-y-3 mb-6">
-                  {plugin.pricing.pro.features.map((feature) => (
-                    <li class="flex items-start gap-2">
-                      <span class="text-status-success mt-1">✓</span>
-                      <span class="text-text-secondary text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div class="text-center">
-                  <CTAButton href="https://cli.huitzo.com" target="_blank" rel="noopener">
-                    Upgrade to Pro
-                  </CTAButton>
-                </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -261,11 +289,13 @@ function formatPrice(price) {
             <p class="text-text-secondary text-sm">Complete guide and API reference</p>
           </a>
 
-          <a href={plugin.links.repository} target="_blank" rel="noopener" class="card text-center hover:border-huitzo-accent transition-colors">
-            <div class="text-3xl mb-4">💻</div>
-            <h3 class="text-lg font-semibold text-text-primary mb-2">Azure DevOps</h3>
-            <p class="text-text-secondary text-sm">Source code and development</p>
-          </a>
+          {plugin.sourceCode && (
+            <a href={plugin.links.repository} target="_blank" rel="noopener" class="card text-center hover:border-huitzo-accent transition-colors">
+              <div class="text-3xl mb-4">💻</div>
+              <h3 class="text-lg font-semibold text-text-primary mb-2">Source Code</h3>
+              <p class="text-text-secondary text-sm">Source code and development</p>
+            </a>
+          )}
 
           <a href={plugin.links.support} class="card text-center hover:border-huitzo-accent transition-colors">
             <div class="text-3xl mb-4">💬</div>
@@ -281,16 +311,15 @@ function formatPrice(price) {
   <section class="py-20">
     <div class="container mx-auto px-4">
       <div class="max-w-2xl mx-auto text-center">
-        <h2 class="text-3xl font-bold text-text-primary mb-6">
-          Ready to get <span class="text-gradient">started</span>?
-        </h2>
-        <p class="text-lg text-text-secondary mb-8">
+                  <h2 class="text-3xl font-bold text-text-primary mb-6">
+                    Ready to get <span class="text-gradient animated-gradient">started</span>?
+                  </h2>        <p class="text-lg text-text-secondary mb-8">
           Install this plugin and start using it in minutes with our web-based CLI.
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <CTAButton href="https://cli.huitzo.com" target="_blank" rel="noopener">
-            Launch CLI →
+            Launch CLI (COMING SOON) →
           </CTAButton>
           <CTAButton href="/plugins" variant="secondary">
             View Other Plugins

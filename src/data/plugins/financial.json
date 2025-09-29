@@ -18,32 +18,12 @@
     "Scheduled report generation (daily, weekly, monthly)"
   ],
   "pricing": {
-    "free": {
-      "available": true,
-      "limits": "10 reports/month",
-      "features": [
-        "Daily market updates",
-        "Email support",
-        "Basic portfolio analysis"
-      ]
-    },
-    "pro": {
-      "price": "$10/month",
-      "features": [
-        "Unlimited reports",
-        "Real-time alerts",
-        "Priority support",
-        "Advanced metrics",
-        "Custom analysis parameters"
-      ]
-    }
+    "status": "coming-soon"
   },
   "installation": {
     "command": "huitzo plugin install financial",
     "requirements": [
-      "Huitzo Core v1.0+",
-      "Python 3.11+",
-      "Valid Polygon.io API key (free tier available)"
+      "Huitzo Core v1.0+"
     ]
   },
   "quickstart": [
@@ -100,7 +80,8 @@
   ],
   "links": {
     "documentation": "/docs/plugins/financial",
-    "repository": "https://dev.azure.com/huitzo-cli/Huitzo%20Site/_git/Huitzo_Site",
-    "support": "mailto:ernesto@solathomas.com"
-  }
+    "repository": "https://github.com/esola-thomas/huitzo",
+    "support": "mailto:info@solathomas.com"
+  },
+  "sourceCode": false
 }

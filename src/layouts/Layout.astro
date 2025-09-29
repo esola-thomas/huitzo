@@ -32,10 +32,44 @@ import '../styles/global.css';
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
+    <!-- Canonical URL -->
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" is:inline>
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Huitzo",
+        "url": "https://huitzo.com",
+        "logo": new URL(ogImage, Astro.site),
+        "sameAs": [
+          "https://github.com/esola-thomas/huitzo"
+        ]
+      }
+    </script>
+    <script type="application/ld+json" is:inline>
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Huitzo",
+        "url": "https://huitzo.com",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://huitzo.com/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+
     <!-- Preload critical fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <!-- GoatCounter Analytics -->
+    <script data-goatcounter="https://hutzo-cli.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
 
   </head>
   <body class="bg-huitzo-dark text-text-primary min-h-screen flex flex-col">
@@ -53,13 +87,13 @@ import '../styles/global.css';
             <a href="/" class="text-text-secondary hover:text-huitzo-accent transition-colors">Home</a>
             <a href="/roadmap" class="text-text-secondary hover:text-huitzo-accent transition-colors">Roadmap</a>
             <a href="/plugins" class="text-text-secondary hover:text-huitzo-accent transition-colors">Plugins</a>
-            <a href="https://dev.azure.com/huitzo-cli/Huitzo%20Site/_git/Huitzo_Site" target="_blank" rel="noopener" class="text-text-secondary hover:text-huitzo-accent transition-colors">Azure DevOps</a>
+            <a href="https://github.com/esola-thomas/huitzo/issues/new" target="_blank" rel="noopener" class="text-text-secondary hover:text-huitzo-accent transition-colors">Report an issue</a>
           </div>
 
           <!-- CTA Button -->
           <div class="hidden md:block">
             <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="btn-primary">
-              Launch CLI →
+              Launch CLI (COMING SOON) →
             </a>
           </div>
 
@@ -90,14 +124,14 @@ import '../styles/global.css';
                 <a href="/" class="text-text-secondary hover:text-huitzo-accent transition-colors py-2">Home</a>
                 <a href="/roadmap" class="text-text-secondary hover:text-huitzo-accent transition-colors py-2">Roadmap</a>
                 <a href="/plugins" class="text-text-secondary hover:text-huitzo-accent transition-colors py-2">Plugins</a>
-                <a href="https://dev.azure.com/huitzo-cli/Huitzo%20Site/_git/Huitzo_Site" target="_blank" rel="noopener" class="text-text-secondary hover:text-huitzo-accent transition-colors py-2">Azure DevOps</a>
+                <a href="https://github.com/esola-thomas/huitzo/issues/new" target="_blank" rel="noopener" class="text-text-secondary hover:text-huitzo-accent transition-colors py-2">Report an issue</a>
               </div>
             </div>
 
             <!-- Mobile CTA -->
             <div class="p-4 border-t border-huitzo-border">
               <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="btn-primary w-full justify-center">
-                Launch CLI →
+                Launch CLI (COMING SOON) →
               </a>
             </div>
           </div>
@@ -133,7 +167,7 @@ import '../styles/global.css';
             <div class="space-y-2">
               <a href="/roadmap" class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">Roadmap</a>
               <a href="/plugins" class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">Plugins</a>
-              <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">CLI Platform</a>
+              <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">CLI Platform (COMING SOON)</a>
             </div>
           </div>
 
@@ -141,7 +175,7 @@ import '../styles/global.css';
           <div>
             <h3 class="text-text-primary font-semibold mb-4">Support</h3>
             <div class="space-y-2">
-              <a href="https://dev.azure.com/huitzo-cli/Huitzo%20Site/_git/Huitzo_Site" target="_blank" rel="noopener" class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">Azure DevOps</a>
+              <a href="https://github.com/esola-thomas/huitzo/issues/new" target="_blank" rel="noopener" class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">Report an issue</a>
               <a href="mailto:ernesto@solathomas.com" class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">Contact</a>
             </div>
           </div>
@@ -149,7 +183,7 @@ import '../styles/global.css';
 
         <!-- Bottom Bar -->
         <div class="border-t border-huitzo-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p class="text-text-muted text-sm">© 2025 Huitzo. All rights reserved.</p>
+          <p class="text-text-muted text-sm">© 2025 Huitzo (By Sola-Thomas Solutions). All rights reserved.</p>
           <p class="text-text-muted text-sm mt-4 md:mt-0">Built with Astro & Tailwind CSS</p>
         </div>
       </div>

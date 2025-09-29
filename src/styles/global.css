@@ -3,18 +3,18 @@
 /* CSS Variables for consistent theming */
 :root {
   /* Dark theme */
-  --color-bg-primary: #0a0e27;
-  --color-bg-secondary: #0d1117;
-  --color-bg-tertiary: #161b22;
+  --color-bg-primary: #010101;
+  --color-bg-secondary: #0D0D0D;
+  --color-bg-tertiary: #1A1A1A;
 
   /* Accent colors */
-  --color-accent-primary: #00ff9f;
-  --color-accent-secondary: #00d9ff;
-  --color-accent-glow: rgba(0, 255, 159, 0.2);
+  --color-accent-primary: #00BFFF;
+  --color-accent-secondary: #FF00FF;
+  --color-accent-glow: rgba(0, 191, 255, 0.2);
 
   /* Text colors */
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #8b949e;
+  --color-text-primary: #F5F5F5;
+  --color-text-secondary: #A9A9A9;
   --color-text-muted: #6e7681;
 
   /* Status colors */
@@ -24,7 +24,13 @@
   --color-info: #58a6ff;
 
   /* Border */
-  --color-border: #30363d;
+  --color-border: #333333;
+
+  /* ANSI colors */
+  --color-ansi-red: #ff5555;
+  --color-ansi-green: #50fa7b;
+  --color-ansi-yellow: #f1fa8c;
+  --color-ansi-blue: #bd93f9;
 }
 
 /* Base styles */
@@ -278,4 +284,69 @@ pre {
 
 .glow {
   box-shadow: 0 0 20px var(--color-accent-glow);
+}
+
+/* Glassmorphism Card */
+.glassmorphism {
+  background: rgba(13, 13, 13, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+}
+
+.glassmorphism::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 12px;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+
+.icon-wrapper {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.glassmorphism:hover .icon-wrapper {
+  background: var(--color-accent-primary);
+  color: var(--color-bg-primary);
+}
+
+.text-huitzo-green {
+  color: #00ff9f;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-gradient {
+  background-size: 200% 200%;
+  animation: gradient-animation 5s ease infinite;
 }

@@ -9,8 +9,10 @@ export interface Props {
 const { icon, title, description, class: className = '' } = Astro.props;
 ---
 
-<div class={`card ${className}`}>
-  <div class="text-3xl mb-4">{icon}</div>
+<div class={`card glassmorphism ${className}`}>
+  <div class="icon-wrapper">
+    <div class="text-3xl">{icon}</div>
+  </div>
   <h3 class="text-xl font-semibold mb-3 text-text-primary">{title}</h3>
   <p class="text-text-secondary leading-relaxed">{description}</p>
 </div>

@@ -1,0 +1,43 @@
+
+# Azure DevOps PR Pipeline for Huitzo Website
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - src/*
+      - public/*
+      - astro.config.mjs
+      - package.json
+      - tailwind.config.cjs
+      - tsconfig.json
+
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - src/*
+      - public/*
+      - astro.config.mjs
+      - package.json
+      - tailwind.config.cjs
+      - tsconfig.json
+
+pool:
+  name: Default
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '22.x'
+  displayName: 'Install Node.js'
+
+- script: npm install
+  displayName: 'npm install'
+
+- script: npm run build
+  displayName: 'npm run build'
