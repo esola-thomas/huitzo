@@ -6,8 +6,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: process.env.NODE_ENV === 'production' ? 'https://esola-thomas.github.io' : 'http://localhost:4321',
-  base: process.env.NODE_ENV === 'production' ? '/huitzo/' : '/',
+  site: process.env.NODE_ENV === 'production' ? 'https://huitzo.com' : 'http://localhost:4321',
+  base: '/',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()]
