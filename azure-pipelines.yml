@@ -43,29 +43,14 @@ stages:
         git config --global user.email "pipeline@azuredevops.com"
       displayName: 'Configure Git User'
 
-    # Create isolated workspace in /tmp
+    # Get Azure DevOps commit info and create workspace
     - script: |
-        WORKSPACE_DIR="/tmp/azure-sync-$(Build.BuildId)"
-        echo "Creating isolated workspace at: $WORKSPACE_DIR"
+        # We're already in the checked out Azure DevOps repository
+        echo "Current directory: $(pwd)"
+        echo "Repository contents:"
+        ls -la
 
-        # Clean up any existing workspace from previous runs
-        rm -rf "$WORKSPACE_DIR"
-        mkdir -p "$WORKSPACE_DIR"
-
-        echo "##vso[task.setvariable variable=WORKSPACE_DIR]$WORKSPACE_DIR"
-        echo "Workspace created successfully"
-      displayName: 'Create Isolated Workspace'
-
-    # Clone Azure DevOps repository to workspace
-    - script: |
-        cd $(WORKSPACE_DIR)
-        echo "Cloning Azure DevOps repository..."
-
-        # Clone current repository with full history
-        git clone --branch main $(Build.Repository.Uri) azure-repo
-        cd azure-repo
-
-        # Get latest commit info
+        # Get latest commit info from current checkout
         AZURE_COMMIT_HASH=$(git rev-parse HEAD)
         AZURE_COMMIT_MSG=$(git log -1 --pretty=format:"%s")
         AZURE_AUTHOR=$(git log -1 --pretty=format:"%an <%ae>")
@@ -75,21 +60,33 @@ stages:
         echo "  Message: $AZURE_COMMIT_MSG"
         echo "  Author: $AZURE_AUTHOR"
 
-        # Save commit info for later use
+        # Compute content hash of Azure DevOps repository (excluding .git)
+        echo "Computing content hash for Azure DevOps repository..."
+        AZURE_HASH=$(find . -type f ! -path './.git/*' ! -path './.*' -exec md5sum {} \; | sort -k 2 | md5sum | awk '{print $1}')
+        echo "Azure DevOps content hash: $AZURE_HASH"
+
+        # Save variables for later steps
         echo "##vso[task.setvariable variable=AZURE_COMMIT_HASH]$AZURE_COMMIT_HASH"
         echo "##vso[task.setvariable variable=AZURE_COMMIT_MSG]$AZURE_COMMIT_MSG"
         echo "##vso[task.setvariable variable=AZURE_AUTHOR]$AZURE_AUTHOR"
-      displayName: 'Clone Azure DevOps Repository'
+        echo "##vso[task.setvariable variable=AZURE_HASH]$AZURE_HASH"
+        echo "##vso[task.setvariable variable=AZURE_REPO_PATH]$(pwd)"
+      displayName: 'Get Azure DevOps Repository Info'
 
     # Clone GitHub repository and verify content
     - script: |
-        cd $(WORKSPACE_DIR)
+        # Create temporary directory for GitHub clone
+        GITHUB_CLONE_DIR="/tmp/github-clone-$(Build.BuildId)"
+        mkdir -p "$GITHUB_CLONE_DIR"
+        cd "$GITHUB_CLONE_DIR" || exit 1
+
+        echo "Working directory: $(pwd)"
         echo "Cloning GitHub repository..."
 
         # Clone GitHub repository
         if git clone https://$(GITHUB_PERSONAL_ACCESS_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git github-repo 2>/dev/null; then
           echo "GitHub repository cloned successfully"
-          cd github-repo
+          cd github-repo || exit 1
 
           GITHUB_COMMIT_HASH=$(git rev-parse HEAD)
           echo "GitHub main branch commit: $GITHUB_COMMIT_HASH"
@@ -98,31 +95,31 @@ stages:
           if [ "$GITHUB_COMMIT_HASH" = "$(AZURE_COMMIT_HASH)" ]; then
             echo "✅ Repositories are already in sync (same commit hash)"
             echo "##vso[task.setvariable variable=SKIP_SYNC]true"
+            rm -rf "$GITHUB_CLONE_DIR"
             exit 0
           fi
 
-          # Compute content hash of source code (excluding .git)
+          # Compute content hash of GitHub repository (excluding .git)
           echo "Computing content hash for GitHub repository..."
-          cd $(WORKSPACE_DIR)/github-repo
-          GITHUB_HASH=$(find . -type f ! -path './.git/*' -exec md5sum {} \; | sort -k 2 | md5sum | awk '{print $1}')
-
-          cd $(WORKSPACE_DIR)/azure-repo
-          echo "Computing content hash for Azure DevOps repository..."
-          AZURE_HASH=$(find . -type f ! -path './.git/*' -exec md5sum {} \; | sort -k 2 | md5sum | awk '{print $1}')
+          GITHUB_HASH=$(find . -type f ! -path './.git/*' ! -path './.*' -exec md5sum {} \; | sort -k 2 | md5sum | awk '{print $1}')
 
           echo "GitHub content hash: $GITHUB_HASH"
-          echo "Azure DevOps content hash: $AZURE_HASH"
+          echo "Azure DevOps content hash: $(AZURE_HASH)"
 
-          if [ "$GITHUB_HASH" = "$AZURE_HASH" ]; then
+          if [ "$GITHUB_HASH" = "$(AZURE_HASH)" ]; then
             echo "✅ Content is identical - no sync needed"
             echo "##vso[task.setvariable variable=SKIP_SYNC]true"
           else
             echo "⚠️ Content differs - sync required"
             echo "##vso[task.setvariable variable=SKIP_SYNC]false"
           fi
+
+          # Clean up GitHub clone
+          rm -rf "$GITHUB_CLONE_DIR"
         else
           echo "GitHub repository doesn't exist or is empty - will create initial sync"
           echo "##vso[task.setvariable variable=SKIP_SYNC]false"
+          rm -rf "$GITHUB_CLONE_DIR"
         fi
       displayName: 'Verify Content Match'
 
@@ -134,23 +131,26 @@ stages:
         fi
 
         echo "Starting sync to GitHub..."
-        cd $(WORKSPACE_DIR)/azure-repo
+        echo "Azure DevOps repository path: $(AZURE_REPO_PATH)"
+        cd "$(AZURE_REPO_PATH)" || exit 1
+
+        echo "Current directory: $(pwd)"
+        echo "Git status:"
+        git status
 
         # Add GitHub as remote
-        git remote add github https://$(GITHUB_PERSONAL_ACCESS_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git
+        git remote add github https://$(GITHUB_PERSONAL_ACCESS_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git || echo "Remote already exists"
 
         # Fetch GitHub to ensure we have latest refs
         git fetch github 2>/dev/null || echo "GitHub fetch failed (might be empty repo)"
 
-        # Create sync commit message
+        # Create sync commit message with timestamp
         TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S UTC")
-        SYNC_COMMIT_MSG="sync: $(AZURE_COMMIT_MSG)
 
-Synced from Azure DevOps at $TIMESTAMP
-Original commit: $(AZURE_COMMIT_HASH)"
-
-        echo "Sync commit message:"
-        echo "$SYNC_COMMIT_MSG"
+        echo "Sync commit details:"
+        echo "  Message: sync: $(AZURE_COMMIT_MSG)"
+        echo "  Timestamp: $TIMESTAMP"
+        echo "  Original commit: $(AZURE_COMMIT_HASH)"
 
         # Force push to GitHub main (bypasses branch protection)
         echo "Force pushing to GitHub main branch..."
@@ -167,14 +167,6 @@ Original commit: $(AZURE_COMMIT_HASH)"
         fi
       displayName: 'Sync to GitHub'
       condition: ne(variables['SKIP_SYNC'], 'true')
-
-    # Cleanup workspace
-    - script: |
-        echo "Cleaning up workspace..."
-        rm -rf $(WORKSPACE_DIR)
-        echo "✅ Workspace cleaned successfully"
-      displayName: 'Cleanup Workspace'
-      condition: always()
 
     # Optional: Create a GitHub release tag for major updates
     - script: |
