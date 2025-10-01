@@ -1,0 +1,242 @@
+---
+import '@fontsource-variable/inter';
+---
+
+<style is:inline>
+  /* Import JetBrains Mono for terminal aesthetic */
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+  :root {
+    /* Fonts - Terminal aesthetic */
+    --aw-font-sans: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --aw-font-serif: 'Inter Variable';
+    --aw-font-heading: 'Inter Variable';
+    --aw-font-mono: 'JetBrains Mono', 'Fira Code', 'Monaco', monospace;
+
+    /* Huitzo Dark Theme Colors */
+    /* Primary accent - Cyan */
+    --aw-color-primary: rgb(0 191 255); /* #00BFFF */
+    --aw-color-secondary: rgb(0 225 140); /* Brighter cyan for hover */
+    --aw-color-accent: rgb(0 191 255); /* #00BFFF - Cyan accent */
+    --aw-color-accent-secondary: rgb(255 0 255); /* #FF00FF - Magenta accent */
+
+    /* Background colors - Deep blacks */
+    --aw-color-bg-primary: rgb(1 1 1); /* #010101 */
+    --aw-color-bg-secondary: rgb(13 13 13); /* #0D0D0D */
+    --aw-color-bg-tertiary: rgb(26 26 26); /* #1A1A1A */
+    --aw-color-bg-page: rgb(1 1 1);
+    --aw-color-bg-page-dark: rgb(1 1 1);
+
+    /* Text colors */
+    --aw-color-text-heading: rgb(245 245 245); /* #F5F5F5 */
+    --aw-color-text-default: rgb(245 245 245); /* #F5F5F5 */
+    --aw-color-text-muted: rgb(110 118 129); /* #6e7681 */
+    --aw-color-text-secondary: rgb(169 169 169); /* #A9A9A9 */
+
+    /* Status colors */
+    --aw-color-success: rgb(63 185 80); /* #3fb950 */
+    --aw-color-warning: rgb(210 153 34); /* #d29922 */
+    --aw-color-error: rgb(248 81 73); /* #f85149 */
+    --aw-color-info: rgb(88 166 255); /* #58a6ff */
+
+    /* Border */
+    --aw-color-border: rgb(51 51 51); /* #333333 */
+
+    /* Accent glow */
+    --aw-color-accent-glow: rgba(0, 191, 255, 0.2);
+
+    ::selection {
+      background-color: rgb(0 191 255 / 30%);
+      color: rgb(245 245 245);
+    }
+  }
+
+  .dark {
+    /* Same as root for consistent dark theme */
+    --aw-font-sans: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --aw-font-serif: 'Inter Variable';
+    --aw-font-heading: 'Inter Variable';
+    --aw-font-mono: 'JetBrains Mono', 'Fira Code', 'Monaco', monospace;
+
+    --aw-color-primary: rgb(0 191 255);
+    --aw-color-secondary: rgb(0 225 140);
+    --aw-color-accent: rgb(0 191 255);
+
+    --aw-color-text-heading: rgb(245 245 245);
+    --aw-color-text-default: rgb(245 245 245);
+    --aw-color-text-muted: rgb(110 118 129);
+    --aw-color-bg-page: rgb(1 1 1);
+
+    ::selection {
+      background-color: rgb(0 191 255 / 30%);
+      color: rgb(245 245 245);
+    }
+  }
+
+  /* Custom utility classes for Huitzo */
+  .font-mono {
+    font-family: var(--aw-font-mono);
+  }
+
+  /* Text gradient animation */
+  .text-gradient {
+    background: linear-gradient(135deg, var(--aw-color-accent), var(--aw-color-accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .animated-gradient {
+    background-size: 200% 200%;
+    animation: gradient-animation 5s ease infinite;
+  }
+
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Glow effects */
+  .glow {
+    box-shadow: 0 0 20px var(--aw-color-accent-glow);
+  }
+
+  .glow-lg {
+    box-shadow: 0 0 40px rgba(0, 191, 255, 0.3);
+  }
+
+  /* Terminal-style components */
+  .terminal-prompt {
+    background: var(--aw-color-bg-tertiary);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 8px;
+    padding: 1rem;
+    font-family: var(--aw-font-mono);
+    color: var(--aw-color-accent);
+    position: relative;
+    overflow: hidden;
+    font-size: 0.75rem; /* 12px - mobile */
+    line-height: 1.6;
+  }
+
+  /* Responsive text sizing for terminal */
+  @media (min-width: 640px) {
+    .terminal-prompt {
+      font-size: 0.875rem; /* 14px - tablet */
+      padding: 1.25rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .terminal-prompt {
+      font-size: 0.875rem; /* 14px - small desktop */
+      padding: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .terminal-prompt {
+      font-size: 1rem; /* 16px - desktop */
+    }
+  }
+
+  .terminal-prompt::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--aw-color-accent), transparent);
+    opacity: 0.5;
+  }
+
+  /* Card styles with glassmorphism */
+  .card {
+    background: var(--aw-color-bg-secondary);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card:hover {
+    border-color: var(--aw-color-accent);
+    box-shadow: 0 0 20px var(--aw-color-accent-glow);
+    transform: translateY(-2px);
+  }
+
+  .glassmorphism {
+    background: rgba(13, 13, 13, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+  }
+
+  .glassmorphism::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--aw-color-accent), var(--aw-color-accent-secondary));
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
+
+  /* Progress bars */
+  .progress-bar {
+    background: var(--aw-color-bg-tertiary);
+    border-radius: 8px;
+    overflow: hidden;
+    height: 8px;
+  }
+
+  .progress-fill {
+    background: linear-gradient(90deg, var(--aw-color-accent), var(--aw-color-accent-secondary));
+    height: 100%;
+    transition: width 0.3s ease;
+  }
+
+  /* Typing animation for terminal */
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  @keyframes blink {
+    50% { border-color: transparent; }
+  }
+
+  .typing-effect {
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid var(--aw-color-accent);
+    animation: typing 2s steps(30) forwards, blink 1s infinite;
+  }
+
+  /* Mobile: make cursor smaller */
+  @media (max-width: 639px) {
+    .typing-effect {
+      border-right-width: 1px;
+    }
+  }
+</style>

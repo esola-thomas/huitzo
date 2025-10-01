@@ -9,11 +9,7 @@
   "description": "Longer description explaining what this plugin does and why users would want it.",
   "category": "category-name",
   "status": "coming-soon",
-  "features": [
-    "Feature 1",
-    "Feature 2",
-    "Feature 3"
-  ],
+  "features": ["Feature 1", "Feature 2", "Feature 3"],
   "pricing": {
     "free": {
       "available": true,

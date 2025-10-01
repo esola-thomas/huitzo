@@ -1,0 +1,74 @@
+site:
+  name: Huitzo
+  site: "https://huitzo.com"
+  base: "/"
+  trailingSlash: false
+
+  googleSiteVerificationId: null
+
+# Default SEO metadata
+metadata:
+  title:
+    default: Huitzo - Intelligence-as-a-Service Platform
+    template: "%s | Huitzo"
+  description: "Democratize intelligent data analysis through a plugin-based architecture. Build powerful tools with simple CLI commands."
+  robots:
+    index: true
+    follow: true
+  openGraph:
+    site_name: Huitzo
+    images:
+      - url: "~/assets/images/default.png"
+        width: 1200
+        height: 628
+    type: website
+  twitter:
+    handle: "@huitzo"
+    site: "@huitzo"
+    cardType: summary_large_image
+
+i18n:
+  language: en
+  textDirection: ltr
+
+apps:
+  blog:
+    isEnabled: false
+    postsPerPage: 6
+
+    post:
+      isEnabled: false
+      permalink: "/%slug%"
+      robots:
+        index: true
+
+    list:
+      isEnabled: false
+      pathname: "blog"
+      robots:
+        index: true
+
+    category:
+      isEnabled: false
+      pathname: "category"
+      robots:
+        index: true
+
+    tag:
+      isEnabled: false
+      pathname: "tag"
+      robots:
+        index: false
+
+    isRelatedPostsEnabled: false
+    relatedPostsCount: 4
+
+analytics:
+  vendors:
+    googleAnalytics:
+      id: null
+    goatCounter:
+      code: "hutzo-cli"
+
+ui:
+  theme: "dark:only" # Always use dark theme for terminal aesthetic

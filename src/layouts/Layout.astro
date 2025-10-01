@@ -1,242 +1,48 @@
 ---
+import '~/assets/styles/tailwind.css';
+
+import { I18N } from 'astrowind:config';
+
+import CommonMeta from '~/components/common/CommonMeta.astro';
+import Favicons from '~/components/Favicons.astro';
+import CustomStyles from '~/components/CustomStyles.astro';
+import ApplyColorMode from '~/components/common/ApplyColorMode.astro';
+import Metadata from '~/components/common/Metadata.astro';
+import SiteVerification from '~/components/common/SiteVerification.astro';
+import Analytics from '~/components/common/Analytics.astro';
+import BasicScripts from '~/components/common/BasicScripts.astro';
+
+// Comment the line below to disable View Transitions
+import { ClientRouter } from 'astro:transitions';
+
+import type { MetaData as MetaDataType } from '~/types';
+
 export interface Props {
-  title: string;
-  description?: string;
-  ogImage?: string;
+  metadata?: MetaDataType;
 }
 
-const { title, description = "Democratize intelligent data analysis through plugin-based architecture. Build powerful tools with simple CLI commands.", ogImage = "/og-image.png" } = Astro.props;
-
-// Import styles
-import '../styles/global.css';
+const { metadata = {} } = Astro.props;
+const { language, textDirection } = I18N;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={language} dir={textDirection} class="2xl:text-[20px]">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
+    <CommonMeta />
+    <Favicons />
+    <CustomStyles />
+    <ApplyColorMode />
+    <Metadata {...metadata} />
+    <SiteVerification />
+    <Analytics />
 
-    <!-- SEO Meta Tags -->
-    <title>{title}</title>
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Huitzo" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
-
-    <!-- Canonical URL -->
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
-
-    <!-- Structured Data -->
-    <script type="application/ld+json" is:inline>
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Huitzo",
-        "url": "https://huitzo.com",
-        "logo": new URL(ogImage, Astro.site),
-        "sameAs": [
-          "https://github.com/esola-thomas/huitzo"
-        ]
-      }
-    </script>
-    <script type="application/ld+json" is:inline>
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Huitzo",
-        "url": "https://huitzo.com",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://huitzo.com/search?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
-      }
-    </script>
-
-    <!-- Preload critical fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-
-    <!-- GoatCounter Analytics -->
-    <script data-goatcounter="https://hutzo-cli.goatcounter.com/count"
-            async src="//gc.zgo.at/count.js"></script>
-
+    <!-- Comment the line below to disable View Transitions -->
+    <ClientRouter fallback="swap" />
   </head>
-  <body class="bg-huitzo-dark text-text-primary min-h-screen flex flex-col">
-    <!-- Header -->
-    <header class="border-b border-huitzo-border bg-huitzo-secondary/50 backdrop-blur-sm sticky top-0 z-50">
-      <nav class="container mx-auto px-4 py-4">
-        <div class="flex items-center justify-between">
-          <!-- Logo -->
-          <a href={import.meta.env.BASE_URL} class="flex items-center space-x-2">
-            <span class="font-mono text-xl font-semibold text-huitzo-accent">huitzo.$</span>
-          </a>
 
-          <!-- Desktop Navigation -->
-          <div class="hidden md:flex items-center space-x-8">
-            <a href={import.meta.env.BASE_URL} class="text-text-secondary hover:text-huitzo-accent transition-colors">Home</a>
-            <a href={`${import.meta.env.BASE_URL}roadmap`} class="text-text-secondary hover:text-huitzo-accent transition-colors">Roadmap</a>
-            <a href={`${import.meta.env.BASE_URL}plugins`} class="text-text-secondary hover:text-huitzo-accent transition-colors">Plugins</a>
-            <a href="https://github.com/esola-thomas/huitzo/issues/new" target="_blank" rel="noopener" class="text-text-secondary hover:text-huitzo-accent transition-colors">Report an issue</a>
-          </div>
+  <body class="antialiased text-default bg-page tracking-tight">
+    <slot />
 
-          <!-- CTA Button -->
-          <div class="hidden md:block">
-            <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="btn-primary">
-              Launch CLI (COMING SOON) →
-            </a>
-          </div>
-
-          <!-- Mobile Menu Button -->
-          <button id="mobile-menu-btn" class="md:hidden p-2 text-text-secondary hover:text-huitzo-accent transition-colors">
-            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-        </div>
-
-        <!-- Mobile Navigation -->
-        <div id="mobile-menu" class="mobile-nav fixed inset-y-0 right-0 w-64 bg-huitzo-secondary border-l border-huitzo-border md:hidden z-50">
-          <div class="flex flex-col h-full">
-            <!-- Mobile Menu Header -->
-            <div class="flex items-center justify-between p-4 border-b border-huitzo-border">
-              <span class="font-mono text-lg font-semibold text-huitzo-accent">huitzo.$</span>
-              <button id="mobile-menu-close" class="p-2 text-text-secondary hover:text-huitzo-accent transition-colors">
-                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-              </button>
-            </div>
-
-            <!-- Mobile Menu Links -->
-            <div class="flex-1 py-6">
-              <div class="flex flex-col space-y-4 px-4">
-                <a href={import.meta.env.BASE_URL} class="text-text-secondary hover:text-huitzo-accent transition-colors py-2">Home</a>
-                <a href={`${import.meta.env.BASE_URL}roadmap`} class="text-text-secondary hover:text-huitzo-accent transition-colors py-2">Roadmap</a>
-                <a href={`${import.meta.env.BASE_URL}plugins`} class="text-text-secondary hover:text-huitzo-accent transition-colors py-2">Plugins</a>
-                <a href="https://github.com/esola-thomas/huitzo/issues/new" target="_blank" rel="noopener" class="text-text-secondary hover:text-huitzo-accent transition-colors py-2">Report an issue</a>
-              </div>
-            </div>
-
-            <!-- Mobile CTA -->
-            <div class="p-4 border-t border-huitzo-border">
-              <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="btn-primary w-full justify-center">
-                Launch CLI (COMING SOON) →
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mobile Menu Overlay -->
-        <div id="mobile-overlay" class="fixed inset-0 bg-black/50 hidden md:hidden z-40"></div>
-      </nav>
-    </header>
-
-    <!-- Main Content -->
-    <main class="flex-1">
-      <slot />
-    </main>
-
-    <!-- Footer -->
-    <footer class="border-t border-huitzo-border bg-huitzo-secondary mt-20">
-      <div class="container mx-auto px-4 py-12">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <!-- Brand -->
-          <div class="col-span-1 md:col-span-2">
-            <div class="flex items-center space-x-2 mb-4">
-              <span class="font-mono text-xl font-semibold text-huitzo-accent">huitzo.$</span>
-            </div>
-            <p class="text-text-secondary text-sm leading-relaxed max-w-md">
-              Intelligence-as-a-Service platform that democratizes intelligent data analysis through a plugin-based architecture.
-            </p>
-          </div>
-
-          <!-- Links -->
-          <div>
-            <h3 class="text-text-primary font-semibold mb-4">Platform</h3>
-            <div class="space-y-2">
-              <a href={`${import.meta.env.BASE_URL}roadmap`} class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">Roadmap</a>
-              <a href={`${import.meta.env.BASE_URL}plugins`} class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">Plugins</a>
-              <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">CLI Platform (COMING SOON)</a>
-            </div>
-          </div>
-
-          <!-- Support -->
-          <div>
-            <h3 class="text-text-primary font-semibold mb-4">Support</h3>
-            <div class="space-y-2">
-              <a href="https://github.com/esola-thomas/huitzo/issues/new" target="_blank" rel="noopener" class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">Report an issue</a>
-              <a href="mailto:ernesto@solathomas.com" class="block text-text-secondary hover:text-huitzo-accent transition-colors text-sm">Contact</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bottom Bar -->
-        <div class="border-t border-huitzo-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p class="text-text-muted text-sm">© 2025 Huitzo (By Sola-Thomas Solutions). All rights reserved.</p>
-          <p class="text-text-muted text-sm mt-4 md:mt-0">Built with Astro & Tailwind CSS</p>
-        </div>
-      </div>
-    </footer>
-
-    <!-- Mobile Navigation Script -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenuClose = document.getElementById('mobile-menu-close');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileOverlay = document.getElementById('mobile-overlay');
-
-        function openMobileMenu() {
-          mobileMenu.classList.add('open');
-          mobileOverlay.classList.remove('hidden');
-          document.body.style.overflow = 'hidden';
-        }
-
-        function closeMobileMenu() {
-          mobileMenu.classList.remove('open');
-          mobileOverlay.classList.add('hidden');
-          document.body.style.overflow = '';
-        }
-
-        mobileMenuBtn?.addEventListener('click', openMobileMenu);
-        mobileMenuClose?.addEventListener('click', closeMobileMenu);
-        mobileOverlay?.addEventListener('click', closeMobileMenu);
-
-        // Close mobile menu when clicking on links
-        const mobileLinks = mobileMenu?.querySelectorAll('a');
-        mobileLinks?.forEach(link => {
-          link.addEventListener('click', closeMobileMenu);
-        });
-
-        // Handle escape key
-        document.addEventListener('keydown', function(e) {
-          if (e.key === 'Escape') {
-            closeMobileMenu();
-          }
-        });
-      });
-
-      // Smooth scroll for anchor links
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute('href'));
-          if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-          }
-        });
-      });
-    </script>
+    <BasicScripts />
   </body>
 </html>

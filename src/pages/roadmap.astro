@@ -1,43 +1,32 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import RoadmapTimeline from '../components/RoadmapTimeline.astro';
+import Layout from '~/layouts/PageLayout.astro';
+import RoadmapTimeline from '~/components/RoadmapTimeline.astro';
 
 // Import roadmap data
-const roadmapData = await import('../data/roadmap.json');
-const { milestones, metrics, lastUpdated } = roadmapData.default;
+const roadmapData = await import('~/data/roadmap.json');
+const { milestones, lastUpdated } = roadmapData.default;
 
-function formatCurrency(amount) {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
-
-function formatNumber(number) {
-  return new Intl.NumberFormat('en-US').format(number);
-}
+const metadata = {
+  title: 'Development Roadmap',
+  description: 'Track our journey from concept to launch. See our milestones and upcoming features for the Huitzo Intelligence-as-a-Service platform.',
+};
 ---
 
-<Layout
-  title="Development Roadmap | Huitzo"
-  description="Track our journey from concept to launch. See our milestones, progress, and targets for the Huitzo Intelligence-as-a-Service platform."
->
+<Layout metadata={metadata}>
   <!-- Header Section -->
   <section class="py-20">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-4xl lg:text-5xl font-bold text-text-primary mb-6">
+        <h1 class="text-4xl lg:text-5xl font-bold mb-6">
           Development <span class="text-gradient animated-gradient">Roadmap</span>
         </h1>
-        <p class="text-lg text-text-secondary mb-8 max-w-2xl mx-auto">
+        <p class="text-lg text-muted mb-8 max-w-2xl mx-auto">
           Track our journey from concept to launch. Follow our progress as we build
-          the future of intelligent data analysis.
+          the future of intelligent data analysis with cutting-edge technology.
         </p>
 
         <!-- Last Updated -->
-        <div class="inline-flex items-center gap-2 text-sm text-text-muted bg-huitzo-secondary/50 px-3 py-2 rounded-lg">
+        <div class="inline-flex items-center gap-2 text-sm text-muted bg-[var(--aw-color-bg-secondary)] px-3 py-2 rounded-lg">
           <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
@@ -48,10 +37,10 @@ function formatNumber(number) {
   </section>
 
   <!-- Timeline Visualization -->
-  <section class="py-12 bg-huitzo-secondary/30">
+  <section class="py-12 bg-[var(--aw-color-bg-secondary)]">
     <div class="container mx-auto px-4">
       <div class="max-w-6xl mx-auto">
-        <h2 class="text-2xl font-bold text-text-primary mb-8 text-center">Project Timeline</h2>
+        <h2 class="text-2xl font-bold mb-8 text-center">Development Timeline</h2>
 
         <!-- Visual Timeline -->
         <div class="relative mb-12">
@@ -59,41 +48,49 @@ function formatNumber(number) {
             <div class="flex items-center min-w-max space-x-8">
               <!-- Timeline Points -->
               <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-status-success border-2 border-status-success"></div>
-                <div class="text-xs text-status-success font-medium mt-2">Oct 2025</div>
-                <div class="text-xs text-text-muted">Kickoff</div>
+                <div class="w-4 h-4 rounded-full bg-[var(--aw-color-success)] border-2 border-[var(--aw-color-success)]"></div>
+                <div class="text-xs text-[var(--aw-color-success)] font-medium mt-2">Oct 2025</div>
+                <div class="text-xs text-muted">Foundation</div>
               </div>
 
-              <div class="flex-1 h-0.5 bg-huitzo-accent"></div>
+              <div class="flex-1 h-0.5 bg-primary"></div>
 
               <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-huitzo-accent border-2 border-huitzo-accent glow"></div>
-                <div class="text-xs text-huitzo-accent font-medium mt-2">Dec 2025</div>
-                <div class="text-xs text-text-muted">Core MVP</div>
+                <div class="w-4 h-4 rounded-full bg-primary border-2 border-primary glow"></div>
+                <div class="text-xs text-primary font-medium mt-2">Nov 2025</div>
+                <div class="text-xs text-muted">Core Platform</div>
               </div>
 
-              <div class="flex-1 h-0.5 bg-huitzo-border"></div>
+              <div class="flex-1 h-0.5 bg-primary"></div>
 
               <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-huitzo-dark border-2 border-huitzo-border"></div>
-                <div class="text-xs text-text-muted font-medium mt-2">Jan 2026</div>
-                <div class="text-xs text-text-muted">Financial Plugin</div>
+                <div class="w-4 h-4 rounded-full bg-primary border-2 border-primary"></div>
+                <div class="text-xs text-primary font-medium mt-2">Dec 2025</div>
+                <div class="text-xs text-muted">First Plugin</div>
               </div>
 
-              <div class="flex-1 h-0.5 bg-huitzo-border"></div>
+              <div class="flex-1 h-0.5 bg-gray-700"></div>
 
               <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-huitzo-dark border-2 border-huitzo-border"></div>
-                <div class="text-xs text-text-muted font-medium mt-2">Mar 2026</div>
-                <div class="text-xs text-text-muted">Beta Launch</div>
+                <div class="w-4 h-4 rounded-full bg-[var(--aw-color-bg-primary)] border-2 border-gray-700"></div>
+                <div class="text-xs text-muted font-medium mt-2">Jan 2026</div>
+                <div class="text-xs text-muted">Beta Testing</div>
               </div>
 
-              <div class="flex-1 h-0.5 bg-huitzo-border"></div>
+              <div class="flex-1 h-0.5 bg-gray-700"></div>
 
               <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-huitzo-dark border-2 border-huitzo-border"></div>
-                <div class="text-xs text-text-muted font-medium mt-2">May 2026</div>
-                <div class="text-xs text-text-muted">Public Launch</div>
+                <div class="w-4 h-4 rounded-full bg-[var(--aw-color-bg-primary)] border-2 border-gray-700"></div>
+                <div class="text-xs text-muted font-medium mt-2">Mar 2026</div>
+                <div class="text-xs text-muted">Public Launch</div>
+              </div>
+
+              <div class="flex-1 h-0.5 bg-gray-700"></div>
+
+              <div class="flex flex-col items-center">
+                <div class="w-4 h-4 rounded-full bg-[var(--aw-color-bg-primary)] border-2 border-gray-700"></div>
+                <div class="text-xs text-muted font-medium mt-2">Jun 2026</div>
+                <div class="text-xs text-muted">Ecosystem</div>
               </div>
             </div>
           </div>
@@ -102,148 +99,241 @@ function formatNumber(number) {
     </div>
   </section>
 
-  <!-- Detailed Milestones -->
+  <!-- Development Milestones -->
   <section class="py-20">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto">
-        <h2 class="text-3xl font-bold text-text-primary mb-12 text-center">Milestone Details</h2>
+        <h2 class="text-3xl font-bold mb-12 text-center">Development Milestones</h2>
 
-        <!-- Milestone Categories -->
+        <!-- Milestone Status -->
         <div class="mb-12">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Completed -->
             <div class="text-center">
-              <div class="text-2xl font-bold text-status-success mb-2">
+              <div class="text-2xl font-bold text-[var(--aw-color-success)] mb-2">
                 {milestones.filter(m => m.status === 'completed').length}
               </div>
-              <div class="text-sm text-text-secondary">✓ COMPLETED</div>
+              <div class="text-sm text-muted">✓ COMPLETED</div>
             </div>
 
             <!-- In Progress -->
             <div class="text-center">
-              <div class="text-2xl font-bold text-huitzo-accent mb-2">
+              <div class="text-2xl font-bold text-primary mb-2">
                 {milestones.filter(m => m.status === 'in-progress').length}
               </div>
-              <div class="text-sm text-text-secondary">⏳ IN PROGRESS</div>
+              <div class="text-sm text-muted">⏳ IN PROGRESS</div>
             </div>
 
             <!-- Upcoming -->
             <div class="text-center">
-              <div class="text-2xl font-bold text-text-muted mb-2">
+              <div class="text-2xl font-bold text-muted mb-2">
                 {milestones.filter(m => m.status === 'upcoming').length}
               </div>
-              <div class="text-sm text-text-secondary">○ UPCOMING</div>
+              <div class="text-sm text-muted">○ UPCOMING</div>
             </div>
           </div>
         </div>
 
         <!-- Timeline Component -->
-        <RoadmapTimeline milestones={milestones} />
+        <RoadmapTimeline milestones={milestones as Array<{
+          id: string;
+          status: 'completed' | 'in-progress' | 'upcoming';
+          title: string;
+          date?: string;
+          targetDate?: string;
+          progress?: number;
+          description: string;
+          deliverables?: string[];
+        }>} />
       </div>
     </div>
   </section>
 
-  <!-- Key Metrics Dashboard -->
-  <section class="py-20 bg-huitzo-secondary/30">
+  <!-- Feature Roadmap -->
+  <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
     <div class="container mx-auto px-4">
-      <div class="max-w-4xl mx-auto">
-        <h2 class="text-3xl font-bold text-text-primary mb-12 text-center">
-          Project <span class="text-gradient animated-gradient">Targets</span>
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold mb-6 text-center">
+          Feature <span class="text-gradient animated-gradient">Roadmap</span>
         </h2>
+        <p class="text-center text-muted mb-12 max-w-2xl mx-auto">
+          Upcoming features and capabilities we're building to enhance your intelligent data analysis experience.
+        </p>
 
-        <div class="card">
-          <div class="overflow-x-auto">
-            <table class="w-full">
-              <thead>
-                <tr class="border-b border-huitzo-border">
-                  <th class="text-left py-4 px-4 text-text-primary font-semibold">Metric</th>
-                  <th class="text-center py-4 px-4 text-text-primary font-semibold">Current</th>
-                  <th class="text-center py-4 px-4 text-text-primary font-semibold">12-Month Target</th>
-                  <th class="text-right py-4 px-4 text-text-primary font-semibold">Progress</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-huitzo-border">
-                <tr>
-                  <td class="py-4 px-4 text-text-secondary">Active Users</td>
-                  <td class="py-4 px-4 text-center font-mono text-text-primary">
-                    {formatNumber(metrics.activeUsers.current)}
-                  </td>
-                  <td class="py-4 px-4 text-center font-mono text-huitzo-accent">
-                    {formatNumber(metrics.activeUsers.target)}
-                  </td>
-                  <td class="py-4 px-4 text-right">
-                    <div class="flex items-center justify-end gap-2">
-                      <div class="w-16 h-2 bg-huitzo-tertiary rounded-full overflow-hidden">
-                        <div class="h-full bg-huitzo-accent" style={`width: ${(metrics.activeUsers.current / metrics.activeUsers.target) * 100}%`}></div>
-                      </div>
-                      <span class="text-xs text-text-muted font-mono">
-                        {Math.round((metrics.activeUsers.current / metrics.activeUsers.target) * 100)}%
-                      </span>
-                    </div>
-                  </td>
-                </tr>
+        <!-- Feature Categories -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Core Platform Features -->
+          <div class="card">
+            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+              🏗️ Core Platform
+            </h3>
+            <ul class="space-y-3 text-sm text-muted">
+              <li class="flex items-center gap-2">
+                <span class="text-green-500">✓</span>
+                Web-based CLI interface
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-green-500">✓</span>
+                Plugin architecture system
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-blue-500">⏳</span>
+                Hot-reload plugin development
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Multi-user session management
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Advanced security controls
+              </li>
+            </ul>
+          </div>
 
-                <tr>
-                  <td class="py-4 px-4 text-text-secondary">Paying Subscribers</td>
-                  <td class="py-4 px-4 text-center font-mono text-text-primary">
-                    {formatNumber(metrics.subscribers.current)}
-                  </td>
-                  <td class="py-4 px-4 text-center font-mono text-huitzo-accent">
-                    {formatNumber(metrics.subscribers.target)}
-                  </td>
-                  <td class="py-4 px-4 text-right">
-                    <div class="flex items-center justify-end gap-2">
-                      <div class="w-16 h-2 bg-huitzo-tertiary rounded-full overflow-hidden">
-                        <div class="h-full bg-huitzo-accent" style={`width: ${(metrics.subscribers.current / metrics.subscribers.target) * 100}%`}></div>
-                      </div>
-                      <span class="text-xs text-text-muted font-mono">
-                        {Math.round((metrics.subscribers.current / metrics.subscribers.target) * 100)}%
-                      </span>
-                    </div>
-                  </td>
-                </tr>
+          <!-- Intelligence Plugins -->
+          <div class="card">
+            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+              🧠 Intelligence Plugins
+            </h3>
+            <ul class="space-y-3 text-sm text-muted">
+              <li class="flex items-center gap-2">
+                <span class="text-blue-500">⏳</span>
+                Financial market analysis
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Business data intelligence
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Social media analytics
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Research & documentation
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Custom plugin templates
+              </li>
+            </ul>
+          </div>
 
-                <tr>
-                  <td class="py-4 px-4 text-text-secondary">Available Plugins</td>
-                  <td class="py-4 px-4 text-center font-mono text-text-primary">
-                    {formatNumber(metrics.plugins.current)}
-                  </td>
-                  <td class="py-4 px-4 text-center font-mono text-huitzo-accent">
-                    {formatNumber(metrics.plugins.target)}
-                  </td>
-                  <td class="py-4 px-4 text-right">
-                    <div class="flex items-center justify-end gap-2">
-                      <div class="w-16 h-2 bg-huitzo-tertiary rounded-full overflow-hidden">
-                        <div class="h-full bg-huitzo-accent" style={`width: ${(metrics.plugins.current / metrics.plugins.target) * 100}%`}></div>
-                      </div>
-                      <span class="text-xs text-text-muted font-mono">
-                        {Math.round((metrics.plugins.current / metrics.plugins.target) * 100)}%
-                      </span>
-                    </div>
-                  </td>
-                </tr>
+          <!-- User Experience -->
+          <div class="card">
+            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+              🎨 User Experience
+            </h3>
+            <ul class="space-y-3 text-sm text-muted">
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Interactive onboarding
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Command auto-completion
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Visual output formatting
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Mobile-responsive interface
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Dark/light theme support
+              </li>
+            </ul>
+          </div>
 
-                <tr>
-                  <td class="py-4 px-4 text-text-secondary">Monthly Recurring Revenue</td>
-                  <td class="py-4 px-4 text-center font-mono text-text-primary">
-                    {formatCurrency(metrics.mrr.current)}
-                  </td>
-                  <td class="py-4 px-4 text-center font-mono text-huitzo-accent">
-                    {formatCurrency(metrics.mrr.target)}
-                  </td>
-                  <td class="py-4 px-4 text-right">
-                    <div class="flex items-center justify-end gap-2">
-                      <div class="w-16 h-2 bg-huitzo-tertiary rounded-full overflow-hidden">
-                        <div class="h-full bg-huitzo-accent" style={`width: ${(metrics.mrr.current / metrics.mrr.target) * 100}%`}></div>
-                      </div>
-                      <span class="text-xs text-text-muted font-mono">
-                        {Math.round((metrics.mrr.current / metrics.mrr.target) * 100)}%
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <!-- Integration & API -->
+          <div class="card">
+            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+              🔌 Integrations
+            </h3>
+            <ul class="space-y-3 text-sm text-muted">
+              <li class="flex items-center gap-2">
+                <span class="text-blue-500">⏳</span>
+                Email report delivery
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Slack/Teams notifications
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Calendar scheduling
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Webhook integrations
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                REST API access
+              </li>
+            </ul>
+          </div>
+
+          <!-- Enterprise Features -->
+          <div class="card">
+            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+              🏢 Enterprise
+            </h3>
+            <ul class="space-y-3 text-sm text-muted">
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Team collaboration tools
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Role-based permissions
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Audit logs & compliance
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Single sign-on (SSO)
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                On-premises deployment
+              </li>
+            </ul>
+          </div>
+
+          <!-- Developer Tools -->
+          <div class="card">
+            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+              🛠️ Developer Tools
+            </h3>
+            <ul class="space-y-3 text-sm text-muted">
+              <li class="flex items-center gap-2">
+                <span class="text-blue-500">⏳</span>
+                Plugin development SDK
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Plugin marketplace
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Testing & debugging tools
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Performance monitoring
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-gray-500">○</span>
+                Analytics dashboard
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -254,20 +344,25 @@ function formatNumber(number) {
   <section class="py-20">
     <div class="container mx-auto px-4">
       <div class="max-w-2xl mx-auto text-center">
-        <h2 class="text-3xl font-bold text-text-primary mb-6">
-          Want to follow our <span class="text-gradient animated-gradient">progress</span>?
+        <h2 class="text-3xl font-bold mb-6">
+          Follow our <span class="text-gradient animated-gradient">development</span>
         </h2>
-        <p class="text-lg text-text-secondary mb-8">
-          This roadmap is updated regularly as we hit milestones.
-          Check back frequently or follow our development.
+        <p class="text-lg text-muted mb-8">
+          Stay updated on our progress as we build the future of intelligent data analysis.
+          Join our community and be part of the journey.
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="https://github.com/esola-thomas/huitzo/issues/new" target="_blank" rel="noopener" class="btn-primary">
-            Report an Issue →
+          <a href="/beta" class="btn-primary">
+            Join Beta Program (COMING SOON)→
           </a>
-          <a href={`${import.meta.env.BASE_URL}plugins`} class="btn-secondary">
-            Explore Plugins
+        </div>
+
+        <!-- Newsletter Signup -->
+        <div class="mt-8 p-4 bg-[var(--aw-color-bg-secondary)] rounded-lg border border-gray-700">
+          <p class="text-sm text-muted mb-2">📬 Get development updates in your inbox</p>
+          <a href="/newsletter" class="text-primary hover:underline text-sm">
+            Subscribe to our newsletter (COMING SOON)
           </a>
         </div>
       </div>

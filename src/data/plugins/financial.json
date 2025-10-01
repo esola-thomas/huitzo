@@ -17,14 +17,14 @@
     "Natural language reports you can actually understand",
     "Scheduled report generation (daily, weekly, monthly)"
   ],
-  "pricing": {
-    "status": "coming-soon"
-  },
   "installation": {
     "command": "huitzo plugin install financial",
-    "requirements": [
-      "Huitzo Core v1.0+"
-    ]
+    "requirements": ["Huitzo Core v1.0+"]
+  },
+  "pricing": {
+    "pro": {
+      "price": "Coming Soon"
+    }
   },
   "quickstart": [
     {
@@ -81,7 +81,7 @@
   "links": {
     "documentation": "/docs/plugins/financial",
     "repository": "https://github.com/esola-thomas/huitzo",
-    "support": "mailto:info@solathomas.com"
+    "support": "mailto:huitzo@solathomas.com"
   },
   "sourceCode": false
 }

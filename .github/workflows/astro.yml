@@ -33,7 +33,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full clone for git history
+          fetch-depth: 0 # Full clone for git history
 
       - name: Detect package manager
         id: detect-package-manager

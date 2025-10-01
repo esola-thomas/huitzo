@@ -1,7 +1,7 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Command from '../../components/Command.astro';
-import CTAButton from '../../components/CTAButton.astro';
+import Layout from '~/layouts/PageLayout.astro';
+import Command from '~/components/Command.astro';
+import CTAButton from '~/components/CTAButton.astro';
 
 // Import all plugin data
 import financialPlugin from '../../data/plugins/financial.json';
@@ -24,16 +24,18 @@ if (!plugin) {
   return Astro.redirect('/404');
 }
 
-function formatPrice(price) {
+function formatPrice(price: string) {
   if (price.startsWith('$')) return price;
   return `$${price}`;
 }
+
+const metadata = {
+  title: `${plugin.name} Plugin | Huitzo`,
+  description: plugin.description
+};
 ---
 
-  <Layout
-    title={`${plugin.name} Plugin | Huitzo`}
-    description={plugin.description}
-  >
+<Layout metadata={metadata}>
 
   <!-- Structured Data for SoftwareApplication -->
   <script type="application/ld+json" is:inline>
@@ -48,7 +50,7 @@ function formatPrice(price) {
         "@type": "Person",
         "name": plugin.author
       },
-      "offers": plugin.pricing.free.available ? {
+      "offers": (plugin.pricing && plugin.pricing.free && plugin.pricing.free.available) ? {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
@@ -118,7 +120,7 @@ function formatPrice(price) {
       <div class="max-w-4xl mx-auto">
         <h2 class="text-3xl font-bold text-text-primary mb-8">Key Features</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {plugin.features.map((feature) => (
+          {Array.isArray(plugin.features) && plugin.features.map((feature: string) => (
             <div class="flex items-start gap-3 p-4 bg-huitzo-secondary/50 rounded-lg border border-huitzo-border">
               <span class="text-huitzo-accent mt-1">•</span>
               <span class="text-text-secondary">{feature}</span>
@@ -151,7 +153,7 @@ function formatPrice(price) {
                     <div class="text-sm text-text-muted">{plugin.pricing.free.limits}</div>
                   </div>
                   <ul class="space-y-3 mb-6">
-                    {plugin.pricing.free.features.map((feature) => (
+                    {plugin.pricing && plugin.pricing.free && Array.isArray(plugin.pricing.free.features) && plugin.pricing.free.features.map((feature: string) => (
                       <li class="flex items-start gap-2">
                         <span class="text-status-success mt-1">✓</span>
                         <span class="text-text-secondary text-sm">{feature}</span>
@@ -175,7 +177,7 @@ function formatPrice(price) {
                     <div class="text-sm text-text-muted">per month</div>
                   </div>
                   <ul class="space-y-3 mb-6">
-                    {plugin.pricing.pro.features.map((feature) => (
+                    {plugin.pricing && plugin.pricing.pro && Array.isArray(plugin.pricing.pro.features) && plugin.pricing.pro.features.map((feature: string) => (
                       <li class="flex items-start gap-2">
                         <span class="text-status-success mt-1">✓</span>
                         <span class="text-text-secondary text-sm">{feature}</span>
@@ -206,11 +208,11 @@ function formatPrice(price) {
           <Command command={plugin.installation.command} />
         </div>
 
-        {plugin.installation.requirements && plugin.installation.requirements.length > 0 && (
+    {plugin.installation && plugin.installation.requirements && plugin.installation.requirements.length > 0 && (
           <div class="card">
             <h3 class="text-lg font-semibold text-text-primary mb-4">Requirements</h3>
             <ul class="space-y-2">
-              {plugin.installation.requirements.map((req) => (
+              {plugin.installation && Array.isArray(plugin.installation.requirements) && plugin.installation.requirements.map((req: string) => (
                 <li class="flex items-start gap-2">
                   <span class="text-huitzo-accent mt-1">•</span>
                   <span class="text-text-secondary text-sm">{req}</span>
@@ -224,13 +226,13 @@ function formatPrice(price) {
   </section>
 
   <!-- Quick Start Section -->
-  {plugin.quickstart && plugin.quickstart.length > 0 && (
+  {plugin.quickstart && Array.isArray(plugin.quickstart) && plugin.quickstart.length > 0 && (
     <section class="py-20 bg-huitzo-secondary/30">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
           <h2 class="text-3xl font-bold text-text-primary mb-8">Quick Start</h2>
           <div class="space-y-6">
-            {plugin.quickstart.map((step) => (
+            {Array.isArray(plugin.quickstart) && plugin.quickstart.map((step: { step: number; title: string; command: string; description: string }) => (
               <div class="card">
                 <div class="flex items-start gap-4">
                   <div class="flex-shrink-0 w-8 h-8 bg-huitzo-accent text-huitzo-dark rounded-full flex items-center justify-center font-mono font-bold text-sm">
@@ -250,13 +252,13 @@ function formatPrice(price) {
   )}
 
   <!-- Available Commands Section -->
-  {plugin.commands && plugin.commands.length > 0 && (
+  {plugin.commands && Array.isArray(plugin.commands) && plugin.commands.length > 0 && (
     <section class="py-20">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
           <h2 class="text-3xl font-bold text-text-primary mb-8">Available Commands</h2>
           <div class="space-y-4">
-            {plugin.commands.map((cmd) => (
+            {Array.isArray(plugin.commands) && plugin.commands.map((cmd: { name: string; description: string }) => (
               <div class="card">
                 <div class="flex flex-col md:flex-row md:items-center gap-4">
                   <div class="flex-1">

@@ -1,9 +1,9 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import PluginCard from '../../components/PluginCard.astro';
+import Layout from '~/layouts/PageLayout.astro';
+import PluginCard from '~/components/PluginCard.astro';
 
 // Import plugin data
-import financialPlugin from '../../data/plugins/financial.json';
+import financialPlugin from '~/data/plugins/financial.json';
 
 // For now, we only have the financial plugin, but we'll create a coming soon card
 const plugins = [financialPlugin];
@@ -29,17 +29,19 @@ const statuses = ['All', 'Active', 'Coming Soon'];
 ---
 
 <Layout
-  title="Available Plugins | Huitzo"
-  description="Extend Huitzo with specialized intelligence services. Browse our plugin directory to find tools for financial analysis and more."
+  metadata={{
+    title: 'Available Plugins',
+    description: 'Extend Huitzo with specialized intelligence services. Browse our plugin directory to find tools for financial analysis and more.',
+  }}
 >
   <!-- Header Section -->
   <section class="py-20">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-4xl lg:text-5xl font-bold text-text-primary mb-6">
+        <h1 class="text-4xl lg:text-5xl font-bold text-default mb-6">
           Available <span class="text-gradient animated-gradient">Plugins</span>
         </h1>
-        <p class="text-lg text-text-secondary mb-8 max-w-2xl mx-auto">
+        <p class="text-lg text-muted mb-8 max-w-2xl mx-auto">
           Extend Huitzo with specialized intelligence services. Each plugin provides
           a complete solution for a specific data analysis domain.
         </p>
@@ -47,20 +49,20 @@ const statuses = ['All', 'Active', 'Coming Soon'];
         <!-- Stats -->
         <div class="grid grid-cols-3 gap-6 max-w-lg mx-auto">
           <div class="text-center">
-            <div class="text-2xl font-bold text-huitzo-accent font-mono">
+            <div class="text-2xl font-bold text-primary font-mono">
               {plugins.filter(p => p.status === 'active').length}
             </div>
-            <div class="text-sm text-text-muted">Active Plugins</div>
+            <div class="text-sm text-muted">Active Plugins</div>
           </div>
           <div class="text-center">
-            <div class="text-2xl font-bold text-huitzo-accent font-mono">
-              {plugins.filter(p => p.pricing?.free?.available).length}
+            <div class="text-2xl font-bold text-primary font-mono">
+              {plugins.filter(p => p.status === 'coming-soon').length}
             </div>
-            <div class="text-sm text-text-muted">Free Tiers</div>
+            <div class="text-sm text-muted">Coming Soon</div>
           </div>
           <div class="text-center">
-            <div class="text-2xl font-bold text-huitzo-accent font-mono">∞</div>
-            <div class="text-sm text-text-muted">Possibilities</div>
+            <div class="text-2xl font-bold text-primary font-mono">∞</div>
+            <div class="text-sm text-muted">Possibilities</div>
           </div>
         </div>
       </div>
@@ -68,21 +70,21 @@ const statuses = ['All', 'Active', 'Coming Soon'];
   </section>
 
   <!-- Search and Filter Section -->
-  <section class="py-12 bg-huitzo-secondary/30">
+  <section class="py-12 bg-[var(--aw-color-bg-secondary)]/30">
     <div class="container mx-auto px-4">
       <div class="max-w-6xl mx-auto">
         <div class="flex flex-col md:flex-row gap-4 items-center justify-between mb-8">
           <!-- Search Bar -->
           <div class="flex-1 max-w-md">
             <div class="relative">
-              <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
               </svg>
               <input
                 type="text"
                 id="plugin-search"
                 placeholder="Search plugins..."
-                class="w-full pl-10 pr-4 py-3 bg-huitzo-tertiary border border-huitzo-border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-huitzo-accent transition-colors"
+                class="w-full pl-10 pr-4 py-3 bg-[var(--aw-color-bg-tertiary)] border border-gray-700 rounded-lg text-default placeholder-text-muted focus:outline-none focus:border-primary transition-colors"
               />
             </div>
           </div>
@@ -91,7 +93,7 @@ const statuses = ['All', 'Active', 'Coming Soon'];
           <div class="flex gap-4">
             <select
               id="category-filter"
-              class="px-4 py-3 bg-huitzo-tertiary border border-huitzo-border rounded-lg text-text-primary focus:outline-none focus:border-huitzo-accent transition-colors"
+              class="px-4 py-3 bg-[var(--aw-color-bg-tertiary)] border border-gray-700 rounded-lg text-default focus:outline-none focus:border-primary transition-colors"
             >
               {categories.map(category => (
                 <option value={category.toLowerCase()}>{category}</option>
@@ -100,7 +102,7 @@ const statuses = ['All', 'Active', 'Coming Soon'];
 
             <select
               id="status-filter"
-              class="px-4 py-3 bg-huitzo-tertiary border border-huitzo-border rounded-lg text-text-primary focus:outline-none focus:border-huitzo-accent transition-colors"
+              class="px-4 py-3 bg-[var(--aw-color-bg-tertiary)] border border-gray-700 rounded-lg text-default focus:outline-none focus:border-primary transition-colors"
             >
               {statuses.map(status => (
                 <option value={status.toLowerCase()}>{status}</option>
@@ -127,8 +129,8 @@ const statuses = ['All', 'Active', 'Coming Soon'];
         <!-- Empty State -->
         <div id="empty-state" class="hidden text-center py-20">
           <div class="text-6xl mb-4">🔍</div>
-          <h3 class="text-xl font-semibold text-text-primary mb-2">No plugins found</h3>
-          <p class="text-text-secondary mb-6">
+          <h3 class="text-xl font-semibold text-default mb-2">No plugins found</h3>
+          <p class="text-muted mb-6">
             No plugins match your current search criteria.
           </p>
           <div class="space-x-4">
@@ -145,13 +147,13 @@ const statuses = ['All', 'Active', 'Coming Soon'];
   </section>
 
   <!-- Call to Action -->
-  <section class="py-20 bg-huitzo-secondary/30">
+  <section class="py-20 bg-[var(--aw-color-bg-secondary)]/30">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-3xl font-bold text-text-primary mb-6">
+        <h2 class="text-3xl font-bold text-default mb-6">
           Ready to get <span class="text-gradient animated-gradient">started</span>?
         </h2>
-        <p class="text-lg text-text-secondary mb-8">
+        <p class="text-lg text-muted mb-8">
           Install plugins and start building intelligent analysis workflows with simple commands.
         </p>
 
@@ -165,12 +167,12 @@ const statuses = ['All', 'Active', 'Coming Soon'];
         </div>
 
         <!-- Plugin Request -->
-        <div class="mt-12 pt-8 border-t border-huitzo-border">
-          <h3 class="text-lg font-semibold text-text-primary mb-2">Need a specific plugin?</h3>
-          <p class="text-sm text-text-muted mb-4">
+        <div class="mt-12 pt-8 border-t border-gray-700">
+          <h3 class="text-lg font-semibold text-default mb-2">Need a specific plugin?</h3>
+          <p class="text-sm text-muted mb-4">
             Have an idea for an intelligence service that doesn't exist yet?
           </p>
-          <a href="mailto:info@solathomas.com?subject=Plugin Request" class="text-huitzo-accent hover:underline">
+          <a href="mailto:huitzo@solathomas.com?subject=Plugin Request" class="text-primary hover:underline">
             Send us your plugin request →
           </a>
         </div>
@@ -181,14 +183,16 @@ const statuses = ['All', 'Active', 'Coming Soon'];
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('plugin-search');
-    const categoryFilter = document.getElementById('category-filter');
-    const statusFilter = document.getElementById('status-filter');
-    const pluginsGrid = document.getElementById('plugins-grid');
-    const emptyState = document.getElementById('empty-state');
-    const clearFiltersBtn = document.getElementById('clear-filters');
+    const searchInput = document.getElementById('plugin-search') as HTMLInputElement | null;
+    const categoryFilter = document.getElementById('category-filter') as HTMLSelectElement | null;
+    const statusFilter = document.getElementById('status-filter') as HTMLSelectElement | null;
+    const pluginsGrid = document.getElementById('plugins-grid') as HTMLElement | null;
+    const emptyState = document.getElementById('empty-state') as HTMLElement | null;
+    const clearFiltersBtn = document.getElementById('clear-filters') as HTMLButtonElement | null;
 
     function filterPlugins() {
+      if (!searchInput || !categoryFilter || !statusFilter || !pluginsGrid || !emptyState) return;
+
       const searchTerm = searchInput.value.toLowerCase();
       const selectedCategory = categoryFilter.value;
       const selectedStatus = statusFilter.value;
@@ -197,9 +201,10 @@ const statuses = ['All', 'Active', 'Coming Soon'];
       let visibleCount = 0;
 
       pluginCards.forEach(card => {
-        const cardName = card.dataset.name;
-        const cardCategory = card.dataset.category;
-        const cardStatus = card.dataset.status;
+        const htmlCard = card as HTMLElement;
+        const cardName = htmlCard.dataset.name || '';
+        const cardCategory = htmlCard.dataset.category || '';
+        const cardStatus = htmlCard.dataset.status || '';
 
         const matchesSearch = cardName.includes(searchTerm);
         const matchesCategory = selectedCategory === 'all' ||
@@ -210,10 +215,10 @@ const statuses = ['All', 'Active', 'Coming Soon'];
                             (selectedStatus === 'coming soon' && cardStatus === 'coming-soon');
 
         if (matchesSearch && matchesCategory && matchesStatus) {
-          card.style.display = 'block';
+          htmlCard.style.display = 'block';
           visibleCount++;
         } else {
-          card.style.display = 'none';
+          htmlCard.style.display = 'none';
         }
       });
 
@@ -228,6 +233,8 @@ const statuses = ['All', 'Active', 'Coming Soon'];
     }
 
     function clearFilters() {
+      if (!searchInput || !categoryFilter || !statusFilter) return;
+
       searchInput.value = '';
       categoryFilter.value = 'all';
       statusFilter.value = 'all';

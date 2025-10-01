@@ -1,33 +1,115 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Hero from '../components/Hero.astro';
-import FeatureCard from '../components/FeatureCard.astro';
-import PluginCard from '../components/PluginCard.astro';
-import CTAButton from '../components/CTAButton.astro';
+import Layout from '~/layouts/PageLayout.astro';
+import TerminalPrompt from '~/components/TerminalPrompt.astro';
+import FeatureCard from '~/components/FeatureCard.astro';
+import PluginCard from '~/components/PluginCard.astro';
 
 // Import plugin data
-import financialPlugin from '../data/plugins/financial.json';
+import financialPlugin from '~/data/plugins/financial.json';
 
-const roadmapData = await import('../data/roadmap.json');
+const roadmapData = await import('~/data/roadmap.json');
 const currentMilestone = roadmapData.default.milestones.find(m => m.status === 'in-progress');
+
+const metadata = {
+  title: 'Huitzo - Intelligence-as-a-Service Platform',
+  description: 'Democratize intelligent data analysis through a plugin-based architecture. Build powerful tools with simple CLI commands.',
+};
+
+const terminalLines = [
+  '!$ huitzo --about',
+  'i> Intelligence-as-a-Service Platform',
+  's> Democratize intelligent data analysis',
+  'w> Build powerful tools with simple CLI commands',
+  'e> _'
+];
 ---
 
-<Layout 
-  title="Huitzo - Intelligence-as-a-Service Platform"
-  description="Huitzo is an Intelligence-as-a-Service platform that democratizes intelligent data analysis through a plugin-based architecture. Build powerful tools with simple CLI commands."
->
+<Layout metadata={metadata}>
   <!-- Hero Section -->
-  <Hero />
+  <section class="py-20 lg:py-32">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <!-- Content -->
+          <div>
+            <h1 class="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
+              Intelligence-as-a-Service
+              <span class="text-gradient animated-gradient block">Platform</span>
+            </h1>
+
+            <p class="text-xl text-muted mb-8 leading-relaxed">
+              Democratize intelligent data analysis through a plugin-based architecture.
+              Configure sophisticated analysis with simple terminal commands that anyone can learn.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 mb-12">
+              <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="btn-primary">
+                Launch CLI (COMING SOON) →
+              </a>
+              <a href="/plugins" class="btn-secondary">
+                Explore Plugins
+              </a>
+            </div>
+
+            <!-- Key Stats -->
+            <div class="grid grid-cols-3 gap-6 pt-8 border-t border-gray-700">
+              <div>
+                <div class="text-2xl font-bold text-primary font-mono">7</div>
+                <div class="text-sm text-muted">Month Timeline</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold text-primary font-mono">1</div>
+                <div class="text-sm text-muted">Launch Plugin</div>
+              </div>
+              <div>
+                <div class="text-2xl font-bold text-primary font-mono">May '26</div>
+                <div class="text-sm text-muted">Public Launch</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Terminal Demo -->
+          <div class="lg:pl-8">
+            <TerminalPrompt lines={terminalLines} animate={true} class="glow" />
+
+            <!-- Features Preview -->
+            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-lg p-4">
+                <div class="text-lg mb-2">🔌</div>
+                <div class="text-sm font-medium">Plugin-Based</div>
+                <div class="text-xs text-muted">Extensible architecture</div>
+              </div>
+              <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-lg p-4">
+                <div class="text-lg mb-2">💻</div>
+                <div class="text-sm font-medium">CLI Interface</div>
+                <div class="text-xs text-muted">Simple commands</div>
+              </div>
+              <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-lg p-4">
+                <div class="text-lg mb-2">🚀</div>
+                <div class="text-sm font-medium">Automated</div>
+                <div class="text-xs text-muted">Intelligent insights</div>
+              </div>
+              <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-lg p-4">
+                <div class="text-lg mb-2">📊</div>
+                <div class="text-sm font-medium">Data Analysis</div>
+                <div class="text-xs text-muted">Any domain</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- What is Huitzo Section -->
-  <section class="py-20 bg-huitzo-secondary/30">
+  <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
     <div class="container mx-auto px-4">
       <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
-          <h2 class="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
+          <h2 class="text-3xl lg:text-4xl font-bold mb-4">
             What is <span class="text-gradient animated-gradient">Huitzo</span>?
           </h2>
-          <p class="text-lg text-text-secondary max-w-2xl mx-auto">
+          <p class="text-lg text-muted max-w-2xl mx-auto">
             A revolutionary platform that makes complex data analysis as simple as having a conversation
           </p>
         </div>
@@ -60,7 +142,7 @@ const currentMilestone = roadmapData.default.milestones.find(m => m.status === '
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto">
         <div class="text-center mb-12">
-          <h2 class="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
+          <h2 class="text-3xl lg:text-4xl font-bold mb-4">
             Project <span class="text-gradient animated-gradient">Status</span>
           </h2>
         </div>
@@ -68,51 +150,53 @@ const currentMilestone = roadmapData.default.milestones.find(m => m.status === '
         <div class="card text-center">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
-              <h3 class="text-xl font-semibold text-text-primary mb-2">Current Status</h3>
-              <p class="text-huitzo-accent font-medium mb-4">Foundation Development</p>
+              <h3 class="text-xl font-semibold mb-2">Current Status</h3>
+              <p class="text-primary font-medium mb-4">Foundation Development</p>
 
               {currentMilestone && (
                 <div>
-                  <h4 class="text-lg font-medium text-text-primary mb-3">{currentMilestone.title}</h4>
+                  <h4 class="text-lg font-medium mb-3">{currentMilestone.title}</h4>
                   <div class="flex items-center justify-between mb-2">
-                    <span class="text-sm text-text-secondary">Progress</span>
-                    <span class="text-sm font-mono text-huitzo-accent">{currentMilestone.progress}%</span>
+                    <span class="text-sm text-muted">Progress</span>
+                    <span class="text-sm font-mono text-primary">{currentMilestone.progress}%</span>
                   </div>
                   <div class="progress-bar mb-4">
                     <div class="progress-fill" style={`width: ${currentMilestone.progress}%`}></div>
                   </div>
-                  <p class="text-sm text-text-secondary">Target: {new Date(currentMilestone.targetDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                  {currentMilestone.targetDate && (
+                    <p class="text-sm text-muted">Target: {new Date(currentMilestone.targetDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                  )}
                 </div>
               )}
             </div>
 
             <div>
-              <h3 class="text-xl font-semibold text-text-primary mb-4">Key Milestones</h3>
+              <h3 class="text-xl font-semibold mb-4">Key Milestones</h3>
               <div class="space-y-3 text-sm">
                 <div class="flex items-center justify-between">
-                  <span class="text-text-secondary">✓ Project Kickoff</span>
-                  <span class="text-status-success">Oct 2025</span>
+                  <span class="text-muted">✓ Project Kickoff</span>
+                  <span class="text-[var(--aw-color-success)]">Oct 2025</span>
                 </div>
                 <div class="flex items-center justify-between">
-                  <span class="text-text-secondary">⏳ Core Platform MVP</span>
-                  <span class="text-huitzo-accent">Dec 2025</span>
+                  <span class="text-muted">⏳ Core Platform MVP</span>
+                  <span class="text-primary">Dec 2025</span>
                 </div>
                 <div class="flex items-center justify-between">
-                  <span class="text-text-secondary">○ Financial Plugin</span>
-                  <span class="text-text-muted">Jan 2026</span>
+                  <span class="text-muted">○ Financial Plugin</span>
+                  <span class="text-muted">Jan 2026</span>
                 </div>
                 <div class="flex items-center justify-between">
-                  <span class="text-text-secondary">○ Public Launch</span>
-                  <span class="text-text-muted">May 2026</span>
+                  <span class="text-muted">○ Public Launch</span>
+                  <span class="text-muted">May 2026</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="mt-8 pt-6 border-t border-huitzo-border">
-            <CTAButton href={`${import.meta.env.BASE_URL}roadmap`} variant="secondary">
+          <div class="mt-8 pt-6 border-t border-gray-700">
+            <a href="/roadmap" class="btn-secondary">
               View Full Roadmap →
-            </CTAButton>
+            </a>
           </div>
         </div>
       </div>
@@ -120,14 +204,14 @@ const currentMilestone = roadmapData.default.milestones.find(m => m.status === '
   </section>
 
   <!-- Featured Plugin Section -->
-  <section class="py-20 bg-huitzo-secondary/30">
+  <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto">
         <div class="text-center mb-12">
-          <h2 class="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
+          <h2 class="text-3xl lg:text-4xl font-bold mb-4">
             Featured <span class="text-gradient animated-gradient">Plugin</span>
           </h2>
-          <p class="text-lg text-text-secondary">
+          <p class="text-lg text-muted">
             Get a preview of what's possible with our first Intelligence-as-a-Service offering
           </p>
         </div>
@@ -143,27 +227,27 @@ const currentMilestone = roadmapData.default.milestones.find(m => m.status === '
   <section class="py-20">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-3xl lg:text-4xl font-bold text-text-primary mb-6">
+        <h2 class="text-3xl lg:text-4xl font-bold mb-6">
           Ready to get <span class="text-gradient animated-gradient">started</span>?
         </h2>
-        <p class="text-lg text-text-secondary mb-8">
+        <p class="text-lg text-muted mb-8">
           Start building powerful data analysis tools with simple commands
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <CTAButton href="https://cli.huitzo.com" target="_blank" rel="noopener">
+          <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="btn-primary">
             Launch CLI (COMING SOON) →
-          </CTAButton>
-          <CTAButton href={`${import.meta.env.BASE_URL}plugins`} variant="secondary">
+          </a>
+          <a href="/plugins" class="btn-secondary">
             Browse Plugins
-          </CTAButton>
+          </a>
         </div>
 
         <!-- Contact Info -->
-        <div class="mt-12 pt-8 border-t border-huitzo-border">
-          <p class="text-sm text-text-muted">
+        <div class="mt-12 pt-8 border-t border-gray-700">
+          <p class="text-sm text-muted">
             Questions? Get in touch at
-            <a href="mailto:info@solathomas.com" class="text-huitzo-accent hover:underline">info@solathomas.com</a>
+            <a href="mailto:huitzo@solathomas.com" class="text-primary hover:underline">huitzo@solathomas.com</a>
           </p>
         </div>
       </div>

@@ -7,6 +7,7 @@ The official website for **Huitzo** - an Intelligence-as-a-Service platform that
 Huitzo makes complex data analysis as simple as having a conversation. Using a web-based command-line interface, users can configure sophisticated data processing tools with simple commands, regardless of technical expertise.
 
 **Key Features:**
+
 - Plugin-based architecture for extensibility
 - Web-based CLI interface for easy access
 - Intelligence-as-a-Service offerings
@@ -55,6 +56,7 @@ huitzo.com/
 ## 🎨 Design System
 
 **Terminal-Inspired Dark Theme:**
+
 - Primary Background: `#0a0e27` (very dark blue/black)
 - Accent Color: `#00ff9f` (bright cyan/green)
 - Typography: JetBrains Mono for headers, Inter for body text
@@ -73,13 +75,13 @@ huitzo.com/
 
 All commands are run from the root of the project:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| Command             | Action                                           |
+| :------------------ | :----------------------------------------------- |
+| `npm install`       | Installs dependencies                            |
+| `npm run dev`       | Starts local dev server at `localhost:4321`      |
+| `npm run build`     | Build your production site to `./dist/`          |
+| `npm run preview`   | Preview your build locally, before deploying     |
+| `npm run astro ...` | Run CLI commands like `astro add`, `astro check` |
 
 ## 📄 Pages
 
@@ -98,6 +100,7 @@ To add a new plugin to the website:
 3. Import and include the plugin in `src/pages/plugins/index.astro`
 
 Example plugin data structure:
+
 ```json
 {
   "id": "plugin-id",
@@ -123,47 +126,25 @@ This site uses an **Azure DevOps → GitHub → GitHub Pages** CI/CD pipeline fo
 ### Quick Start
 
 1. **Validate configuration:**
+
    ```bash
    ./scripts/validate-deployment.sh
    ```
 
 2. **Setup deployment:**
+
    ```bash
    ./scripts/setup-deployment.sh
    ```
 
-3. **Follow detailed instructions:**
-   See [DEPLOYMENT.md](DEPLOYMENT.md) for complete setup guide
-
-### Architecture
-
-```
-Azure DevOps Repository (Source)
-    ↓ (Azure Pipeline)
-GitHub Repository (Mirror)
-    ↓ (GitHub Actions)
-GitHub Pages (Hosting)
-```
-
-### Key Files
-
-- `azure-pipelines.yml` - Azure Pipeline for GitHub sync
-- `.github/workflows/astro.yml` - GitHub Actions for deployment
-- `scripts/setup-deployment.sh` - Automated configuration script
-- `scripts/validate-deployment.sh` - Deployment validation
-- `DEPLOYMENT.md` - Complete deployment guide
-
 **Deployment-ready features:**
+
 - Automatic sitemap generation
 - SEO-optimized meta tags
 - Robots.txt for search engines
 - Performance optimizations
 - Mobile-responsive design
 - CI/CD pipeline automation
-
-## 📊 Analytics
-
-- **GoatCounter Dashboard:** https://hutzo-cli.goatcounter.com/
 
 ## 📊 Performance Features
 
@@ -177,7 +158,7 @@ GitHub Pages (Hosting)
 
 - **CLI Platform:** https://cli.huitzo.com (to be built)
 - **Azure DevOps:** https://dev.azure.com/huitzo-cli/Huitzo%20Site/_git/Huitzo_Site
-- **Contact:** info@solathomas.com
+- **Contact:** huitzo@solathomas.com
 
 ## 📝 License
 
@@ -185,4 +166,6 @@ This website is part of the Huitzo project. All rights reserved.
 
 ---
 
-Built with ❤️ using [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com)
+## 🙏 Acknowledgements
+
+- https://github.com/arthelokyo/astrowind

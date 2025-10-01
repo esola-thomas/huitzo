@@ -12,23 +12,23 @@ const { lines, animate = false, class: className = '' } = Astro.props;
   {lines.map((line, index) => (
     <div class={animate ? 'typing-effect' : ''} style={animate ? `animation-delay: ${index * 0.5}s` : ''}>
       {line.startsWith('$') ? (
-        <span class="text-huitzo-accent">{line}</span>
+        <span class="text-primary">{line}</span>
       ) : line.startsWith('!') ? (
-        <span class="text-huitzo-green">{line.substring(1)}</span>
+        <span class="text-[#00ff9f]">{line.substring(1)}</span>
       ) : line.startsWith('i>') ? (
-        <span class="text-ansi-blue">{line.substring(2)}</span>
+        <span class="text-[#bd93f9]">{line.substring(2)}</span>
       ) : line.startsWith('s>') ? (
-        <span class="text-ansi-green">{line.substring(2)}</span>
+        <span class="text-[#50fa7b]">{line.substring(2)}</span>
       ) : line.startsWith('w>') ? (
-        <span class="text-ansi-yellow">{line.substring(2)}</span>
+        <span class="text-[#f1fa8c]">{line.substring(2)}</span>
       ) : line.startsWith('e>') ? (
-        <span class="text-ansi-red">{line.substring(2)}</span>
+        <span class="text-[#ff5555]">{line.substring(2)}</span>
       ) : line.startsWith('>') ? (
-        <span class="text-text-primary">{line.substring(1)}</span>
+        <span>{line.substring(1)}</span>
       ) : (
-        <span class="text-text-secondary">{line}</span>
+        <span class="text-muted">{line}</span>
       )}
     </div>
   ))}
-  {animate && <span class="inline-block w-2 h-5 bg-huitzo-accent animate-pulse ml-1"></span>}
+  {animate && <span class="inline-block w-2 h-5 bg-primary animate-pulse ml-1"></span>}
 </div>

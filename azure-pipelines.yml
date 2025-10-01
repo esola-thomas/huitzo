@@ -12,190 +12,189 @@ trigger:
 pr: none
 
 pool:
-  name: 'Default'
+  name: "Default"
 
 variables:
   # Reference the variable group from Azure DevOps Library
-  - group: 'GitHub Public repo sync'
+  - group: "GitHub Public repo sync"
   # Additional variables
   - name: GITHUB_REPO_URL
-    value: 'https://github.com/esola-thomas/huitzo'
+    value: "https://github.com/esola-thomas/huitzo"
   - name: GITHUB_USERNAME
-    value: 'esola-thomas'
+    value: "esola-thomas"
 
 stages:
-- stage: SyncToGitHub
-  displayName: 'Sync to GitHub Repository'
-  jobs:
-  - job: GitHubSync
-    displayName: 'Sync Repository to GitHub'
-    steps:
+  - stage: SyncToGitHub
+    displayName: "Sync to GitHub Repository"
+    jobs:
+      - job: GitHubSync
+        displayName: "Sync Repository to GitHub"
+        steps:
+          # Checkout the source code from Azure DevOps
+          - checkout: self
+            persistCredentials: true
+            clean: true
+            fetchDepth: 0 # Full clone for proper git history
 
-    # Checkout the source code from Azure DevOps
-    - checkout: self
-      persistCredentials: true
-      clean: true
-      fetchDepth: 0  # Full clone for proper git history
+          # Configure Git user for the sync
+          - script: |
+              git config --global user.name "Azure DevOps Pipeline"
+              git config --global user.email "pipeline@azuredevops.com"
+            displayName: "Configure Git User"
 
-    # Configure Git user for the sync
-    - script: |
-        git config --global user.name "Azure DevOps Pipeline"
-        git config --global user.email "pipeline@azuredevops.com"
-      displayName: 'Configure Git User'
+          # Get Azure DevOps commit info and create workspace
+          - script: |
+              # We're already in the checked out Azure DevOps repository
+              echo "Current directory: $(pwd)"
+              echo "Repository contents:"
+              ls -la
 
-    # Get Azure DevOps commit info and create workspace
-    - script: |
-        # We're already in the checked out Azure DevOps repository
-        echo "Current directory: $(pwd)"
-        echo "Repository contents:"
-        ls -la
+              # Get latest commit info from current checkout
+              AZURE_COMMIT_HASH=$(git rev-parse HEAD)
+              AZURE_COMMIT_MSG=$(git log -1 --pretty=format:"%s")
+              AZURE_AUTHOR=$(git log -1 --pretty=format:"%an <%ae>")
 
-        # Get latest commit info from current checkout
-        AZURE_COMMIT_HASH=$(git rev-parse HEAD)
-        AZURE_COMMIT_MSG=$(git log -1 --pretty=format:"%s")
-        AZURE_AUTHOR=$(git log -1 --pretty=format:"%an <%ae>")
+              echo "Azure DevOps main branch:"
+              echo "  Commit: $AZURE_COMMIT_HASH"
+              echo "  Message: $AZURE_COMMIT_MSG"
+              echo "  Author: $AZURE_AUTHOR"
 
-        echo "Azure DevOps main branch:"
-        echo "  Commit: $AZURE_COMMIT_HASH"
-        echo "  Message: $AZURE_COMMIT_MSG"
-        echo "  Author: $AZURE_AUTHOR"
+              # Compute content hash of Azure DevOps repository (excluding .git)
+              echo "Computing content hash for Azure DevOps repository..."
+              AZURE_HASH=$(find . -type f ! -path './.git/*' ! -path './.*' -exec md5sum {} \; | sort -k 2 | md5sum | awk '{print $1}')
+              echo "Azure DevOps content hash: $AZURE_HASH"
 
-        # Compute content hash of Azure DevOps repository (excluding .git)
-        echo "Computing content hash for Azure DevOps repository..."
-        AZURE_HASH=$(find . -type f ! -path './.git/*' ! -path './.*' -exec md5sum {} \; | sort -k 2 | md5sum | awk '{print $1}')
-        echo "Azure DevOps content hash: $AZURE_HASH"
+              # Save variables for later steps
+              echo "##vso[task.setvariable variable=AZURE_COMMIT_HASH]$AZURE_COMMIT_HASH"
+              echo "##vso[task.setvariable variable=AZURE_COMMIT_MSG]$AZURE_COMMIT_MSG"
+              echo "##vso[task.setvariable variable=AZURE_AUTHOR]$AZURE_AUTHOR"
+              echo "##vso[task.setvariable variable=AZURE_HASH]$AZURE_HASH"
+              echo "##vso[task.setvariable variable=AZURE_REPO_PATH]$(pwd)"
+            displayName: "Get Azure DevOps Repository Info"
 
-        # Save variables for later steps
-        echo "##vso[task.setvariable variable=AZURE_COMMIT_HASH]$AZURE_COMMIT_HASH"
-        echo "##vso[task.setvariable variable=AZURE_COMMIT_MSG]$AZURE_COMMIT_MSG"
-        echo "##vso[task.setvariable variable=AZURE_AUTHOR]$AZURE_AUTHOR"
-        echo "##vso[task.setvariable variable=AZURE_HASH]$AZURE_HASH"
-        echo "##vso[task.setvariable variable=AZURE_REPO_PATH]$(pwd)"
-      displayName: 'Get Azure DevOps Repository Info'
+          # Clone GitHub repository and verify content
+          - script: |
+              # Create temporary directory for GitHub clone
+              GITHUB_CLONE_DIR="/tmp/github-clone-$(Build.BuildId)"
+              mkdir -p "$GITHUB_CLONE_DIR"
+              cd "$GITHUB_CLONE_DIR" || exit 1
 
-    # Clone GitHub repository and verify content
-    - script: |
-        # Create temporary directory for GitHub clone
-        GITHUB_CLONE_DIR="/tmp/github-clone-$(Build.BuildId)"
-        mkdir -p "$GITHUB_CLONE_DIR"
-        cd "$GITHUB_CLONE_DIR" || exit 1
+              echo "Working directory: $(pwd)"
+              echo "Cloning GitHub repository..."
 
-        echo "Working directory: $(pwd)"
-        echo "Cloning GitHub repository..."
+              # Clone GitHub repository
+              if git clone https://$(GITHUB_PERSONAL_ACCESS_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git github-repo 2>/dev/null; then
+                echo "GitHub repository cloned successfully"
+                cd github-repo || exit 1
 
-        # Clone GitHub repository
-        if git clone https://$(GITHUB_PERSONAL_ACCESS_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git github-repo 2>/dev/null; then
-          echo "GitHub repository cloned successfully"
-          cd github-repo || exit 1
+                GITHUB_COMMIT_HASH=$(git rev-parse HEAD)
+                echo "GitHub main branch commit: $GITHUB_COMMIT_HASH"
 
-          GITHUB_COMMIT_HASH=$(git rev-parse HEAD)
-          echo "GitHub main branch commit: $GITHUB_COMMIT_HASH"
+                # Check if commits are identical
+                if [ "$GITHUB_COMMIT_HASH" = "$(AZURE_COMMIT_HASH)" ]; then
+                  echo "✅ Repositories are already in sync (same commit hash)"
+                  echo "##vso[task.setvariable variable=SKIP_SYNC]true"
+                  rm -rf "$GITHUB_CLONE_DIR"
+                  exit 0
+                fi
 
-          # Check if commits are identical
-          if [ "$GITHUB_COMMIT_HASH" = "$(AZURE_COMMIT_HASH)" ]; then
-            echo "✅ Repositories are already in sync (same commit hash)"
-            echo "##vso[task.setvariable variable=SKIP_SYNC]true"
-            rm -rf "$GITHUB_CLONE_DIR"
-            exit 0
-          fi
+                # Compute content hash of GitHub repository (excluding .git)
+                echo "Computing content hash for GitHub repository..."
+                GITHUB_HASH=$(find . -type f ! -path './.git/*' ! -path './.*' -exec md5sum {} \; | sort -k 2 | md5sum | awk '{print $1}')
 
-          # Compute content hash of GitHub repository (excluding .git)
-          echo "Computing content hash for GitHub repository..."
-          GITHUB_HASH=$(find . -type f ! -path './.git/*' ! -path './.*' -exec md5sum {} \; | sort -k 2 | md5sum | awk '{print $1}')
+                echo "GitHub content hash: $GITHUB_HASH"
+                echo "Azure DevOps content hash: $(AZURE_HASH)"
 
-          echo "GitHub content hash: $GITHUB_HASH"
-          echo "Azure DevOps content hash: $(AZURE_HASH)"
+                if [ "$GITHUB_HASH" = "$(AZURE_HASH)" ]; then
+                  echo "✅ Content is identical - no sync needed"
+                  echo "##vso[task.setvariable variable=SKIP_SYNC]true"
+                else
+                  echo "⚠️ Content differs - sync required"
+                  echo "##vso[task.setvariable variable=SKIP_SYNC]false"
+                fi
 
-          if [ "$GITHUB_HASH" = "$(AZURE_HASH)" ]; then
-            echo "✅ Content is identical - no sync needed"
-            echo "##vso[task.setvariable variable=SKIP_SYNC]true"
-          else
-            echo "⚠️ Content differs - sync required"
-            echo "##vso[task.setvariable variable=SKIP_SYNC]false"
-          fi
+                # Clean up GitHub clone
+                rm -rf "$GITHUB_CLONE_DIR"
+              else
+                echo "GitHub repository doesn't exist or is empty - will create initial sync"
+                echo "##vso[task.setvariable variable=SKIP_SYNC]false"
+                rm -rf "$GITHUB_CLONE_DIR"
+              fi
+            displayName: "Verify Content Match"
 
-          # Clean up GitHub clone
-          rm -rf "$GITHUB_CLONE_DIR"
-        else
-          echo "GitHub repository doesn't exist or is empty - will create initial sync"
-          echo "##vso[task.setvariable variable=SKIP_SYNC]false"
-          rm -rf "$GITHUB_CLONE_DIR"
-        fi
-      displayName: 'Verify Content Match'
+          # Sync to GitHub with single commit
+          - script: |
+              if [ "$(SKIP_SYNC)" = "true" ]; then
+                echo "Skipping sync - no changes detected"
+                exit 0
+              fi
 
-    # Sync to GitHub with single commit
-    - script: |
-        if [ "$(SKIP_SYNC)" = "true" ]; then
-          echo "Skipping sync - no changes detected"
-          exit 0
-        fi
+              echo "Starting sync to GitHub..."
+              echo "Azure DevOps repository path: $(AZURE_REPO_PATH)"
+              cd "$(AZURE_REPO_PATH)" || exit 1
 
-        echo "Starting sync to GitHub..."
-        echo "Azure DevOps repository path: $(AZURE_REPO_PATH)"
-        cd "$(AZURE_REPO_PATH)" || exit 1
+              echo "Current directory: $(pwd)"
+              echo "Git status:"
+              git status
 
-        echo "Current directory: $(pwd)"
-        echo "Git status:"
-        git status
+              # Add GitHub as remote
+              git remote add github https://$(GITHUB_PERSONAL_ACCESS_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git || echo "Remote already exists"
 
-        # Add GitHub as remote
-        git remote add github https://$(GITHUB_PERSONAL_ACCESS_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git || echo "Remote already exists"
+              # Fetch GitHub to ensure we have latest refs
+              git fetch github 2>/dev/null || echo "GitHub fetch failed (might be empty repo)"
 
-        # Fetch GitHub to ensure we have latest refs
-        git fetch github 2>/dev/null || echo "GitHub fetch failed (might be empty repo)"
+              # Create sync commit message with timestamp
+              TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S UTC")
 
-        # Create sync commit message with timestamp
-        TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S UTC")
+              echo "Sync commit details:"
+              echo "  Message: sync: $(AZURE_COMMIT_MSG)"
+              echo "  Timestamp: $TIMESTAMP"
+              echo "  Original commit: $(AZURE_COMMIT_HASH)"
 
-        echo "Sync commit details:"
-        echo "  Message: sync: $(AZURE_COMMIT_MSG)"
-        echo "  Timestamp: $TIMESTAMP"
-        echo "  Original commit: $(AZURE_COMMIT_HASH)"
+              # Force push to GitHub main (bypasses branch protection)
+              echo "Force pushing to GitHub main branch..."
+              if git push https://$(GITHUB_PERSONAL_ACCESS_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git HEAD:main --force; then
+                echo "✅ Successfully synced to GitHub!"
+                echo "GitHub Pages deployment will start automatically"
+              else
+                echo "❌ Failed to push to GitHub"
+                echo "Please verify:"
+                echo "  1. GitHub Personal Access Token has 'repo' permissions"
+                echo "  2. Token is not expired"
+                echo "  3. Repository exists at: https://github.com/$(GITHUB_USERNAME)/huitzo"
+                exit 1
+              fi
+            displayName: "Sync to GitHub"
+            condition: ne(variables['SKIP_SYNC'], 'true')
 
-        # Force push to GitHub main (bypasses branch protection)
-        echo "Force pushing to GitHub main branch..."
-        if git push https://$(GITHUB_PERSONAL_ACCESS_TOKEN)@github.com/$(GITHUB_USERNAME)/huitzo.git HEAD:main --force; then
-          echo "✅ Successfully synced to GitHub!"
-          echo "GitHub Pages deployment will start automatically"
-        else
-          echo "❌ Failed to push to GitHub"
-          echo "Please verify:"
-          echo "  1. GitHub Personal Access Token has 'repo' permissions"
-          echo "  2. Token is not expired"
-          echo "  3. Repository exists at: https://github.com/$(GITHUB_USERNAME)/huitzo"
-          exit 1
-        fi
-      displayName: 'Sync to GitHub'
-      condition: ne(variables['SKIP_SYNC'], 'true')
+          # Optional: Create a GitHub release tag for major updates
+          - script: |
+              if [ "$(Build.SourceBranch)" = "refs/heads/main" ] && [ "$(CREATE_GITHUB_RELEASE)" = "true" ]; then
+                TAG_NAME="v$(date +%Y.%m.%d)-build$(Build.BuildNumber)"
+                echo "Creating GitHub release tag: $TAG_NAME"
+                git tag -a "$TAG_NAME" -m "Automated release from Azure DevOps - Build $(Build.BuildNumber)"
+                git push github "$TAG_NAME"
+              else
+                echo "Skipping GitHub release creation"
+              fi
+            displayName: "Create GitHub Release (Optional)"
+            condition: and(succeeded(), eq(variables['CREATE_GITHUB_RELEASE'], 'true'))
 
-    # Optional: Create a GitHub release tag for major updates
-    - script: |
-        if [ "$(Build.SourceBranch)" = "refs/heads/main" ] && [ "$(CREATE_GITHUB_RELEASE)" = "true" ]; then
-          TAG_NAME="v$(date +%Y.%m.%d)-build$(Build.BuildNumber)"
-          echo "Creating GitHub release tag: $TAG_NAME"
-          git tag -a "$TAG_NAME" -m "Automated release from Azure DevOps - Build $(Build.BuildNumber)"
-          git push github "$TAG_NAME"
-        else
-          echo "Skipping GitHub release creation"
-        fi
-      displayName: 'Create GitHub Release (Optional)'
-      condition: and(succeeded(), eq(variables['CREATE_GITHUB_RELEASE'], 'true'))
-
-# Optional: Notification stage to confirm sync
-- stage: Notification
-  displayName: 'Sync Notification'
-  dependsOn: SyncToGitHub
-  condition: always()
-  jobs:
-  - job: NotifySync
-    displayName: 'Notify Sync Status'
-    steps:
-    - script: |
-        if [ "$(Agent.JobStatus)" = "Succeeded" ]; then
-          echo "✅ Successfully synced to GitHub!"
-          echo "GitHub Pages deployment should start automatically."
-          echo "Check: https://github.com/$(GITHUB_USERNAME)/huitzo/actions"
-        else
-          echo "❌ GitHub sync failed. Please check the logs."
-        fi
-      displayName: 'Sync Status'
+  # Optional: Notification stage to confirm sync
+  - stage: Notification
+    displayName: "Sync Notification"
+    dependsOn: SyncToGitHub
+    condition: always()
+    jobs:
+      - job: NotifySync
+        displayName: "Notify Sync Status"
+        steps:
+          - script: |
+              if [ "$(Agent.JobStatus)" = "Succeeded" ]; then
+                echo "✅ Successfully synced to GitHub!"
+                echo "GitHub Pages deployment should start automatically."
+                echo "Check: https://github.com/$(GITHUB_USERNAME)/huitzo/actions"
+              else
+                echo "❌ GitHub sync failed. Please check the logs."
+              fi
+            displayName: "Sync Status"
