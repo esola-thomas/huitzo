@@ -1,26 +1,8 @@
 ---
+import type { Plugin } from '~/utils/plugins';
+
 export interface Props {
-  plugin: {
-    id: string;
-    slug: string;
-    name: string;
-    version: string;
-    author: string;
-    icon: string;
-    tagline: string;
-    description: string;
-    category: string;
-    status: string;
-    pricing?: {
-      free?: {
-        available: boolean;
-        limits?: string;
-      };
-      pro?: {
-        price: string;
-      };
-    };
-  };
+  plugin: Plugin;
   showFullDescription?: boolean;
   class?: string;
 }

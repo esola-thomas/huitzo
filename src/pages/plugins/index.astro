@@ -1,31 +1,15 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import PluginCard from '~/components/PluginCard.astro';
+import { loadAllPlugins, getAllCategories } from '~/utils/plugins';
 
-// Import plugin data
-import financialPlugin from '~/data/plugins/financial.json';
+// Load all plugins automatically
+const allPlugins = await loadAllPlugins();
 
-// For now, we only have the financial plugin, but we'll create a coming soon card
-const plugins = [financialPlugin];
-
-const comingSoonPlugin = {
-  id: 'coming-soon',
-  slug: 'coming-soon',
-  name: 'More Plugins Coming Soon',
-  version: '0.0.0',
-  author: 'Huitzo Team',
-  icon: '📊',
-  tagline: 'Additional intelligence services in development',
-  description: 'We\'re working on expanding our plugin ecosystem. Check our roadmap to see what\'s coming next in our intelligence service offerings.',
-  category: 'general',
-  status: 'coming-soon'
-};
-
-const allPlugins = [...plugins, comingSoonPlugin];
-
-// Categories for filtering
-const categories = ['All', 'Finance', 'Coming Soon'];
-const statuses = ['All', 'Active', 'Coming Soon'];
+// Get unique categories for filtering
+const uniqueCategories = await getAllCategories();
+const categories = ['All', ...uniqueCategories.map(c => c.charAt(0).toUpperCase() + c.slice(1))];
+const statuses = ['All', 'Active', 'Coming Soon', 'Beta'];
 ---
 
 <Layout
@@ -50,13 +34,13 @@ const statuses = ['All', 'Active', 'Coming Soon'];
         <div class="grid grid-cols-3 gap-6 max-w-lg mx-auto">
           <div class="text-center">
             <div class="text-2xl font-bold text-primary font-mono">
-              {plugins.filter(p => p.status === 'active').length}
+              {allPlugins.filter(p => p.status === 'active').length}
             </div>
             <div class="text-sm text-muted">Active Plugins</div>
           </div>
           <div class="text-center">
             <div class="text-2xl font-bold text-primary font-mono">
-              {plugins.filter(p => p.status === 'coming-soon').length}
+              {allPlugins.filter(p => p.status === 'coming-soon').length}
             </div>
             <div class="text-sm text-muted">Coming Soon</div>
           </div>

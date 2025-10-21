@@ -2,23 +2,23 @@
 import Layout from '~/layouts/PageLayout.astro';
 import Command from '~/components/Command.astro';
 import CTAButton from '~/components/CTAButton.astro';
+import { loadAllPlugins, type Plugin } from '~/utils/plugins';
 
-// Import all plugin data
-import financialPlugin from '../../data/plugins/financial.json';
-
-// Create a map of all plugins by slug
-const plugins = {
-  'financial': financialPlugin,
-};
-
-export function getStaticPaths() {
-  return [
-    { params: { slug: 'financial' } },
-  ];
+// Generate static paths for all plugins
+export async function getStaticPaths() {
+  const plugins = await loadAllPlugins();
+  
+  return plugins.map(plugin => ({
+    params: { slug: plugin.slug },
+    props: { plugin },
+  }));
 }
 
-const { slug } = Astro.params;
-const plugin = plugins[slug];
+interface Props {
+  plugin: Plugin;
+}
+
+const { plugin } = Astro.props;
 
 if (!plugin) {
   return Astro.redirect('/404');
@@ -137,13 +137,7 @@ const metadata = {
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
           <h2 class="text-3xl font-bold text-text-primary mb-8 text-center">Pricing</h2>
-          {plugin.pricing.status === 'coming-soon' ? (
-            <div class="card text-center">
-              <h3 class="text-2xl font-semibold text-text-primary mb-4">Pricing Coming Soon</h3>
-              <p class="text-text-secondary">We are still finalizing the pricing for this plugin. Please check back later for more information.</p>
-            </div>
-          ) : (
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
               <!-- Free Tier -->
               {plugin.pricing.free && plugin.pricing.free.available && (
                 <div class="card">
@@ -173,8 +167,8 @@ const metadata = {
                 <div class="card border-huitzo-accent">
                   <div class="text-center mb-6">
                     <h3 class="text-xl font-semibold text-text-primary mb-2">Pro</h3>
-                    <div class="text-3xl font-bold text-huitzo-accent mb-2">{formatPrice(plugin.pricing.pro.price)}</div>
-                    <div class="text-sm text-text-muted">per month</div>
+                    <div class="text-3xl font-bold text-huitzo-accent mb-2">{plugin.pricing.pro.price ? formatPrice(plugin.pricing.pro.price) : 'Coming Soon'}</div>
+                    <div class="text-sm text-text-muted">{plugin.pricing.pro.price ? 'per month' : ''}</div>
                   </div>
                   <ul class="space-y-3 mb-6">
                     {plugin.pricing && plugin.pricing.pro && Array.isArray(plugin.pricing.pro.features) && plugin.pricing.pro.features.map((feature: string) => (
@@ -191,24 +185,24 @@ const metadata = {
                   </div>
                 </div>
               )}
-            </div>
-          )}
+          </div>
         </div>
       </div>
     </section>
   )}
 
   <!-- Installation Section -->
-  <section class="py-20">
-    <div class="container mx-auto px-4">
-      <div class="max-w-4xl mx-auto">
-        <h2 class="text-3xl font-bold text-text-primary mb-8">Installation</h2>
+  {plugin.installation && (
+    <section class="py-20">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-text-primary mb-8">Installation</h2>
 
-        <div class="mb-8">
-          <Command command={plugin.installation.command} />
-        </div>
+          <div class="mb-8">
+            <Command command={plugin.installation.command} />
+          </div>
 
-    {plugin.installation && plugin.installation.requirements && plugin.installation.requirements.length > 0 && (
+      {plugin.installation.requirements && plugin.installation.requirements.length > 0 && (
           <div class="card">
             <h3 class="text-lg font-semibold text-text-primary mb-4">Requirements</h3>
             <ul class="space-y-2">
@@ -221,9 +215,10 @@ const metadata = {
             </ul>
           </div>
         )}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
   <!-- Quick Start Section -->
   {plugin.quickstart && Array.isArray(plugin.quickstart) && plugin.quickstart.length > 0 && (
@@ -280,34 +275,40 @@ const metadata = {
   )}
 
   <!-- Links Section -->
-  <section class="py-20 bg-huitzo-secondary/30">
-    <div class="container mx-auto px-4">
-      <div class="max-w-4xl mx-auto">
-        <h2 class="text-3xl font-bold text-text-primary mb-8 text-center">Resources</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <a href={plugin.links.documentation} class="card text-center hover:border-huitzo-accent transition-colors">
-            <div class="text-3xl mb-4">📚</div>
-            <h3 class="text-lg font-semibold text-text-primary mb-2">Documentation</h3>
-            <p class="text-text-secondary text-sm">Complete guide and API reference</p>
-          </a>
+  {plugin.links && (
+    <section class="py-20 bg-huitzo-secondary/30">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold text-text-primary mb-8 text-center">Resources</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {plugin.links.documentation && (
+              <a href={plugin.links.documentation} class="card text-center hover:border-huitzo-accent transition-colors">
+                <div class="text-3xl mb-4">📚</div>
+                <h3 class="text-lg font-semibold text-text-primary mb-2">Documentation</h3>
+                <p class="text-text-secondary text-sm">Complete guide and API reference</p>
+              </a>
+            )}
 
-          {plugin.sourceCode && (
-            <a href={plugin.links.repository} target="_blank" rel="noopener" class="card text-center hover:border-huitzo-accent transition-colors">
-              <div class="text-3xl mb-4">💻</div>
-              <h3 class="text-lg font-semibold text-text-primary mb-2">Source Code</h3>
-              <p class="text-text-secondary text-sm">Source code and development</p>
-            </a>
-          )}
+            {plugin.sourceCode && plugin.links.repository && (
+              <a href={plugin.links.repository} target="_blank" rel="noopener" class="card text-center hover:border-huitzo-accent transition-colors">
+                <div class="text-3xl mb-4">💻</div>
+                <h3 class="text-lg font-semibold text-text-primary mb-2">Source Code</h3>
+                <p class="text-text-secondary text-sm">Source code and development</p>
+              </a>
+            )}
 
-          <a href={plugin.links.support} class="card text-center hover:border-huitzo-accent transition-colors">
-            <div class="text-3xl mb-4">💬</div>
-            <h3 class="text-lg font-semibold text-text-primary mb-2">Support</h3>
-            <p class="text-text-secondary text-sm">Get help and report issues</p>
-          </a>
+            {plugin.links.support && (
+              <a href={plugin.links.support} class="card text-center hover:border-huitzo-accent transition-colors">
+                <div class="text-3xl mb-4">💬</div>
+                <h3 class="text-lg font-semibold text-text-primary mb-2">Support</h3>
+                <p class="text-text-secondary text-sm">Get help and report issues</p>
+              </a>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
   <!-- Final CTA -->
   <section class="py-20">

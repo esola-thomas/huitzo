@@ -3,9 +3,11 @@ import Layout from '~/layouts/PageLayout.astro';
 import TerminalPrompt from '~/components/TerminalPrompt.astro';
 import FeatureCard from '~/components/FeatureCard.astro';
 import PluginCard from '~/components/PluginCard.astro';
+import { getPluginsByStatus } from '~/utils/plugins';
 
-// Import plugin data
-import financialPlugin from '~/data/plugins/financial.json';
+// Get the first active plugin for featured display
+const activePlugins = await getPluginsByStatus('active');
+const featuredPlugin = activePlugins[0] || null;
 
 const roadmapData = await import('~/data/roadmap.json');
 const currentMilestone = roadmapData.default.milestones.find(m => m.status === 'in-progress');
@@ -204,24 +206,26 @@ const terminalLines = [
   </section>
 
   <!-- Featured Plugin Section -->
-  <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
-    <div class="container mx-auto px-4">
-      <div class="max-w-4xl mx-auto">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl lg:text-4xl font-bold mb-4">
-            Featured <span class="text-gradient animated-gradient">Plugin</span>
-          </h2>
-          <p class="text-lg text-muted">
-            Get a preview of what's possible with our first Intelligence-as-a-Service offering
-          </p>
-        </div>
+  {featuredPlugin && (
+    <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl lg:text-4xl font-bold mb-4">
+              Featured <span class="text-gradient animated-gradient">Plugin</span>
+            </h2>
+            <p class="text-lg text-muted">
+              Get a preview of what's possible with our first Intelligence-as-a-Service offering
+            </p>
+          </div>
 
-        <div class="max-w-2xl mx-auto">
-          <PluginCard plugin={financialPlugin} showFullDescription={true} />
+          <div class="max-w-2xl mx-auto">
+            <PluginCard plugin={featuredPlugin} showFullDescription={true} />
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
   <!-- Final CTA Section -->
   <section class="py-20">
