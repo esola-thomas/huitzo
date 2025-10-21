@@ -7,7 +7,7 @@
   "icon": "📦",
   "tagline": "Short one-liner description",
   "description": "Longer description explaining what this plugin does and why users would want it.",
-  "category": "category-name",
+  "category": "automation",
   "status": "coming-soon",
   "features": ["Feature 1", "Feature 2", "Feature 3"],
   "pricing": {
@@ -28,8 +28,8 @@
   "quickstart": [],
   "commands": [],
   "links": {
-    "documentation": "",
-    "repository": "",
-    "support": ""
+    "documentation": "https://huitzo.com/plugins/plugin-name",
+    "repository": "https://github.com/esola-thomas/huitzo",
+    "support": "https://github.com/esola-thomas/huitzo/issues/new"
   }
 }

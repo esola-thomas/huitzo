@@ -19,7 +19,9 @@
     "check:prettier": "prettier --check .",
     "fix": "npm run fix:eslint && npm run fix:prettier",
     "fix:eslint": "eslint --fix .",
-    "fix:prettier": "prettier -w ."
+    "fix:prettier": "prettier -w .",
+    "generate:plugin-docs": "node scripts/generate-plugin-docs.js",
+    "validate:plugins": "node scripts/validate-plugins.js"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.12",
@@ -48,6 +50,7 @@
     "@types/mdx": "^2.0.13",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
+    "ajv": "^8.17.1",
     "astro-compress": "2.3.8",
     "astro-eslint-parser": "^1.2.2",
     "eslint": "^9.33.0",

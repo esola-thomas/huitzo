@@ -1,0 +1,304 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Huitzo Plugin Schema",
+  "description": "Schema for Huitzo plugin definitions. This is the single source of truth for plugin structure.",
+  "type": "object",
+  "required": [
+    "id",
+    "slug",
+    "name",
+    "version",
+    "author",
+    "icon",
+    "tagline",
+    "description",
+    "category",
+    "status"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the plugin (kebab-case, lowercase with hyphens)",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "examples": ["financial-analysis", "weather-plugin"]
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-friendly slug for the plugin (kebab-case, lowercase with hyphens)",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "examples": ["financial", "weather"]
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the plugin",
+      "minLength": 1,
+      "maxLength": 100,
+      "examples": ["Financial Analysis", "Weather Integration"]
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version of the plugin (MAJOR.MINOR.PATCH)",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
+      "examples": ["1.0.0", "0.1.0", "2.3.4"]
+    },
+    "author": {
+      "type": "string",
+      "description": "Author or organization that created the plugin",
+      "minLength": 1,
+      "maxLength": 100,
+      "examples": ["Huitzo Team", "John Doe"]
+    },
+    "icon": {
+      "type": "string",
+      "description": "Icon identifier for the plugin (emoji or icon name from @iconify)",
+      "examples": ["💰", "📊", "🔌", "tabler:chart-bar"]
+    },
+    "tagline": {
+      "type": "string",
+      "description": "Short one-liner description of what the plugin does",
+      "minLength": 5,
+      "maxLength": 160,
+      "examples": ["Get real-time market insights", "Connect to weather data"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Longer, detailed description explaining the plugin's functionality and benefits",
+      "minLength": 10,
+      "maxLength": 1000,
+      "examples": [
+        "Get personalized financial market analysis delivered to your inbox..."
+      ]
+    },
+    "category": {
+      "type": "string",
+      "description": "Category classification for the plugin (lowercase, kebab-case)",
+      "enum": [
+        "finance",
+        "analytics",
+        "automation",
+        "integration",
+        "data",
+        "communication",
+        "productivity",
+        "other"
+      ],
+      "examples": ["finance", "analytics"]
+    },
+    "status": {
+      "type": "string",
+      "description": "Current status of the plugin development",
+      "enum": ["active", "coming-soon", "beta", "deprecated", "archived"],
+      "examples": ["active", "coming-soon"]
+    },
+    "features": {
+      "type": "array",
+      "description": "List of key features provided by the plugin",
+      "items": {
+        "type": "string",
+        "minLength": 5,
+        "maxLength": 200
+      },
+      "minItems": 1,
+      "maxItems": 20,
+      "examples": [
+        ["Real-time market data", "Portfolio analysis", "Email notifications"]
+      ]
+    },
+    "pricing": {
+      "type": "object",
+      "description": "Pricing tiers and availability for the plugin",
+      "additionalProperties": false,
+      "properties": {
+        "free": {
+          "type": "object",
+          "description": "Free tier pricing information",
+          "additionalProperties": false,
+          "properties": {
+            "available": {
+              "type": "boolean",
+              "description": "Whether a free tier is available"
+            },
+            "limits": {
+              "type": "string",
+              "description": "Description of free tier limitations",
+              "maxLength": 500
+            },
+            "features": {
+              "type": "array",
+              "description": "Features included in free tier",
+              "items": {
+                "type": "string",
+                "maxLength": 200
+              },
+              "maxItems": 10
+            }
+          },
+          "required": ["available"]
+        },
+        "pro": {
+          "type": "object",
+          "description": "Professional/Premium tier pricing information",
+          "additionalProperties": false,
+          "properties": {
+            "price": {
+              "type": "string",
+              "description": "Price in human-readable format (e.g., '$10/month', 'Coming Soon')",
+              "maxLength": 100
+            },
+            "features": {
+              "type": "array",
+              "description": "Features included in professional tier",
+              "items": {
+                "type": "string",
+                "maxLength": 200
+              },
+              "maxItems": 20
+            }
+          }
+        },
+        "enterprise": {
+          "type": "object",
+          "description": "Enterprise tier pricing information",
+          "additionalProperties": false,
+          "properties": {
+            "price": {
+              "type": "string",
+              "description": "Price in human-readable format or contact for pricing",
+              "maxLength": 100
+            },
+            "features": {
+              "type": "array",
+              "description": "Features included in enterprise tier",
+              "items": {
+                "type": "string",
+                "maxLength": 200
+              },
+              "maxItems": 20
+            }
+          }
+        }
+      }
+    },
+    "installation": {
+      "type": "object",
+      "description": "Installation instructions and requirements for the plugin",
+      "additionalProperties": false,
+      "properties": {
+        "command": {
+          "type": "string",
+          "description": "Command to install the plugin",
+          "minLength": 1,
+          "maxLength": 200,
+          "examples": ["huitzo plugin install financial"]
+        },
+        "requirements": {
+          "type": "array",
+          "description": "System or dependency requirements",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "maxItems": 10,
+          "examples": [["Huitzo Core v1.0+", "Node.js 18+"]]
+        }
+      },
+      "required": ["command"]
+    },
+    "quickstart": {
+      "type": "array",
+      "description": "Step-by-step quickstart guide for the plugin",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "step": {
+            "type": "integer",
+            "description": "Step number (sequential, starting from 1)",
+            "minimum": 1
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the step",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "command": {
+            "type": "string",
+            "description": "Command to execute for this step",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "description": {
+            "type": "string",
+            "description": "Additional description for the step",
+            "maxLength": 500
+          }
+        },
+        "required": ["step", "title", "command"]
+      },
+      "maxItems": 20
+    },
+    "commands": {
+      "type": "array",
+      "description": "Available CLI commands provided by the plugin",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Command name",
+            "minLength": 1,
+            "maxLength": 50
+          },
+          "description": {
+            "type": "string",
+            "description": "What the command does",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "usage": {
+            "type": "string",
+            "description": "Command usage example",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "required": ["name", "description"]
+      },
+      "maxItems": 20
+    },
+    "links": {
+      "type": "object",
+      "description": "External links related to the plugin",
+      "additionalProperties": false,
+      "properties": {
+        "documentation": {
+          "type": "string",
+          "description": "Link to plugin documentation",
+          "format": "uri",
+          "examples": ["https://docs.example.com/plugin"]
+        },
+        "repository": {
+          "type": "string",
+          "description": "Link to source code repository",
+          "format": "uri",
+          "examples": ["https://github.com/example/plugin"]
+        },
+        "support": {
+          "type": "string",
+          "description": "Link to support or issue tracking",
+          "format": "uri",
+          "examples": ["https://github.com/example/plugin/issues"]
+        },
+        "website": {
+          "type": "string",
+          "description": "Link to plugin website",
+          "format": "uri"
+        }
+      }
+    }
+  }
+}

@@ -79,9 +79,8 @@
     }
   ],
   "links": {
-    "documentation": "/docs/plugins/financial",
+    "documentation": "https://huitzo.com/plugins/financial",
     "repository": "https://github.com/esola-thomas/huitzo",
-    "support": "mailto:huitzo@solathomas.com"
-  },
-  "sourceCode": false
+    "support": "https://github.com/esola-thomas/huitzo/issues"
+  }
 }

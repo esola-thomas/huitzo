@@ -8,6 +8,8 @@ trigger:
     include:
       - src/*
       - public/*
+      - scripts/validate-plugins.js
+      - scripts/generate-plugin-docs.js
       - astro.config.ts
       - package.json
       - tailwind.config.cjs
@@ -21,6 +23,8 @@ pr:
     include:
       - src/*
       - public/*
+      - scripts/validate-plugins.js
+      - scripts/generate-plugin-docs.js
       - astro.config.ts
       - package.json
       - tailwind.config.cjs
@@ -35,14 +39,55 @@ steps:
       versionSpec: "22.x"
     displayName: "Install Node.js"
 
-  - script: npm install
-    displayName: "npm install"
+  - script: npm ci --include=dev
+    displayName: "Install (ci) including devDependencies"
+
+  - script: npm run validate:plugins
+    displayName: "Validate plugin schema"
+    continueOnError: false
+
+  - script: npm run generate:plugin-docs
+    displayName: "Generate plugin documentation"
+
+  - script: |
+      # Store the newly generated file
+      cp src/data/plugins/SCHEMA.md src/data/plugins/SCHEMA.md.generated
+      # Check if the committed file matches the generated file
+      if diff -q src/data/plugins/SCHEMA.md src/data/plugins/SCHEMA.md.generated > /dev/null; then
+        echo "✅ Documentation is up-to-date (committed file matches generated file)"
+        rm src/data/plugins/SCHEMA.md.generated
+        exit 0
+      else
+        echo "❌ Documentation is out of date!"
+        echo "The committed SCHEMA.md does not match the generated documentation."
+        echo ""
+        echo "Differences found:"
+        diff src/data/plugins/SCHEMA.md src/data/plugins/SCHEMA.md.generated || true
+        echo ""
+        echo "To fix this, run: npm run generate:plugin-docs"
+        echo "Then commit the updated SCHEMA.md file"
+        rm src/data/plugins/SCHEMA.md.generated
+        exit 1
+      fi
+    displayName: "Verify documentation is up-to-date"
+    continueOnError: false
 
   - script: npm run check:astro
     displayName: "Astro type check"
 
-  - script: npm run check:prettier
-    displayName: "Prettier check"
+  - script: |
+      echo "--- Environment debug ---"
+      node --version
+      npm --version
+      echo "Installed Prettier and plugin versions:"
+      npm list prettier prettier-plugin-astro --depth=0 || true
+      echo "Prettier --version (from node_modules):"
+      npx prettier --version || true
+      echo "--- Files recently modified in workspace (top 50 lines) ---"
+      git status --porcelain || true
+      echo "--- Running Prettier check (showing CLI output) ---"
+      npx prettier --check . || true
+    displayName: "Prettier debug & check"
 
   - script: npm run build
     displayName: "npm run build"
