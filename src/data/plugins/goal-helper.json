@@ -1,0 +1,95 @@
+{
+  "id": "goal-helper",
+  "slug": "goal-helper",
+  "name": "Goal Helper",
+  "version": "0.0.0",
+  "author": "Huitzo Team",
+  "icon": "🎯",
+  "tagline": "Set goals and AI will help you achieve them",
+  "description": "Turn your ambitions into action. Set goals, get AI-powered suggestions to make them realistic, and receive regular check-ins to keep you on track and motivated.",
+  "category": "productivity",
+  "status": "coming-soon",
+  "features": [
+    "Create and track your personal goals",
+    "AI helps refine goals to be realistic and achievable",
+    "Break down big goals into smaller milestones",
+    "Get motivational check-ins and progress updates",
+    "AI suggests adjustments to keep you on track",
+    "Track your progress over time"
+  ],
+  "installation": {
+    "command": "huitzo plugin install goal-helper",
+    "requirements": ["Huitzo Core v0.1.0+"]
+  },
+  "pricing": {
+    "free": {
+      "available": true,
+      "limits": "Up to 3 active goals, weekly check-ins"
+    },
+    "pro": {
+      "price": "Coming Soon",
+      "features": [
+        "Unlimited goals",
+        "Daily check-ins and AI coaching",
+        "Advanced goal templates",
+        "Priority support"
+      ]
+    }
+  },
+  "quickstart": [
+    {
+      "step": 1,
+      "title": "Create your first goal",
+      "command": "goals add --title 'Get healthier'",
+      "description": "Tell us what you want to achieve"
+    },
+    {
+      "step": 2,
+      "title": "Let AI refine your goal",
+      "command": "goals refine",
+      "description": "AI will suggest how to make it specific and achievable"
+    },
+    {
+      "step": 3,
+      "title": "Break it down",
+      "command": "goals breakdown --goal-id 1",
+      "description": "AI helps create small milestones to reach your goal"
+    },
+    {
+      "step": 4,
+      "title": "Get started",
+      "command": "goals checkin",
+      "description": "Start tracking progress and get AI support along the way"
+    }
+  ],
+  "commands": [
+    {
+      "name": "goals add",
+      "description": "Create a new goal to work towards"
+    },
+    {
+      "name": "goals list",
+      "description": "View all your active goals and progress"
+    },
+    {
+      "name": "goals refine",
+      "description": "Get AI suggestions to improve your goal"
+    },
+    {
+      "name": "goals breakdown",
+      "description": "Create milestones to achieve your goal"
+    },
+    {
+      "name": "goals checkin",
+      "description": "Report progress and get AI coaching"
+    },
+    {
+      "name": "goals status",
+      "description": "See your overall progress and achievements"
+    }
+  ],
+  "links": {
+    "documentation": "https://huitzo.com/plugins/goal-helper",
+    "support": "https://github.com/esola-thomas/huitzo/issues"
+  }
+}

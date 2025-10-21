@@ -1,0 +1,89 @@
+{
+  "id": "job-report",
+  "slug": "job-report",
+  "name": "Job Report",
+  "version": "0.0.0",
+  "author": "Huitzo Team",
+  "icon": "💼",
+  "tagline": "Find jobs that match your skills and experience",
+  "description": "Let us do the job hunting legwork. Tell us what you're looking for, and we'll search job sites to find positions that match your skills and experience. Get a personalized report delivered to your email.",
+  "category": "productivity",
+  "status": "coming-soon",
+  "features": [
+    "Search multiple job posting websites automatically",
+    "Match jobs based on your skills and qualifications",
+    "Get organized reports with job listings and details",
+    "Receive reports via email or in chat",
+    "Set up recurring job searches on your schedule"
+  ],
+  "installation": {
+    "command": "huitzo plugin install job-report",
+    "requirements": ["Huitzo Core v0.1.0+"]
+  },
+  "pricing": {
+    "free": {
+      "available": true,
+      "limits": "3 job searches per month, basic job matching"
+    },
+    "pro": {
+      "price": "Coming Soon",
+      "features": [
+        "Unlimited job searches",
+        "Advanced matching filters",
+        "Priority support"
+      ]
+    }
+  },
+  "quickstart": [
+    {
+      "step": 1,
+      "title": "Tell us about yourself",
+      "command": "job setup --profile",
+      "description": "Share your skills, experience level, and job preferences"
+    },
+    {
+      "step": 2,
+      "title": "Search for matching jobs",
+      "command": "job search --keywords 'software engineer'",
+      "description": "Find jobs that match what you're looking for"
+    },
+    {
+      "step": 3,
+      "title": "Review your report",
+      "command": "job report view",
+      "description": "See all matching jobs with ratings based on your fit"
+    },
+    {
+      "step": 4,
+      "title": "Get automated updates",
+      "command": "job search schedule --frequency weekly",
+      "description": "Get new job matches emailed to you automatically"
+    }
+  ],
+  "commands": [
+    {
+      "name": "job setup",
+      "description": "Create your job profile with skills and preferences"
+    },
+    {
+      "name": "job search",
+      "description": "Search for jobs matching your profile"
+    },
+    {
+      "name": "job report",
+      "description": "View your latest job search report"
+    },
+    {
+      "name": "job bookmark",
+      "description": "Save interesting jobs for later"
+    },
+    {
+      "name": "job status",
+      "description": "Check your saved jobs and search history"
+    }
+  ],
+  "links": {
+    "documentation": "https://huitzo.com/plugins/job-report",
+    "support": "https://github.com/esola-thomas/huitzo/issues"
+  }
+}

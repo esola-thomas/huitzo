@@ -1,0 +1,95 @@
+{
+  "id": "rubber-ducky",
+  "slug": "rubber-ducky",
+  "name": "Rubber Ducky",
+  "version": "0.0.0",
+  "author": "Huitzo Team",
+  "icon": "🦆",
+  "tagline": "Talk through problems and find your own solutions",
+  "description": "Ever solved a problem just by explaining it to someone? That's the power of rubber duck debugging. Use the CLI to chat with an AI that asks thoughtful questions instead of giving answers, helping you think deeper and find solutions you might have missed.",
+  "category": "productivity",
+  "status": "coming-soon",
+  "features": [
+    "Chat with an AI designed to listen and ask questions",
+    "No direct answers - AI helps you think it through",
+    "Works for coding problems, work challenges, or life decisions",
+    "Guided questioning helps reveal the real issue",
+    "Save conversations for future reference",
+    "Free to use, always available"
+  ],
+  "installation": {
+    "command": "huitzo plugin install rubber-ducky",
+    "requirements": ["Huitzo Core v0.1.0+"]
+  },
+  "pricing": {
+    "free": {
+      "available": true,
+      "limits": "Unlimited conversations, basic question prompts"
+    },
+    "pro": {
+      "price": "Coming Soon",
+      "features": [
+        "Advanced questioning techniques",
+        "Conversation summaries and insights",
+        "Export conversations to document",
+        "Priority support"
+      ]
+    }
+  },
+  "quickstart": [
+    {
+      "step": 1,
+      "title": "Start a conversation",
+      "command": "duck talk",
+      "description": "Begin chatting about whatever is on your mind"
+    },
+    {
+      "step": 2,
+      "title": "Describe your problem",
+      "command": "duck talk",
+      "description": "Explain what you're struggling with or trying to solve"
+    },
+    {
+      "step": 3,
+      "title": "Let the duck ask questions",
+      "command": "duck listen",
+      "description": "The AI will ask questions to help you think deeper"
+    },
+    {
+      "step": 4,
+      "title": "Find your solution",
+      "command": "duck summary",
+      "description": "Reflect on your conversation to see what you learned"
+    }
+  ],
+  "commands": [
+    {
+      "name": "duck talk",
+      "description": "Start or continue a conversation with the duck"
+    },
+    {
+      "name": "duck new",
+      "description": "Begin a new conversation topic"
+    },
+    {
+      "name": "duck history",
+      "description": "View your past conversations"
+    },
+    {
+      "name": "duck save",
+      "description": "Save a conversation for later"
+    },
+    {
+      "name": "duck summary",
+      "description": "Get a summary of your conversation"
+    },
+    {
+      "name": "duck help",
+      "description": "Learn how to get the most from the duck"
+    }
+  ],
+  "links": {
+    "documentation": "https://huitzo.com/plugins/rubber-ducky",
+    "support": "https://github.com/esola-thomas/huitzo/issues"
+  }
+}
