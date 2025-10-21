@@ -5,82 +5,98 @@
   "version": "1.0.0",
   "author": "Huitzo Team",
   "icon": "💰",
-  "tagline": "Personalized market insights delivered to your inbox",
-  "description": "Get personalized financial market analysis delivered straight to your inbox. Configure your portfolio, set your investment constraints, and receive automated insights powered by real-time market data and AI-driven analysis.",
+  "tagline": "Track your favorite stocks and get smart market insights",
+  "description": "Keep tabs on the stocks you care about with live market data. Get technical analysis, trading signals, and personalized reports delivered to your email on your schedule.",
   "category": "finance",
   "status": "active",
   "features": [
-    "Real-time market data integration via Polygon.io",
-    "Personalized portfolio analysis based on your holdings",
-    "Email delivery with interactive LLM-powered Q&A",
-    "Customizable investment constraints and preferences",
-    "Natural language reports you can actually understand",
-    "Scheduled report generation (daily, weekly, monthly)"
+    "Track up to 10 stocks in your personal watchlist",
+    "Live market data updated every 15 minutes",
+    "Technical analysis with easy-to-understand signals",
+    "Automated reports sent straight to your email",
+    "Schedule reports daily, weekly, or when you want them",
+    "Optional AI-powered insights (tell the plugin what you want to know)"
   ],
   "installation": {
     "command": "huitzo plugin install financial",
-    "requirements": ["Huitzo Core v1.0+"]
+    "requirements": ["Huitzo Core v0.1.0+"]
   },
   "pricing": {
+    "free": {
+      "available": true,
+      "limits": "Up to 10 stocks, 5 scheduled reports, perfect for getting started"
+    },
     "pro": {
-      "price": "Coming Soon"
+      "price": "Coming Soon",
+      "features": [
+        "Track up to 50 stocks",
+        "Unlimited scheduled reports",
+        "Priority support"
+      ]
     }
   },
   "quickstart": [
     {
       "step": 1,
-      "title": "Initialize the plugin",
-      "command": "finance setup",
-      "description": ""
+      "title": "Add a stock to track",
+      "command": "finance watchlist add --ticker AAPL",
+      "description": "Add any stock symbol (like AAPL for Apple) to start tracking it"
     },
     {
       "step": 2,
-      "title": "Configure your portfolio",
-      "command": "finance configure --portfolio AAPL,GOOGL,MSFT",
-      "description": ""
+      "title": "View your watchlist",
+      "command": "finance watchlist list",
+      "description": "See all your stocks with current prices and daily changes"
     },
     {
       "step": 3,
-      "title": "Set your preferences",
-      "command": "finance preferences --risk-tolerance moderate --goals growth",
-      "description": ""
+      "title": "Get market analysis",
+      "command": "finance report generate",
+      "description": "Get a quick technical analysis report of your watchlist"
     },
     {
       "step": 4,
-      "title": "Generate your first report",
-      "command": "finance report",
-      "description": ""
+      "title": "Set up automatic emails",
+      "command": "finance reports schedule --frequency weekly --day tuesday --time 10:30",
+      "description": "Get reports emailed to you automatically on your schedule"
     }
   ],
   "commands": [
     {
-      "name": "finance setup",
-      "description": "Initialize plugin and configure API credentials"
+      "name": "finance watchlist add",
+      "description": "Add a stock to your watchlist"
     },
     {
-      "name": "finance configure",
-      "description": "Set up your portfolio holdings and constraints"
+      "name": "finance watchlist list",
+      "description": "See all stocks you're tracking with current prices"
     },
     {
-      "name": "finance preferences",
-      "description": "Customize analysis parameters and report frequency"
+      "name": "finance watchlist remove",
+      "description": "Remove a stock from your watchlist"
+    },
+    {
+      "name": "finance report generate",
+      "description": "Get a technical analysis report right now"
+    },
+    {
+      "name": "finance reports schedule",
+      "description": "Set up automatic reports to be emailed to you"
+    },
+    {
+      "name": "finance reports list",
+      "description": "View all your scheduled reports"
     },
     {
       "name": "finance status",
-      "description": "View current configuration and subscription status"
-    },
-    {
-      "name": "finance report",
-      "description": "Generate and deliver a market analysis report"
+      "description": "See a summary of your watchlist and recent activity"
     },
     {
       "name": "finance help",
-      "description": "Display detailed help for all commands"
+      "description": "Get help with any command"
     }
   ],
   "links": {
-    "documentation": "https://huitzo.com/plugins/financial",
-    "repository": "https://github.com/esola-thomas/huitzo",
-    "support": "https://github.com/esola-thomas/huitzo/issues"
+    "documentation": "https://huitzo.com/plugins/financial/",
+    "support": "https://github.com/esola-thomas/huitzo/issues/new"
   }
 }
