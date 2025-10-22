@@ -21,7 +21,8 @@
     "fix:eslint": "eslint --fix .",
     "fix:prettier": "prettier -w .",
     "generate:plugin-docs": "node scripts/generate-plugin-docs.js",
-    "validate:plugins": "node scripts/validate-plugins.js"
+    "validate:plugins": "node scripts/validate-plugins.js",
+    "validate:roadmap": "node scripts/validate-roadmap.js"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.12",

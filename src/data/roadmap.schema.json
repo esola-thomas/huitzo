@@ -1,0 +1,336 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Huitzo Roadmap Schema",
+  "description": "Schema for the company roadmap data structure.",
+  "type": "object",
+  "required": [
+    "lastUpdated",
+    "milestones",
+    "metrics",
+    "keyIndicators",
+    "fundingMilestones",
+    "competitorTracking",
+    "marketValidation"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "lastUpdated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp for the last update"
+    },
+    "milestones": {
+      "type": "array",
+      "minItems": 1,
+      "description": "List of roadmap milestones",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "status",
+          "title",
+          "description",
+          "progress",
+          "deliverables"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+            "description": "Unique identifier for the milestone"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "completed",
+              "in-progress",
+              "upcoming",
+              "planning",
+              "on-hold",
+              "cancelled"
+            ],
+            "description": "Current status of the milestone"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 200,
+            "description": "Human readable milestone title"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "Actual completion date, when applicable"
+          },
+          "targetDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Target completion date"
+          },
+          "progress": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Percent progress for the milestone"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 20,
+            "maxLength": 1000,
+            "description": "Detailed milestone description"
+          },
+          "deliverables": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 20,
+            "items": {
+              "type": "string",
+              "minLength": 5,
+              "maxLength": 200
+            },
+            "description": "List of key deliverables for the milestone"
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "minProperties": 1,
+      "description": "Key business metrics tracked over time",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["current", "sixMonth", "target", "description"],
+        "properties": {
+          "current": {
+            "type": "number",
+            "description": "Current metric value"
+          },
+          "sixMonth": {
+            "type": "number",
+            "description": "Projected value in six months"
+          },
+          "target": {
+            "type": "number",
+            "description": "Long term target value"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 300,
+            "description": "Short description of the metric"
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50,
+            "description": "Optional unit descriptor"
+          }
+        }
+      }
+    },
+    "keyIndicators": {
+      "type": "object",
+      "minProperties": 1,
+      "description": "Key performance indicators with targets",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["current", "target", "description"],
+        "properties": {
+          "current": {
+            "type": "number",
+            "description": "Current indicator value"
+          },
+          "target": {
+            "type": "number",
+            "description": "Target indicator value"
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50,
+            "description": "Unit for the indicator"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 300,
+            "description": "Indicator description"
+          }
+        }
+      }
+    },
+    "fundingMilestones": {
+      "type": "object",
+      "minProperties": 1,
+      "description": "Funding milestones with targets and requirements",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["targetDate", "amount", "status", "requirements"],
+        "properties": {
+          "targetDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Target funding date"
+          },
+          "amount": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Target raise amount in USD"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["completed", "planning", "upcoming", "in-progress", "projection"],
+            "description": "Status of the funding milestone"
+          },
+          "requirements": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 20,
+            "items": {
+              "type": "string",
+              "minLength": 5,
+              "maxLength": 200
+            },
+            "description": "Requirements to unlock the funding milestone"
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Optional notes about the milestone"
+          }
+        }
+      }
+    },
+    "competitorTracking": {
+      "type": "object",
+      "description": "Competitive landscape overview",
+      "required": ["directCompetitors"],
+      "additionalProperties": false,
+      "properties": {
+        "directCompetitors": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 50,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "fundingStage": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "marketPosition": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "pricing": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "lastRaise": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "arr": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "weakness": {
+                "type": "string",
+                "maxLength": 200
+              },
+              "differentiator": {
+                "type": "string",
+                "maxLength": 200
+              },
+              "examples": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 10,
+                "items": {
+                  "type": "string",
+                  "maxLength": 100
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "marketValidation": {
+      "type": "object",
+      "description": "Market sizing and validation data",
+      "required": [
+        "totalAddressableMarket",
+        "serviceableAddressableMarket",
+        "serviceableObtainableMarket",
+        "marketGrowthRate",
+        "targetMarketSegments"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "totalAddressableMarket": {
+          "type": "number",
+          "minimum": 0
+        },
+        "serviceableAddressableMarket": {
+          "type": "number",
+          "minimum": 0
+        },
+        "serviceableObtainableMarket": {
+          "type": "number",
+          "minimum": 0
+        },
+        "marketGrowthRate": {
+          "type": "number"
+        },
+        "targetMarketSegments": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 50,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "segment",
+              "size",
+              "averageSpend",
+              "conversionRate"
+            ],
+            "properties": {
+              "segment": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "size": {
+                "type": "number",
+                "minimum": 0
+              },
+              "averageSpend": {
+                "type": "number"
+              },
+              "conversionRate": {
+                "type": "number"
+              },
+              "notes": {
+                "type": "string",
+                "maxLength": 200
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -46,6 +46,10 @@ steps:
     displayName: "Validate plugin schema"
     continueOnError: false
 
+  - script: npm run validate:roadmap
+    displayName: "Validate roadmap schema"
+    continueOnError: false
+
   - script: npm run generate:plugin-docs
     displayName: "Generate plugin documentation"
 

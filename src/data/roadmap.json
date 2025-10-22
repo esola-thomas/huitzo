@@ -1,12 +1,12 @@
 {
-  "lastUpdated": "2025-09-30T00:00:00.000Z",
+  "lastUpdated": "2025-10-21T00:00:00.000Z",
   "milestones": [
     {
       "id": "project-kickoff",
-      "status": "in-progress",
+      "status": "completed",
       "title": "Project Kickoff & Documentation",
       "date": "2025-09-30",
-      "progress": 80,
+      "progress": 100,
       "description": "Complete project planning, architecture design, and stakeholder analysis",
       "deliverables": [
         "Project charter and technical architecture",
@@ -20,7 +20,7 @@
       "status": "in-progress",
       "title": "Core CLI Platform MVP",
       "targetDate": "2025-10-30",
-      "progress": 25,
+      "progress": 65,
       "description": "Build foundational web-based CLI with plugin architecture and session management",
       "deliverables": [
         "Web terminal interface with WebSocket support",
@@ -31,11 +31,50 @@
       ]
     },
     {
+      "id": "goal-helper-coaching-beta",
+      "status": "in-progress",
+      "title": "Goal Helper Coaching Beta",
+      "targetDate": "2025-11-15",
+      "progress": 25,
+      "description": "Launch the Goal Helper plugin to guide users through AI-assisted goal setting, milestone planning, and motivational check-ins.",
+      "deliverables": [
+        "Goal refinement workflow using Goal Helper's AI suggestions",
+        "Milestone breakdown generator for personal goal roadmaps",
+        "Weekly check-in notifications with progress dashboards"
+      ]
+    },
+    {
+      "id": "job-report-intelligence",
+      "status": "in-progress",
+      "title": "Job Report Intelligence Preview",
+      "targetDate": "2025-11-30",
+      "progress": 25,
+      "description": "Deliver the Job Report plugin that automates job searches, scoring, and scheduled reporting based on user profiles.",
+      "deliverables": [
+        "Profile-driven job search flow connected to major boards",
+        "Report generation pipeline with relevance scoring and summaries",
+        "Scheduling system for recurring job search automation"
+      ]
+    },
+    {
+      "id": "rubber-ducky-coaching",
+      "status": "in-progress",
+      "title": "Rubber Ducky Coaching Companion",
+      "targetDate": "2025-12-15",
+      "progress": 25,
+      "description": "Introduce the Rubber Ducky plugin to facilitate reflective problem solving with AI-guided questioning and conversation history.",
+      "deliverables": [
+        "Conversational prompts that encourage self-guided debugging sessions",
+        "Conversation history persistence with save and resume commands",
+        "Summarization flow to capture insights and next steps automatically"
+      ]
+    },
+    {
       "id": "financial-plugin",
-      "status": "upcoming",
+      "status": "in-progress",
       "title": "Financial Analysis Plugin",
       "targetDate": "2025-12-31",
-      "progress": 0,
+      "progress": 45,
       "description": "First Intelligence-as-a-Service plugin with market data integration and personalized analysis",
       "deliverables": [
         "Real time market data integration",
@@ -77,10 +116,10 @@
     },
     {
       "id": "plugin-ecosystem",
-      "status": "upcoming",
+      "status": "planning",
       "title": "Plugin Ecosystem Expansion",
       "targetDate": "2026-06-01",
-      "progress": 0,
+      "progress": 45,
       "description": "Scale to multiple plugins and begin building third-party developer ecosystem",
       "deliverables": [
         "3-5 additional intelligence plugins",
