@@ -2,7 +2,7 @@
 export interface Props {
   icon: string;
   title: string;
-  description: string;
+  description?: string;
   class?: string;
 }
 
@@ -14,5 +14,11 @@ const { icon, title, description, class: className = '' } = Astro.props;
     <div class="text-3xl">{icon}</div>
   </div>
   <h3 class="text-xl font-semibold mb-3 text-text-primary">{title}</h3>
-  <p class="text-text-secondary leading-relaxed">{description}</p>
+  {Astro.slots.default ? (
+    <div class="text-text-secondary leading-relaxed"> 
+      <slot />
+    </div>
+  ) : (
+    <p class="text-text-secondary leading-relaxed">{description}</p>
+  )}
 </div>
