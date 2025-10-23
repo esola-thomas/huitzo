@@ -14,10 +14,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const schemaPath = path.join(__dirname, "../src/data/plugins/schema.json");
 const docsPath = path.join(__dirname, "../src/data/plugins/SCHEMA.md");
 
-function escapeMarkdown(text) {
-  return text.replace(/[[\]|*_`\\]/g, "\\$&");
-}
-
 function getTypeDescription(prop) {
   let type = prop.type;
   if (Array.isArray(type)) {

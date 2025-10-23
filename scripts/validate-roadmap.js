@@ -104,7 +104,9 @@ function main() {
   const isValid = validate(roadmap);
 
   if (!isValid) {
-    console.error(`❌ Roadmap validation failed with ${validate.errors.length} error(s):`);
+    console.error(
+      `❌ Roadmap validation failed with ${validate.errors.length} error(s):`,
+    );
     validate.errors.forEach((error) => {
       console.error(formatError(error));
     });

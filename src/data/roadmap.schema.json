@@ -183,7 +183,13 @@
           },
           "status": {
             "type": "string",
-            "enum": ["completed", "planning", "upcoming", "in-progress", "projection"],
+            "enum": [
+              "completed",
+              "planning",
+              "upcoming",
+              "in-progress",
+              "projection"
+            ],
             "description": "Status of the funding milestone"
           },
           "requirements": {
@@ -301,12 +307,7 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": [
-              "segment",
-              "size",
-              "averageSpend",
-              "conversionRate"
-            ],
+            "required": ["segment", "size", "averageSpend", "conversionRate"],
             "properties": {
               "segment": {
                 "type": "string",

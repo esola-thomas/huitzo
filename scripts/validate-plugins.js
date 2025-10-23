@@ -26,7 +26,7 @@ const ajv = new Ajv({
 ajv.addFormat("uri", /^https?:\/\/.+/i);
 
 function formatError(error) {
-  const { instancePath, schemaPath, keyword, params, message } = error;
+  const { instancePath, keyword, params, message } = error;
 
   let output = `  ❌ ${keyword}`;
 
@@ -93,7 +93,7 @@ function main() {
   try {
     const schemaContent = fs.readFileSync(schemaPath, "utf-8");
     schema = JSON.parse(schemaContent);
-    console.log(`📋 Schema loaded from ${path.basename(schemaPath)}\n`);
+    console.log(`📋 Schema loaded\n`);
   } catch (error) {
     console.error(`❌ Failed to load schema: ${error.message}`);
     process.exit(1);
