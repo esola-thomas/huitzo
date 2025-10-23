@@ -189,7 +189,7 @@ When adding new terminal-style components, follow this pattern in `CustomStyles.
 ## Project Timeline
 
 Development: October 2025 - May 2026 (7-month cycle)
-Expected Launch: May 2026
+Expected Launch: May 2026 (IF NOT SOONER 👀)
 
 ## External Links
 
