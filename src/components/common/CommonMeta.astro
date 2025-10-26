@@ -5,4 +5,23 @@ import { getAsset } from '~/utils/permalinks';
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+<!-- Sitemap for search engines -->
 <link rel="sitemap" href={getAsset('/sitemap-index.xml')} />
+
+<!-- AI/LLM Indexing Meta Tags -->
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta name="googlebot" content="index, follow" />
+<meta name="bingbot" content="index, follow" />
+
+<!-- Explicitly allow AI crawlers to use content -->
+<meta name="ai-content-declaration" content="allow" />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+<!-- Help AI understand the content type -->
+<meta name="content-type" content="text/html; charset=UTF-8" />
+<meta name="language" content="English" />
+<meta name="revisit-after" content="7 days" />
+<meta name="author" content="Huitzo Team" />
+
+<!-- Canonical domain -->
+<link rel="canonical-domain" href="https://huitzo.com" />

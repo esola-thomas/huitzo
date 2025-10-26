@@ -1,4 +1,85 @@
+# Huitzo - Intelligence-as-a-Service Platform
+# https://huitzo.com
+# Welcome all search engines and AI crawlers!
+
+# Default rule: Allow all robots
 User-agent: *
 Allow: /
 
-Sitemap: https://huitzo.com/sitemap.xml
+# Search Engine Crawlers (Explicit allows for clarity)
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-Mobile
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# AI/LLM Crawlers - Explicitly allow for AI training and indexing
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# Sitemap location
+Sitemap: https://huitzo.com/sitemap-index.xml
+Sitemap: https://huitzo.com/sitemap-0.xml
+
+# Host (for search engines that support it)
+Host: https://huitzo.com

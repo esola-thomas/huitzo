@@ -1,0 +1,68 @@
+---
+import { SITE } from 'astrowind:config';
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://huitzo.com/#organization",
+  "name": "Huitzo",
+  "url": "https://huitzo.com",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://huitzo.com/assets/images/default.png",
+    "width": 1200,
+    "height": 628
+  },
+  "description": "Intelligence-as-a-Service platform that democratizes intelligent data analysis through a plugin-based architecture. Build powerful analysis tools with simple CLI commands.",
+  "foundingDate": "2024",
+  "slogan": "Command Your Intelligence",
+  "sameAs": [
+    "https://github.com/esola-thomas/huitzo"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "huitzo@solathomas.com",
+    "contactType": "Customer Support"
+  }
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://huitzo.com/#website",
+  "url": "https://huitzo.com",
+  "name": "Huitzo - Intelligence-as-a-Service Platform",
+  "description": "Democratize intelligent data analysis through a plugin-based architecture. Build powerful tools with simple CLI commands.",
+  "publisher": {
+    "@id": "https://huitzo.com/#organization"
+  },
+  "inLanguage": "en-US"
+};
+
+const softwarePlatformSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Huitzo CLI Platform",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Cross-platform",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Plugin-based CLI platform for intelligent data analysis and automation",
+  "url": "https://cli.huitzo.com",
+  "publisher": {
+    "@id": "https://huitzo.com/#organization"
+  }
+};
+---
+
+<!-- Organization Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+
+<!-- Website Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+
+<!-- Software Platform Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(softwarePlatformSchema)} />
