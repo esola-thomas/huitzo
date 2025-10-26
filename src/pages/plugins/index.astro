@@ -1,15 +1,54 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import PluginCard from '~/components/PluginCard.astro';
-import { loadAllPlugins, getAllCategories } from '~/utils/plugins';
+import { loadAllPlugins, getAllCategories, getPluginsByStatusGroups } from '~/utils/plugins';
 
-// Load all plugins automatically
+// Load all plugins and group by status
 const allPlugins = await loadAllPlugins();
+const pluginsByStatus = await getPluginsByStatusGroups();
 
 // Get unique categories for filtering
 const uniqueCategories = await getAllCategories();
 const categories = ['All', ...uniqueCategories.map(c => c.charAt(0).toUpperCase() + c.slice(1))];
-const statuses = ['All', 'Active', 'Coming Soon', 'Beta'];
+const statuses = ['All', 'Active', 'Beta', 'Coming Soon', 'Idea Phase'];
+
+// Calculate counts for each category
+const categoryCounts = uniqueCategories.reduce((acc, cat) => {
+  acc[cat] = allPlugins.filter(p => p.category === cat).length;
+  return acc;
+}, {} as Record<string, number>);
+
+// Status sections to display
+const statusSections = [
+  {
+    id: 'active',
+    title: 'Active Plugins',
+    description: 'Ready to install and use right now',
+    plugins: pluginsByStatus.active,
+    showSection: pluginsByStatus.active.length > 0,
+  },
+  {
+    id: 'beta',
+    title: 'Beta Testing',
+    description: 'Try these new plugins and help us improve them',
+    plugins: pluginsByStatus.beta,
+    showSection: pluginsByStatus.beta.length > 0,
+  },
+  {
+    id: 'coming-soon',
+    title: 'Coming Soon',
+    description: 'Plugins currently in development - view planned features and documentation',
+    plugins: pluginsByStatus.comingSoon,
+    showSection: pluginsByStatus.comingSoon.length > 0,
+  },
+  {
+    id: 'idea-phase',
+    title: 'Idea Phase',
+    description: 'Concepts being explored - help shape these plugins with your feedback',
+    plugins: pluginsByStatus.ideaPhase,
+    showSection: pluginsByStatus.ideaPhase.length > 0,
+  },
+];
 ---
 
 <Layout
@@ -31,22 +70,30 @@ const statuses = ['All', 'Active', 'Coming Soon', 'Beta'];
         </p>
 
         <!-- Stats -->
-        <div class="grid grid-cols-3 gap-6 max-w-lg mx-auto">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto">
           <div class="text-center">
             <div class="text-2xl font-bold text-primary font-mono">
-              {allPlugins.filter(p => p.status === 'active').length}
+              {pluginsByStatus.active.length}
             </div>
-            <div class="text-sm text-muted">Active Plugins</div>
+            <div class="text-sm text-muted">Active</div>
           </div>
           <div class="text-center">
             <div class="text-2xl font-bold text-primary font-mono">
-              {allPlugins.filter(p => p.status === 'coming-soon').length}
+              {pluginsByStatus.beta.length}
+            </div>
+            <div class="text-sm text-muted">Beta</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl font-bold text-primary font-mono">
+              {pluginsByStatus.comingSoon.length}
             </div>
             <div class="text-sm text-muted">Coming Soon</div>
           </div>
           <div class="text-center">
-            <div class="text-2xl font-bold text-primary font-mono">∞</div>
-            <div class="text-sm text-muted">Possibilities</div>
+            <div class="text-2xl font-bold text-primary font-mono">
+              {pluginsByStatus.ideaPhase.length}
+            </div>
+            <div class="text-sm text-muted">Ideas</div>
           </div>
         </div>
       </div>
@@ -57,9 +104,9 @@ const statuses = ['All', 'Active', 'Coming Soon', 'Beta'];
   <section class="py-12 bg-[var(--aw-color-bg-secondary)]/30">
     <div class="container mx-auto px-4">
       <div class="max-w-6xl mx-auto">
-        <div class="flex flex-col md:flex-row gap-4 items-center justify-between mb-8">
+        <div class="flex flex-col md:flex-row gap-4 items-center justify-between mb-4">
           <!-- Search Bar -->
-          <div class="flex-1 max-w-md">
+          <div class="flex-1 max-w-md w-full">
             <div class="relative">
               <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -74,58 +121,92 @@ const statuses = ['All', 'Active', 'Coming Soon', 'Beta'];
           </div>
 
           <!-- Filters -->
-          <div class="flex gap-4">
+          <div class="flex gap-4 w-full md:w-auto">
             <select
               id="category-filter"
-              class="px-4 py-3 bg-[var(--aw-color-bg-tertiary)] border border-gray-700 rounded-lg text-default focus:outline-none focus:border-primary transition-colors"
+              class="flex-1 md:flex-none px-4 py-3 bg-[var(--aw-color-bg-tertiary)] border border-gray-700 rounded-lg text-default focus:outline-none focus:border-primary transition-colors"
             >
-              {categories.map(category => (
-                <option value={category.toLowerCase()}>{category}</option>
+              <option value="all">All Categories</option>
+              {uniqueCategories.map(category => (
+                <option value={category}>
+                  {category.charAt(0).toUpperCase() + category.slice(1)} ({categoryCounts[category]})
+                </option>
               ))}
             </select>
 
             <select
               id="status-filter"
-              class="px-4 py-3 bg-[var(--aw-color-bg-tertiary)] border border-gray-700 rounded-lg text-default focus:outline-none focus:border-primary transition-colors"
+              class="flex-1 md:flex-none px-4 py-3 bg-[var(--aw-color-bg-tertiary)] border border-gray-700 rounded-lg text-default focus:outline-none focus:border-primary transition-colors"
             >
-              {statuses.map(status => (
-                <option value={status.toLowerCase()}>{status}</option>
-              ))}
+              <option value="all">All Status</option>
+              <option value="active">Active ({pluginsByStatus.active.length})</option>
+              <option value="beta">Beta ({pluginsByStatus.beta.length})</option>
+              <option value="coming-soon">Coming Soon ({pluginsByStatus.comingSoon.length})</option>
+              <option value="idea-phase">Idea Phase ({pluginsByStatus.ideaPhase.length})</option>
             </select>
           </div>
+        </div>
+
+        <!-- Results Count -->
+        <div id="results-count" class="text-sm text-muted">
+          Showing <span id="visible-count" class="text-primary font-medium">{allPlugins.length}</span> of {allPlugins.length} plugins
+        </div>
+
+        <!-- Active Filters -->
+        <div id="active-filters" class="hidden mt-4 flex flex-wrap gap-2 items-center">
+          <span class="text-sm text-muted">Active filters:</span>
+          <button id="clear-all-filters" class="text-xs px-3 py-1 bg-huitzo-accent/20 text-huitzo-accent rounded-full hover:bg-huitzo-accent/30 transition-colors">
+            Clear All ✕
+          </button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Plugins Grid -->
-  <section class="py-20">
-    <div class="container mx-auto px-4">
-      <div class="max-w-6xl mx-auto">
-        <div id="plugins-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {allPlugins.map(plugin => (
-            <div class="plugin-card" data-category={plugin.category} data-status={plugin.status} data-name={plugin.name.toLowerCase()}>
-              <PluginCard plugin={plugin} />
-            </div>
-          ))}
-        </div>
+  <!-- Plugin Sections by Status -->
+  {statusSections.map(section => section.showSection && (
+    <section id={`section-${section.id}`} class="py-20 plugin-status-section" data-section-status={section.id}>
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <!-- Section Header -->
+          <div class="mb-10">
+            <h2 class="text-3xl font-bold text-default mb-2">
+              {section.title}
+              <span class="text-lg text-muted font-normal ml-3">({section.plugins.length})</span>
+            </h2>
+            <p class="text-muted">{section.description}</p>
+          </div>
 
-        <!-- Empty State -->
-        <div id="empty-state" class="hidden text-center py-20">
-          <div class="text-6xl mb-4">🔍</div>
-          <h3 class="text-xl font-semibold text-default mb-2">No plugins found</h3>
-          <p class="text-muted mb-6">
-            No plugins match your current search criteria.
-          </p>
-          <div class="space-x-4">
-            <button id="clear-filters" class="btn-secondary">
-              Clear Filters
-            </button>
-            <a href={`${import.meta.env.BASE_URL}roadmap`} class="btn-primary">
-              View Roadmap →
-            </a>
+          <!-- Plugins Grid -->
+          <div class="plugin-section-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {section.plugins.map(plugin => (
+              <div
+                class="plugin-card"
+                data-category={plugin.category}
+                data-status={plugin.status}
+                data-name={plugin.name.toLowerCase()}
+              >
+                <PluginCard plugin={plugin} />
+              </div>
+            ))}
           </div>
         </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- Empty State -->
+  <section id="empty-state" class="hidden py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto text-center">
+        <div class="text-6xl mb-4">🔍</div>
+        <h3 class="text-xl font-semibold text-default mb-2">No plugins found</h3>
+        <p class="text-muted mb-6">
+          No plugins match your current search criteria. Try adjusting your filters.
+        </p>
+        <button id="clear-filters-empty" class="btn-secondary">
+          Clear Filters
+        </button>
       </div>
     </div>
   </section>
@@ -170,48 +251,78 @@ const statuses = ['All', 'Active', 'Coming Soon', 'Beta'];
     const searchInput = document.getElementById('plugin-search') as HTMLInputElement | null;
     const categoryFilter = document.getElementById('category-filter') as HTMLSelectElement | null;
     const statusFilter = document.getElementById('status-filter') as HTMLSelectElement | null;
-    const pluginsGrid = document.getElementById('plugins-grid') as HTMLElement | null;
     const emptyState = document.getElementById('empty-state') as HTMLElement | null;
-    const clearFiltersBtn = document.getElementById('clear-filters') as HTMLButtonElement | null;
+    const visibleCountSpan = document.getElementById('visible-count') as HTMLSpanElement | null;
+    const activeFiltersDiv = document.getElementById('active-filters') as HTMLElement | null;
+    const clearAllBtn = document.getElementById('clear-all-filters') as HTMLButtonElement | null;
+    const clearEmptyBtn = document.getElementById('clear-filters-empty') as HTMLButtonElement | null;
 
     function filterPlugins() {
-      if (!searchInput || !categoryFilter || !statusFilter || !pluginsGrid || !emptyState) return;
+      if (!searchInput || !categoryFilter || !statusFilter || !emptyState || !visibleCountSpan) return;
 
-      const searchTerm = searchInput.value.toLowerCase();
+      const searchTerm = searchInput.value.toLowerCase().trim();
       const selectedCategory = categoryFilter.value;
       const selectedStatus = statusFilter.value;
 
-      const pluginCards = pluginsGrid.querySelectorAll('.plugin-card');
-      let visibleCount = 0;
+      const sections = document.querySelectorAll('.plugin-status-section');
+      let totalVisibleCount = 0;
+      let hasActiveFilters = false;
 
-      pluginCards.forEach(card => {
-        const htmlCard = card as HTMLElement;
-        const cardName = htmlCard.dataset.name || '';
-        const cardCategory = htmlCard.dataset.category || '';
-        const cardStatus = htmlCard.dataset.status || '';
+      // Check if filters are active
+      if (searchTerm || selectedCategory !== 'all' || selectedStatus !== 'all') {
+        hasActiveFilters = true;
+      }
 
-        const matchesSearch = cardName.includes(searchTerm);
-        const matchesCategory = selectedCategory === 'all' ||
-                              (selectedCategory === 'finance' && cardCategory === 'finance') ||
-                              (selectedCategory === 'coming soon' && cardStatus === 'coming-soon');
-        const matchesStatus = selectedStatus === 'all' ||
-                            (selectedStatus === 'active' && cardStatus === 'active') ||
-                            (selectedStatus === 'coming soon' && cardStatus === 'coming-soon');
-
-        if (matchesSearch && matchesCategory && matchesStatus) {
-          htmlCard.style.display = 'block';
-          visibleCount++;
+      // Show/hide active filters bar
+      if (activeFiltersDiv) {
+        if (hasActiveFilters) {
+          activeFiltersDiv.classList.remove('hidden');
         } else {
-          htmlCard.style.display = 'none';
+          activeFiltersDiv.classList.add('hidden');
+        }
+      }
+
+      sections.forEach(section => {
+        const htmlSection = section as HTMLElement;
+        const sectionStatus = htmlSection.dataset.sectionStatus || '';
+        const pluginCards = htmlSection.querySelectorAll('.plugin-card');
+        let sectionVisibleCount = 0;
+
+        pluginCards.forEach(card => {
+          const htmlCard = card as HTMLElement;
+          const cardName = htmlCard.dataset.name || '';
+          const cardCategory = htmlCard.dataset.category || '';
+          const cardStatus = htmlCard.dataset.status || '';
+
+          const matchesSearch = !searchTerm || cardName.includes(searchTerm);
+          const matchesCategory = selectedCategory === 'all' || cardCategory === selectedCategory;
+          const matchesStatus = selectedStatus === 'all' || cardStatus === selectedStatus;
+
+          if (matchesSearch && matchesCategory && matchesStatus) {
+            htmlCard.style.display = 'block';
+            sectionVisibleCount++;
+            totalVisibleCount++;
+          } else {
+            htmlCard.style.display = 'none';
+          }
+        });
+
+        // Hide section if no visible cards
+        if (sectionVisibleCount === 0) {
+          htmlSection.style.display = 'none';
+        } else {
+          htmlSection.style.display = 'block';
         }
       });
 
+      // Update count
+      visibleCountSpan.textContent = totalVisibleCount.toString();
+
       // Show/hide empty state
-      if (visibleCount === 0) {
-        pluginsGrid.style.display = 'none';
+      if (totalVisibleCount === 0) {
+        sections.forEach(s => (s as HTMLElement).style.display = 'none');
         emptyState.classList.remove('hidden');
       } else {
-        pluginsGrid.style.display = 'grid';
         emptyState.classList.add('hidden');
       }
     }
@@ -229,7 +340,8 @@ const statuses = ['All', 'Active', 'Coming Soon', 'Beta'];
     searchInput?.addEventListener('input', filterPlugins);
     categoryFilter?.addEventListener('change', filterPlugins);
     statusFilter?.addEventListener('change', filterPlugins);
-    clearFiltersBtn?.addEventListener('click', clearFilters);
+    clearAllBtn?.addEventListener('click', clearFilters);
+    clearEmptyBtn?.addEventListener('click', clearFilters);
 
     // Initial filter
     filterPlugins();

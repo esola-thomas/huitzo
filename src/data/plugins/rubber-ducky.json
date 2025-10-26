@@ -8,7 +8,7 @@
   "tagline": "Talk through problems and find your own solutions",
   "description": "Ever solved a problem just by explaining it to someone? That's the power of rubber duck debugging. Use the CLI to chat with an AI that asks thoughtful questions instead of giving answers, helping you think deeper and find solutions you might have missed.",
   "category": "productivity",
-  "status": "coming-soon",
+  "status": "beta",
   "features": [
     "Chat with an AI designed to listen and ask questions",
     "No direct answers - AI helps you think it through",
@@ -24,7 +24,7 @@
   "pricing": {
     "free": {
       "available": true,
-      "limits": "Unlimited conversations, basic question prompts"
+      "limits": "basic question prompts"
     },
     "pro": {
       "price": "Coming Soon",

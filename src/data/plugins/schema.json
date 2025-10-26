@@ -88,8 +88,8 @@
     "status": {
       "type": "string",
       "description": "Current status of the plugin development",
-      "enum": ["active", "coming-soon", "beta", "deprecated", "archived"],
-      "examples": ["active", "coming-soon"]
+      "enum": ["active", "beta", "coming-soon", "idea-phase", "deprecated", "archived"],
+      "examples": ["active", "coming-soon", "idea-phase"]
     },
     "features": {
       "type": "array",

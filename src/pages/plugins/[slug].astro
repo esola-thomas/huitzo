@@ -2,12 +2,12 @@
 import Layout from '~/layouts/PageLayout.astro';
 import Command from '~/components/Command.astro';
 import CTAButton from '~/components/CTAButton.astro';
-import { loadAllPlugins, type Plugin } from '~/utils/plugins';
+import { loadAllPlugins, type Plugin, getStatusInfo, getCategoryColors } from '~/utils/plugins';
 
 // Generate static paths for all plugins
 export async function getStaticPaths() {
   const plugins = await loadAllPlugins();
-  
+
   return plugins.map(plugin => ({
     params: { slug: plugin.slug },
     props: { plugin },
@@ -33,9 +33,50 @@ const metadata = {
   title: `${plugin.name} Plugin | Huitzo`,
   description: plugin.description
 };
+
+// Get status and category info
+const statusInfo = getStatusInfo(plugin.status);
+const categoryColors = getCategoryColors(plugin.category);
+const isComingSoon = plugin.status === 'coming-soon';
+const isBeta = plugin.status === 'beta';
+const isActive = plugin.status === 'active';
+const isIdeaPhase = plugin.status === 'idea-phase';
 ---
 
 <Layout metadata={metadata}>
+
+  <!-- Status Banner for Coming Soon / Beta / Idea Phase -->
+  {(isComingSoon || isBeta || isIdeaPhase) && (
+    <div class={`py-3 text-center ${
+      isBeta ? 'bg-status-warning/10 border-b border-status-warning/30' :
+      isIdeaPhase ? 'bg-purple-500/10 border-b border-purple-500/30' :
+      'bg-huitzo-accent/10 border-b border-huitzo-accent/30'
+    }`}>
+      <div class="container mx-auto px-4">
+        <p class={`text-sm font-medium ${
+          isBeta ? 'text-status-warning' :
+          isIdeaPhase ? 'text-purple-400' :
+          'text-huitzo-accent'
+        }`}>
+          {isBeta && (
+            <>
+              🧪 <strong>Beta Plugin:</strong> This plugin is currently in beta testing. Features may change before official release.
+            </>
+          )}
+          {isComingSoon && (
+            <>
+              🚀 <strong>Coming Soon:</strong> This plugin is currently in development. Check out the planned features and documentation below.
+            </>
+          )}
+          {isIdeaPhase && (
+            <>
+              💡 <strong>Idea Phase:</strong> This plugin is in the concept stage. We're exploring the idea and would love your feedback to shape its development.
+            </>
+          )}
+        </p>
+      </div>
+    </div>
+  )}
 
   <!-- Structured Data for SoftwareApplication -->
   <script type="application/ld+json" is:inline>
@@ -104,11 +145,31 @@ const metadata = {
   <section class="py-12 bg-huitzo-secondary/30">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto">
-        <h2 class="text-3xl font-bold text-text-primary mb-6">Overview</h2>
+        <h2 class="text-3xl font-bold text-text-primary mb-6">
+          {isIdeaPhase ? 'The Concept' : isComingSoon ? 'What We\'re Building' : 'Overview'}
+        </h2>
         <div class="card">
           <p class="text-text-secondary leading-relaxed text-lg">
             {plugin.description}
           </p>
+
+          {isIdeaPhase && (
+            <div class="mt-6 pt-6 border-t border-huitzo-border">
+              <p class="text-sm text-text-muted">
+                💭 <strong>This is just an idea:</strong> We're exploring whether this plugin would be valuable.
+                The features below represent what we're thinking about building. Your feedback can help shape or even change this direction entirely.
+              </p>
+            </div>
+          )}
+
+          {isComingSoon && !isIdeaPhase && (
+            <div class="mt-6 pt-6 border-t border-huitzo-border">
+              <p class="text-sm text-text-muted">
+                💡 <strong>Why this matters:</strong> We're developing this plugin to address a real need in the market.
+                All features documented below are planned for the initial release.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -118,11 +179,23 @@ const metadata = {
   <section class="py-20">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto">
-        <h2 class="text-3xl font-bold text-text-primary mb-8">Key Features</h2>
+        <h2 class="text-3xl font-bold text-text-primary mb-8">
+          {isIdeaPhase ? 'Potential Features' : isComingSoon ? 'Planned Features' : isBeta ? 'Beta Features' : 'Key Features'}
+        </h2>
+        {isIdeaPhase && (
+          <p class="text-text-muted mb-6">
+            These are features we're considering. They're not set in stone - your feedback could change everything:
+          </p>
+        )}
+        {isComingSoon && !isIdeaPhase && (
+          <p class="text-text-muted mb-6">
+            These are the features we're actively building for the initial release:
+          </p>
+        )}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           {Array.isArray(plugin.features) && plugin.features.map((feature: string) => (
             <div class="flex items-start gap-3 p-4 bg-huitzo-secondary/50 rounded-lg border border-huitzo-border">
-              <span class="text-huitzo-accent mt-1">•</span>
+              <span class="text-huitzo-accent mt-1">{isIdeaPhase ? '💭' : isComingSoon ? '📋' : '✓'}</span>
               <span class="text-text-secondary">{feature}</span>
             </div>
           ))}
@@ -196,7 +269,25 @@ const metadata = {
     <section class="py-20">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
-          <h2 class="text-3xl font-bold text-text-primary mb-8">Installation</h2>
+          <h2 class="text-3xl font-bold text-text-primary mb-8">
+            {isIdeaPhase ? 'Potential Installation (Concept)' : isComingSoon ? 'How to Install (When Available)' : 'Installation'}
+          </h2>
+
+          {isIdeaPhase && (
+            <div class="mb-6 p-4 bg-purple-500/10 border border-purple-500/30 rounded-lg">
+              <p class="text-sm text-text-secondary">
+                💡 This is a conceptual installation command showing how we envision this plugin might work if developed.
+              </p>
+            </div>
+          )}
+
+          {isComingSoon && !isIdeaPhase && (
+            <div class="mb-6 p-4 bg-huitzo-accent/10 border border-huitzo-accent/30 rounded-lg">
+              <p class="text-sm text-text-secondary">
+                ℹ️ This plugin is not yet available. The installation command below shows how it will work once released.
+              </p>
+            </div>
+          )}
 
           <div class="mb-8">
             <Command command={plugin.installation.command} />
@@ -225,7 +316,19 @@ const metadata = {
     <section class="py-20 bg-huitzo-secondary/30">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
-          <h2 class="text-3xl font-bold text-text-primary mb-8">Quick Start</h2>
+          <h2 class="text-3xl font-bold text-text-primary mb-8">
+            {isIdeaPhase ? 'Envisioned Usage' : isComingSoon ? 'Planned Quick Start Guide' : 'Quick Start'}
+          </h2>
+          {isIdeaPhase && (
+            <p class="text-text-muted mb-6">
+              Here's how we imagine using this plugin might work:
+            </p>
+          )}
+          {isComingSoon && !isIdeaPhase && (
+            <p class="text-text-muted mb-6">
+              Here's how you'll use this plugin once it's available:
+            </p>
+          )}
           <div class="space-y-6">
             {Array.isArray(plugin.quickstart) && plugin.quickstart.map((step: { step: number; title: string; command: string; description: string }) => (
               <div class="card">
@@ -314,21 +417,79 @@ const metadata = {
   <section class="py-20">
     <div class="container mx-auto px-4">
       <div class="max-w-2xl mx-auto text-center">
-        <h2 class="text-3xl font-bold text-text-primary mb-6">
-          Your Intelligence Advantage Starts Now
-        </h2>
-        <p class="text-lg text-text-secondary mb-8">
-          Activate this plugin and let simple commands deliver insights your competition will miss.
-        </p>
+        {isIdeaPhase ? (
+          <>
+            <h2 class="text-3xl font-bold text-text-primary mb-6">
+              Help Shape This Plugin
+            </h2>
+            <p class="text-lg text-text-secondary mb-8">
+              This plugin is still just an idea. Your feedback could make it real - or help us pivot to something even better.
+            </p>
 
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <CTAButton href="https://cli.huitzo.com" target="_blank" rel="noopener">
-            Command Your Intelligence (Launching Soon) →
-          </CTAButton>
-          <CTAButton href={`${import.meta.env.BASE_URL}plugins`} variant="secondary">
-            Explore Other Intelligence Plugins
-          </CTAButton>
-        </div>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <CTAButton href={plugin.links?.support || 'https://github.com/esola-thomas/huitzo/issues'} target="_blank" rel="noopener">
+                Share Your Thoughts →
+              </CTAButton>
+              <CTAButton href={`${import.meta.env.BASE_URL}plugins`} variant="secondary">
+                Explore Other Plugins
+              </CTAButton>
+            </div>
+          </>
+        ) : isComingSoon ? (
+          <>
+            <h2 class="text-3xl font-bold text-text-primary mb-6">
+              Want to Know When This Launches?
+            </h2>
+            <p class="text-lg text-text-secondary mb-8">
+              This plugin is actively in development. Check our roadmap to see the timeline and stay updated on progress.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <CTAButton href={`${import.meta.env.BASE_URL}roadmap`}>
+                View Development Roadmap →
+              </CTAButton>
+              <CTAButton href={`${import.meta.env.BASE_URL}plugins`} variant="secondary">
+                Explore Other Plugins
+              </CTAButton>
+            </div>
+          </>
+        ) : isBeta ? (
+          <>
+            <h2 class="text-3xl font-bold text-text-primary mb-6">
+              Ready to Try the Beta?
+            </h2>
+            <p class="text-lg text-text-secondary mb-8">
+              Help us test and improve this plugin. Your feedback will shape the final release.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <CTAButton href="https://cli.huitzo.com" target="_blank" rel="noopener">
+                Get Started with Beta →
+              </CTAButton>
+              <CTAButton href={plugin.links?.support || 'https://github.com/esola-thomas/huitzo/issues'} target="_blank" rel="noopener" variant="secondary">
+                Report Issues or Feedback
+              </CTAButton>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2 class="text-3xl font-bold text-text-primary mb-6">
+              Your Intelligence Advantage Starts Now
+            </h2>
+            <p class="text-lg text-text-secondary mb-8">
+              Activate this plugin and let simple commands deliver insights your competition will miss.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <CTAButton href="https://cli.huitzo.com" target="_blank" rel="noopener">
+                Command Your Intelligence (Launching Soon) →
+              </CTAButton>
+              <CTAButton href={`${import.meta.env.BASE_URL}plugins`} variant="secondary">
+                Explore Other Intelligence Plugins
+              </CTAButton>
+            </div>
+          </>
+        )}
       </div>
     </div>
   </section>
