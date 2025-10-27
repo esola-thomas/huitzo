@@ -4,7 +4,7 @@ import RoadmapTimeline from '~/components/RoadmapTimeline.astro';
 
 // Import roadmap data
 const roadmapData = await import('~/data/roadmap.json');
-const { milestones, lastUpdated } = roadmapData.default;
+const { milestones, lastUpdated, vision } = roadmapData.default;
 
 const metadata = {
   title: 'Development Roadmap',
@@ -36,87 +36,113 @@ const metadata = {
     </div>
   </section>
 
-  <!-- Timeline Visualization -->
-  <section class="py-12 bg-[var(--aw-color-bg-secondary)]">
+  <!-- Vision Section -->
+  <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
     <div class="container mx-auto px-4">
-      <div class="max-w-6xl mx-auto">
-        <h2 class="text-2xl font-bold mb-8 text-center">Development Timeline</h2>
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-8 text-center">
+          Our <span class="text-gradient animated-gradient">Vision</span>
+        </h2>
 
-        <!-- Visual Timeline -->
-        <div class="relative mb-12">
-          <div class="flex items-center justify-start mb-8 overflow-x-auto pb-4">
-            <div class="flex items-center min-w-max space-x-8 pl-4">
-              <!-- Timeline Points (shifted left: current work is Core Platform in Oct) -->
-              <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-[var(--aw-color-success)] border-2 border-[var(--aw-color-success)]"></div>
-                <div class="text-xs text-[var(--aw-color-success)] font-medium mt-2">Sep 2025</div>
-                <div class="text-xs text-muted">Foundation</div>
-              </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Vision -->
+          <div class="card">
+            <div class="text-4xl mb-3">🎯</div>
+            <h3 class="text-xl font-semibold mb-3">Vision</h3>
+            <p class="text-muted text-sm leading-relaxed">{vision.statement}</p>
+          </div>
 
-              <div class="flex-1 h-0.5 bg-primary"></div>
+          <!-- Mission -->
+          <div class="card">
+            <div class="text-4xl mb-3">🚀</div>
+            <h3 class="text-xl font-semibold mb-3">Mission</h3>
+            <p class="text-muted text-sm leading-relaxed">{vision.mission}</p>
+          </div>
 
-              <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-primary border-2 border-primary glow"></div>
-                <div class="text-xs text-primary font-medium mt-2">Oct 2025</div>
-                <div class="text-xs text-muted">Core Platform — In progress</div>
-              </div>
-
-              <div class="flex-1 h-0.5 bg-primary"></div>
-
-              <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-primary border-2 border-primary glow"></div>
-                <div class="text-xs text-primary font-medium mt-2">Late Oct 2025</div>
-                <div class="text-xs text-muted">Friends &amp; Family — Alpha Testing</div>
-              </div>
-
-              <div class="flex-1 h-0.5 bg-gray-700"></div>
-
-              <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-primary border-2 border-primary"></div>
-                <div class="text-xs text-primary font-medium mt-2">Early Nov 2025</div>
-                <div class="text-xs text-muted">Simpler Plugins</div>
-              </div>
-
-              <div class="flex-1 h-0.5 bg-gray-700"></div>
-
-              <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-primary border-2 border-primary glow"></div>
-                <div class="text-xs text-muted font-medium mt-2">Mid Nov 2025</div>
-                <div class="text-xs text-muted">Finance Plugin (WIP)</div>
-              </div>
-
-              <div class="flex-1 h-0.5 bg-gray-700"></div>
-
-              <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-[var(--aw-color-bg-primary)] border-2 border-gray-700"></div>
-                <div class="text-xs text-muted font-medium mt-2">Jan 2026</div>
-                <div class="text-xs text-muted">Beta Testing</div>
-              </div>
-
-              <div class="flex-1 h-0.5 bg-gray-700"></div>
-
-              <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-[var(--aw-color-bg-primary)] border-2 border-gray-700"></div>
-                <div class="text-xs text-muted font-medium mt-2">May 2026</div>
-                <div class="text-xs text-muted">Public Launch</div>
-              </div>
-
-              <div class="flex-1 h-0.5 bg-gray-700"></div>
-
-              <div class="flex flex-col items-center">
-                <div class="w-4 h-4 rounded-full bg-[var(--aw-color-bg-primary)] border-2 border-gray-700"></div>
-                <div class="text-xs text-muted font-medium mt-2">Jun 2026</div>
-                <div class="text-xs text-muted">Ecosystem</div>
-              </div>
-            </div>
+          <!-- Approach -->
+          <div class="card">
+            <div class="text-4xl mb-3">🔧</div>
+            <h3 class="text-xl font-semibold mb-3">Approach</h3>
+            <p class="text-muted text-sm leading-relaxed">{vision.approach}</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Development Milestones -->
+  <!-- Why This Matters -->
   <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-8 text-center">
+          Why This <span class="text-gradient animated-gradient">Matters</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Problem -->
+          <div>
+            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+              <span class="text-2xl">💡</span>
+              The Problem
+            </h3>
+            <ul class="space-y-3 text-muted">
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Sophisticated data analysis requires technical expertise that most people don't have</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Existing tools are either too simple (spreadsheets) or too complex (programming)</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>AI assistants are general-purpose and don't maintain context or workflows</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Solution -->
+          <div>
+            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+              <span class="text-2xl">✨</span>
+              Our Solution
+            </h3>
+            <ul class="space-y-3 text-muted">
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>CLI platform combines simplicity of commands with power of AI</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Plugin marketplace enables specialized intelligence services for every use case</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Community-driven ecosystem creates network effects and rapid innovation</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Key Differentiator -->
+        <div class="mt-12 card bg-gradient-to-r from-primary/10 to-accent/10 border-2 border-primary/30">
+          <h3 class="text-xl font-semibold mb-3 flex items-center gap-2">
+            <span class="text-2xl">🎁</span>
+            Key Differentiator
+          </h3>
+          <p class="text-muted mb-4">
+            <strong class="text-primary">Plugin Marketplace:</strong> We're not just building a tool, we're creating a platform where developers can build and share specialized intelligence services. This creates a flywheel: more plugins attract more users, more users attract more developers, more developers create better plugins.
+          </p>
+          <p class="text-muted text-sm">
+            Think of it as the "App Store for Intelligence Services" but built on simple, composable command-line tools that anyone can use. And this command-line tools are the fundation, once they are mature tested and adopted by the users we can simply create Grafical Applications that will be powered by Huitzo CLI. Huitzo was architected with scalability in mind.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Development Milestones -->
+  <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto">
         <h2 class="text-3xl font-bold mb-12 text-center">Development Milestones</h2>
@@ -165,199 +191,8 @@ const metadata = {
     </div>
   </section>
 
-  <!-- Feature Roadmap -->
-  <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
-    <div class="container mx-auto px-4">
-      <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl font-bold mb-6 text-center">
-          Feature <span class="text-gradient animated-gradient">Roadmap</span>
-        </h2>
-        <p class="text-center text-muted mb-12 max-w-2xl mx-auto">
-          Upcoming features and capabilities we're building to enhance your intelligent data analysis experience.
-        </p>
-
-        <!-- Feature Categories -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Core Platform Features -->
-          <div class="card">
-            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
-              🏗️ Core Platform
-            </h3>
-            <ul class="space-y-3 text-sm text-muted">
-              <li class="flex items-center gap-2">
-                <span class="text-green-500">✓</span>
-                Web-based CLI interface
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-green-500">✓</span>
-                Plugin architecture system
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-blue-500">✓</span>
-                Hot-reload plugin development
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">⏳</span>
-                Multi-user session management
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Advanced security controls
-              </li>
-            </ul>
-          </div>
-
-          <!-- Intelligence Plugins -->
-          <div class="card">
-            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
-              🧠 Intelligence Plugins
-            </h3>
-            <ul class="space-y-3 text-sm text-muted">
-              <li class="flex items-center gap-2">
-                <span class="text-blue-500">⏳</span>
-                Financial market analysis
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Business data intelligence
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Social media analytics
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Research & documentation
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Custom plugin templates
-              </li>
-            </ul>
-          </div>
-
-          <!-- User Experience -->
-          <div class="card">
-            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
-              🎨 User Experience
-            </h3>
-            <ul class="space-y-3 text-sm text-muted">
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Interactive onboarding
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">✓</span>
-                Command auto-completion
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Visual output formatting
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Mobile-responsive interface
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Dark/light theme support
-              </li>
-            </ul>
-          </div>
-
-          <!-- Integration & API -->
-          <div class="card">
-            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
-              🔌 Integrations
-            </h3>
-            <ul class="space-y-3 text-sm text-muted">
-              <li class="flex items-center gap-2">
-                <span class="text-blue-500">✓</span>
-                Email report delivery
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Slack/Teams notifications
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Calendar scheduling
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Webhook integrations
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                REST API access
-              </li>
-            </ul>
-          </div>
-
-          <!-- Enterprise Features -->
-          <div class="card">
-            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
-              🏢 Enterprise
-            </h3>
-            <ul class="space-y-3 text-sm text-muted">
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Team collaboration tools
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Role-based permissions
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Audit logs & compliance
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Single sign-on (SSO)
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                On-premises deployment
-              </li>
-            </ul>
-          </div>
-
-          <!-- Developer Tools -->
-          <div class="card">
-            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
-              🛠️ Developer Tools
-            </h3>
-            <ul class="space-y-3 text-sm text-muted">
-              <li class="flex items-center gap-2">
-                <span class="text-blue-500">⏳</span>
-                Plugin development SDK
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Plugin marketplace
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Testing & debugging tools
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Performance monitoring
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-gray-500">○</span>
-                Analytics dashboard
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Call to Action -->
-  <section class="py-20">
+  <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
     <div class="container mx-auto px-4">
       <div class="max-w-2xl mx-auto text-center">
         <h2 class="text-3xl font-bold mb-6">
@@ -375,7 +210,7 @@ const metadata = {
         </div>
 
         <!-- Newsletter Signup -->
-        <div class="mt-8 p-4 bg-[var(--aw-color-bg-secondary)] rounded-lg border border-gray-700">
+        <div class="mt-8 p-4 bg-[var(--aw-color-bg-page)] rounded-lg border border-gray-700">
           <p class="text-sm text-muted mb-2">📬 Get development updates in your inbox</p>
           <a href="/newsletter" class="text-primary hover:underline text-sm">
             Subscribe to our newsletter (COMING SOON)
