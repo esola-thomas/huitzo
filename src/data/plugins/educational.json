@@ -1,0 +1,77 @@
+{
+  "id": "educational-personalization",
+  "slug": "educational",
+  "name": "Educational Personalization",
+  "version": "0.0.0",
+  "author": "Huitzo",
+  "icon": "🎓",
+  "tagline": "AI Tutor for Everything",
+  "description": "Personalized learning paths powered by AI that adapt to your pace, style, and goals. Interactive lessons, real-time feedback, and progress tracking make mastering any subject accessible from the command line.",
+  "category": "productivity",
+  "status": "coming-soon",
+  "features": [
+    "Personalized learning paths based on skill level and goals",
+    "Interactive lessons with code execution and visualizations",
+    "AI-powered feedback on practice problems and assignments",
+    "Progress tracking with strength/weakness analysis",
+    "Multi-modal learning (theory, practice, projects)",
+    "Career-focused tracks and certification preparation"
+  ],
+  "installation": {
+    "command": "huitzo plugin install educational",
+    "requirements": ["Huitzo account", "Learning goal setup"]
+  },
+  "quickstart": [
+    {
+      "step": 1,
+      "title": "Start learning path",
+      "command": "learn.start --topic=\"Machine Learning\" --level=beginner"
+    },
+    {
+      "step": 2,
+      "title": "View today's lesson",
+      "command": "learn.lesson --current"
+    },
+    {
+      "step": 3,
+      "title": "Practice problems",
+      "command": "learn.practice --topic=current"
+    },
+    {
+      "step": 4,
+      "title": "Submit solution",
+      "command": "learn.solve --problem=current --attempt=1"
+    },
+    {
+      "step": 5,
+      "title": "Check progress",
+      "command": "learn.progress --subject=\"Machine Learning\""
+    }
+  ],
+  "commands": [
+    {
+      "name": "learn.start",
+      "description": "Initialize a personalized learning path",
+      "usage": "learn.start --topic=\"Machine Learning\" --level=beginner --goal=\"Build first ML model\""
+    },
+    {
+      "name": "learn.lesson",
+      "description": "Access current lesson with interactive content",
+      "usage": "learn.lesson --current"
+    },
+    {
+      "name": "learn.solve",
+      "description": "Submit solution and receive AI feedback",
+      "usage": "learn.solve --problem=current --attempt=1"
+    },
+    {
+      "name": "learn.progress",
+      "description": "View learning progress with analytics",
+      "usage": "learn.progress --subject=\"Machine Learning\""
+    }
+  ],
+  "links": {
+    "documentation": "https://docs.huitzo.com/plugins/educational",
+    "support": "https://github.com/esola-thomas/huitzo/issues"
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-10-26T00:00:00.000Z",
+  "lastUpdated": "2025-10-30T12:00:00.000Z",
   "vision": {
     "statement": "Make intelligent data analysis accessible to everyone through a simple, powerful CLI platform",
     "mission": "Transform how people interact with their data by combining the power of AI with the simplicity of command-line tools",
@@ -79,6 +79,36 @@
       ]
     },
     {
+      "id": "personal-assistant",
+      "status": "upcoming",
+      "title": "Personal AI Assistant Plugin",
+      "targetDate": "2025-12-15",
+      "progress": 0,
+      "description": "Transform email chaos, calendar conflicts, and task overload into organized productivity. The AI assistant handles scheduling optimization, drafts email responses, prioritizes work based on goals, and prepares meeting briefings—demonstrating the platform's ability to automate and enhance personal productivity workflows.",
+      "deliverables": [
+        "Intelligent email management with auto-drafting and prioritization",
+        "Calendar optimization and automated conflict resolution",
+        "Context-aware task prioritization aligned with user goals",
+        "Automated meeting preparation with talking points and briefings",
+        "Multi-platform integration (Gmail, Outlook, Google Calendar)"
+      ]
+    },
+    {
+      "id": "educational-plugin",
+      "status": "upcoming",
+      "title": "Educational Personalization Plugin",
+      "targetDate": "2026-01-15",
+      "progress": 0,
+      "description": "Personalized learning paths powered by AI that adapt to individual pace, style, and goals. Interactive lessons with real-time feedback, progress tracking, and multi-modal learning demonstrate how the platform can democratize education and skill development through intelligent tutoring.",
+      "deliverables": [
+        "Personalized learning path generation based on skill level and goals",
+        "Interactive lessons with code execution and visualizations",
+        "AI-powered feedback on practice problems and assignments",
+        "Progress tracking with strength/weakness analysis",
+        "Career-focused tracks and certification preparation support"
+      ]
+    },
+    {
       "id": "beta-program",
       "status": "upcoming",
       "title": "Private Beta Launch",
@@ -109,6 +139,21 @@
       ]
     },
     {
+      "id": "advanced-plugin-suite",
+      "status": "upcoming",
+      "title": "Advanced Plugin Suite Launch",
+      "targetDate": "2026-02-28",
+      "progress": 0,
+      "description": "Launch sophisticated plugins demonstrating the platform's capability to handle complex, specialized workflows. Multi-Agent Orchestration enables distributed intelligence for research tasks, while Healthcare Administrative Intelligence showcases industry-specific automation—both highlighting the platform's B2B potential and technical differentiation.",
+      "deliverables": [
+        "Multi-Agent Orchestration: Spawn and coordinate multiple AI agents for parallel workflows",
+        "Healthcare Administrative Intelligence: Automate claims processing and prior authorization",
+        "Agent network monitoring with real-time status and progress tracking",
+        "HIPAA-compliant data handling with healthcare system integrations",
+        "Cost optimization and intelligent scheduling for agent workflows"
+      ]
+    },
+    {
       "id": "public-launch",
       "status": "upcoming",
       "title": "Public Platform Launch",
@@ -131,11 +176,11 @@
       "progress": 0,
       "description": "Grow the plugin ecosystem with both first-party and third-party plugins spanning diverse use cases. Demonstrate the platform's versatility and the power of community-driven intelligence services. Each new plugin category attracts a new user segment and creates network effects.",
       "deliverables": [
-        "Health & fitness tracking with AI-powered insights",
-        "E-commerce analytics for online sellers and marketers",
-        "Social media intelligence and content automation",
-        "Academic research assistant with citation management",
-        "Developer productivity tools and code analysis"
+        "Government & Enterprise Compliance: FedRAMP preparation and regulatory analysis",
+        "Scientific Computing Intelligence: Experiment design and optimization for researchers",
+        "Video-as-Primitive Tools: On-demand video generation infrastructure",
+        "Design Automation Intelligence: AI-powered UI generation and design systems",
+        "Community-contributed plugins across health, e-commerce, social media, and academic domains"
       ]
     }
   ]

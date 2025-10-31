@@ -1,0 +1,77 @@
+{
+  "id": "video-generation",
+  "slug": "video-generation",
+  "name": "Video-as-Primitive Tools",
+  "version": "0.0.0",
+  "author": "Huitzo",
+  "icon": "🎬",
+  "tagline": "Generative Video Infrastructure",
+  "description": "Treat video generation as a computing primitive. Build applications with on-demand video creation—from personalized product visualizations to synthetic training datasets for robotics and AI.",
+  "category": "other",
+  "status": "idea-phase",
+  "features": [
+    "On-demand product visualization and virtual try-on",
+    "Synthetic training data generation for computer vision",
+    "Personalized video content creation at scale",
+    "Real-time video manipulation and editing",
+    "Multi-format output (social media, web, mobile)",
+    "API-first video generation infrastructure"
+  ],
+  "installation": {
+    "command": "huitzo plugin install video-generation",
+    "requirements": ["Pro account", "GPU compute credits", "Media storage allocation"]
+  },
+  "quickstart": [
+    {
+      "step": 1,
+      "title": "Generate product video",
+      "command": "video.product.visualize --product-id=shirt-123 --user-photo=selfie.jpg"
+    },
+    {
+      "step": 2,
+      "title": "Create training data",
+      "command": "video.robotics.generate --scenario=\"warehouse-picking\" --objects=100"
+    },
+    {
+      "step": 3,
+      "title": "Personalized story",
+      "command": "video.storytelling.create --script=story.txt --characters=photos/"
+    },
+    {
+      "step": 4,
+      "title": "Edit video",
+      "command": "video.edit --input=raw.mp4 --effects=stabilize,color-grade"
+    },
+    {
+      "step": 5,
+      "title": "Batch process",
+      "command": "video.batch.render --template=marketing --products=catalog.json"
+    }
+  ],
+  "commands": [
+    {
+      "name": "video.product.visualize",
+      "description": "Generate personalized product visualization videos",
+      "usage": "video.product.visualize --product-id=\"shirt-123\" --user-photo=selfie.jpg --duration=5s"
+    },
+    {
+      "name": "video.robotics.generate",
+      "description": "Create synthetic training datasets for robotics/CV",
+      "usage": "video.robotics.generate --scenario=\"warehouse-picking\" --objects=100 --variations=50"
+    },
+    {
+      "name": "video.storytelling.create",
+      "description": "Generate personalized animated stories",
+      "usage": "video.storytelling.create --script=kids_story.txt --characters=family_photos/"
+    },
+    {
+      "name": "video.batch.render",
+      "description": "Batch process videos from templates",
+      "usage": "video.batch.render --template=social-ad --products=catalog.json --count=50"
+    }
+  ],
+  "links": {
+    "documentation": "https://docs.huitzo.com/plugins/video-generation",
+    "support": "https://github.com/esola-thomas/huitzo/issues"
+  }
+}

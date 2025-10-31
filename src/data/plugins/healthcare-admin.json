@@ -1,0 +1,77 @@
+{
+  "id": "healthcare-admin",
+  "slug": "healthcare-admin",
+  "name": "Healthcare Administrative Intelligence",
+  "version": "0.0.0",
+  "author": "Huitzo",
+  "icon": "🏥",
+  "tagline": "Cut Through Healthcare Bureaucracy",
+  "description": "Automate the $1 trillion administrative burden in healthcare. Intelligent claims processing, prior authorization, patient scheduling, and insurance verification—all while maintaining HIPAA compliance and data security.",
+  "category": "automation",
+  "status": "coming-soon",
+  "features": [
+    "Automated claims processing with CPT/ICD-10 code identification",
+    "Prior authorization request preparation and tracking",
+    "Intelligent patient scheduling and communication",
+    "Insurance verification and coverage analysis",
+    "Medical necessity documentation from patient records",
+    "HIPAA-compliant data handling with row-level security"
+  ],
+  "installation": {
+    "command": "huitzo plugin install healthcare-admin",
+    "requirements": ["Healthcare provider credentials", "EHR system integration", "HIPAA compliance certification"]
+  },
+  "quickstart": [
+    {
+      "step": 1,
+      "title": "Setup EHR connection",
+      "command": "healthcare.setup --ehr=epic --credentials=secure"
+    },
+    {
+      "step": 2,
+      "title": "Verify insurance",
+      "command": "healthcare.insurance.verify --patient-id=12345"
+    },
+    {
+      "step": 3,
+      "title": "Submit claim",
+      "command": "healthcare.claim.submit --patient-id=12345 --service-date=2025-10-15"
+    },
+    {
+      "step": 4,
+      "title": "Request prior auth",
+      "command": "healthcare.prior-auth.request --procedure=\"MRI\" --patient=12345"
+    },
+    {
+      "step": 5,
+      "title": "Schedule follow-up",
+      "command": "healthcare.patient.schedule --patient=12345 --type=follow-up"
+    }
+  ],
+  "commands": [
+    {
+      "name": "healthcare.claim.submit",
+      "description": "Automatically prepare and submit insurance claims",
+      "usage": "healthcare.claim.submit --patient-id=12345 --service-date=2025-10-15"
+    },
+    {
+      "name": "healthcare.prior-auth.request",
+      "description": "Generate prior authorization requests with medical necessity",
+      "usage": "healthcare.prior-auth.request --procedure=\"MRI\" --patient=12345"
+    },
+    {
+      "name": "healthcare.patient.schedule",
+      "description": "Intelligently schedule patient appointments",
+      "usage": "healthcare.patient.schedule --patient=12345 --type=follow-up"
+    },
+    {
+      "name": "healthcare.insurance.verify",
+      "description": "Verify patient insurance coverage and eligibility",
+      "usage": "healthcare.insurance.verify --patient-id=12345 --procedure=\"annual-physical\""
+    }
+  ],
+  "links": {
+    "documentation": "https://docs.huitzo.com/plugins/healthcare-admin",
+    "support": "https://github.com/esola-thomas/huitzo/issues"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "id": "personal-assistant",
+  "slug": "personal-assistant",
+  "name": "Personal AI Assistant",
+  "version": "0.0.0",
+  "author": "Huitzo",
+  "icon": "🤖",
+  "tagline": "From To-Do List to Done List",
+  "description": "Transform email chaos, calendar conflicts, and task overload into organized productivity. Your AI assistant handles scheduling, drafts responses, prioritizes work, and prepares you for meetings—all through simple CLI commands.",
+  "category": "productivity",
+  "status": "coming-soon",
+  "features": [
+    "Intelligent email management with auto-drafting and prioritization",
+    "Calendar optimization and conflict resolution",
+    "Context-aware task prioritization aligned with your goals",
+    "Automated meeting preparation with talking points and briefings",
+    "Smart notification filtering and response suggestions",
+    "Multi-platform integration (Gmail, Outlook, Google Calendar)"
+  ],
+  "installation": {
+    "command": "huitzo plugin install personal-assistant",
+    "requirements": ["Email account connection", "Calendar API access", "Huitzo account"]
+  },
+  "quickstart": [
+    {
+      "step": 1,
+      "title": "Connect your email",
+      "command": "assistant.setup --email=gmail"
+    },
+    {
+      "step": 2,
+      "title": "Connect your calendar",
+      "command": "assistant.setup --calendar=google"
+    },
+    {
+      "step": 3,
+      "title": "Scan your inbox",
+      "command": "assistant.email.scan --priority=high"
+    },
+    {
+      "step": 4,
+      "title": "Optimize your schedule",
+      "command": "assistant.calendar.optimize --week=next"
+    },
+    {
+      "step": 5,
+      "title": "Prioritize tasks",
+      "command": "assistant.tasks.prioritize --context=quarterly-goals"
+    }
+  ],
+  "commands": [
+    {
+      "name": "assistant.email.scan",
+      "description": "Analyze inbox and auto-draft responses",
+      "usage": "assistant.email.scan --priority=high --auto-draft=yes"
+    },
+    {
+      "name": "assistant.calendar.optimize",
+      "description": "Optimize schedule to reduce conflicts and maximize productivity",
+      "usage": "assistant.calendar.optimize --week=next"
+    },
+    {
+      "name": "assistant.tasks.prioritize",
+      "description": "Prioritize tasks based on goals and deadlines",
+      "usage": "assistant.tasks.prioritize --context=quarterly-goals"
+    },
+    {
+      "name": "assistant.meeting.prep",
+      "description": "Prepare briefing materials for upcoming meetings",
+      "usage": "assistant.meeting.prep --calendar-id=today-2pm"
+    }
+  ],
+  "links": {
+    "documentation": "https://docs.huitzo.com/plugins/personal-assistant",
+    "support": "https://github.com/esola-thomas/huitzo/issues"
+  }
+}
