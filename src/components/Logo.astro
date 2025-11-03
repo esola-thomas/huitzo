@@ -1,9 +1,12 @@
 ---
 import { SITE } from 'astrowind:config';
+import logo from '~/assets/logos/huitzo-logo-dark-rectangle.png';
 ---
 
-<span
-  class="self-center ml-2 rtl:ml-0 rtl:mr-2 text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white"
->
-  🚀 {SITE?.name}
-</span>
+<div class="flex items-center self-center ml-2 rtl:ml-0 rtl:mr-2">
+  <img
+    src={logo.src}
+    alt="Huitzo Intelligence Platform"
+    class="h-12 sm:h-14 md:h-14 lg:h-16 xl:h-18 w-auto transition-all duration-300 hover:drop-shadow-[0_0_12px_rgba(0,191,255,0.4)]"
+  />
+</div>

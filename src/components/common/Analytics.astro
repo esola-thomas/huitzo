@@ -14,10 +14,22 @@ import { ANALYTICS } from 'astrowind:config';
 
 {
   ANALYTICS?.vendors?.goatCounter?.code ? (
-    <script
-      data-goatcounter={`https://${ANALYTICS.vendors.goatCounter.code}.goatcounter.com/count`}
-      async
-      src="//gc.zgo.at/count.js"
-    ></script>
+    <>
+      <script
+        data-goatcounter={`https://${ANALYTICS.vendors.goatCounter.code}.goatcounter.com/count`}
+        async
+        src="//gc.zgo.at/count.js"
+      ></script>
+      <script is:inline define:vars={{ code: ANALYTICS.vendors.goatCounter.code }}>
+        // Track page views on client-side navigation (Astro View Transitions)
+        document.addEventListener('astro:after-swap', () => {
+          if (window.goatcounter && window.goatcounter.count) {
+            window.goatcounter.count({
+              path: window.location.pathname + window.location.search + window.location.hash,
+            });
+          }
+        });
+      </script>
+    </>
   ) : null
 }
