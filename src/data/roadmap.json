@@ -36,17 +36,18 @@
       ]
     },
     {
-      "id": "goal-helper",
+      "id": "mechanical-engineering",
       "status": "in-progress",
-      "title": "Goal Helper Plugin Beta",
-      "targetDate": "2025-11-16",
-      "progress": 75,
-      "description": "AI-powered goal setting and coaching plugin demonstrating the platform's ability to provide personalized intelligence. Helps users break down ambitious goals into actionable steps with regular check-ins and motivational support based on progress patterns.",
+      "title": "Mechanical Engineering Intelligence Plugin",
+      "targetDate": "2025-11-30",
+      "progress": 15,
+      "description": "Engineering calculation automation plugin that replaces spreadsheets and reference manuals with intelligent CLI commands. Provides instant stress analysis, torque calculations, unit conversions, material property lookups, and fastener selection—supporting both SI and Imperial units for mechanical design workflows.",
       "deliverables": [
-        "AI-guided goal refinement using SMART framework",
-        "Milestone planning with automatic breakdown",
-        "Weekly check-in system with progress dashboards",
-        "Motivational insights based on user patterns"
+        "Stress and strain analysis engine for shafts, beams, and components",
+        "Comprehensive unit conversion system (SI/Imperial)",
+        "Material property database with mechanical and thermal data",
+        "Fastener selection and bolt joint analysis tools",
+        "Thermal expansion and power transmission calculators"
       ]
     },
     {
@@ -54,7 +55,7 @@
       "status": "in-progress",
       "title": "Rubber Ducky Coaching Plugin",
       "targetDate": "2025-11-16",
-      "progress": 75,
+      "progress": 80,
       "description": "Interactive problem-solving assistant using Socratic questioning to help developers and professionals think through challenges. Demonstrates the platform's conversational AI capabilities and shows how plugins can facilitate reflective thinking rather than just providing answers.",
       "deliverables": [
         "Conversational AI using Socratic method for problem exploration",

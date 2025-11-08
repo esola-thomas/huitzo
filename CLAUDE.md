@@ -63,10 +63,11 @@ Plugin and roadmap data are JSON files in `src/data/`:
 
 ```
 src/data/
-├── roadmap.json              # Roadmap milestones and metrics
+├── roadmap.json                    # Roadmap milestones and metrics
 └── plugins/
-    ├── _template.json        # Template for new plugins
-    └── financial.json        # Financial plugin data
+    ├── _template.json              # Template for new plugins
+    ├── financial.json              # Financial plugin data
+    └── mechanical-engineering.json # Mechanical engineering plugin data
 ```
 
 To add a new plugin:

@@ -1,0 +1,92 @@
+{
+  "id": "mechanical-engineering",
+  "slug": "mechanical-engineering",
+  "name": "Mechanical Engineering Intelligence",
+  "version": "0.0.0",
+  "author": "Huitzo",
+  "icon": "⚙️",
+  "tagline": "Engineering Calculations at Your Fingertips",
+  "description": "Replace spreadsheets and reference manuals with intelligent commands. Automate recurring mechanical engineering calculations including stress analysis, torque calculations, unit conversions, material property lookups, and fastener selection—supporting both SI and Imperial units with instant results.",
+  "category": "automation",
+  "status": "idea-phase",
+  "features": [
+    "Stress and strain analysis for shafts, beams, and structural components",
+    "Torque and power transmission calculations with safety factors",
+    "Bidirectional unit conversion between SI and Imperial systems",
+    "Material property database with mechanical and thermal characteristics",
+    "Fastener selection and bolt joint analysis with preload calculations",
+    "Thermal expansion and heat transfer analysis"
+  ],
+  "installation": {
+    "command": "huitzo plugin install mechanical-engineering",
+    "requirements": ["Huitzo account", "Engineering unit system preference", "Material standards library"]
+  },
+  "quickstart": [
+    {
+      "step": 1,
+      "title": "Calculate shaft stress",
+      "command": "mech.stress.analyze --type=shaft --diameter=50mm --torque=200Nm --bending=500N",
+      "description": "Analyze combined stress on a rotating shaft with torque and bending loads"
+    },
+    {
+      "step": 2,
+      "title": "Convert units",
+      "command": "mech.convert --value=100 --from=psi --to=MPa",
+      "description": "Convert pressure units between Imperial and SI systems"
+    },
+    {
+      "step": 3,
+      "title": "Lookup material properties",
+      "command": "mech.material.lookup --name=\"Steel AISI 1045\" --properties=all",
+      "description": "Retrieve mechanical properties including yield strength, modulus, and thermal data"
+    },
+    {
+      "step": 4,
+      "title": "Calculate bolt torque",
+      "command": "mech.fastener.torque --size=M12 --class=8.8 --friction=0.15",
+      "description": "Calculate proper tightening torque for bolt joint with specified friction coefficient"
+    },
+    {
+      "step": 5,
+      "title": "Thermal expansion",
+      "command": "mech.thermal.expand --material=\"Aluminum\" --length=500mm --temp-delta=50C",
+      "description": "Calculate thermal expansion for temperature change in mechanical assembly"
+    }
+  ],
+  "commands": [
+    {
+      "name": "mech.stress.analyze",
+      "description": "Calculate stress and deflection in mechanical components under various loading conditions",
+      "usage": "mech.stress.analyze --type=shaft --diameter=50mm --torque=200Nm --bending=500N --material=\"Steel\""
+    },
+    {
+      "name": "mech.torque.calculate",
+      "description": "Calculate torque, power, and rotational parameters for power transmission systems",
+      "usage": "mech.torque.calculate --power=10kW --rpm=1500 --efficiency=0.95"
+    },
+    {
+      "name": "mech.convert",
+      "description": "Convert between SI and Imperial units for all engineering quantities",
+      "usage": "mech.convert --value=100 --from=psi --to=MPa"
+    },
+    {
+      "name": "mech.material.lookup",
+      "description": "Access comprehensive material property database for design and analysis",
+      "usage": "mech.material.lookup --name=\"Steel AISI 1045\" --properties=mechanical,thermal"
+    },
+    {
+      "name": "mech.fastener.torque",
+      "description": "Calculate bolt preload, clamping force, and tightening torque specifications",
+      "usage": "mech.fastener.torque --size=M12 --class=8.8 --friction=0.15 --preload=0.75"
+    },
+    {
+      "name": "mech.thermal.expand",
+      "description": "Calculate thermal expansion, contraction, and stress due to temperature changes",
+      "usage": "mech.thermal.expand --material=\"Aluminum\" --length=500mm --temp-delta=50C"
+    }
+  ],
+  "links": {
+    "documentation": "https://docs.huitzo.com/plugins/mechanical-engineering",
+    "support": "https://github.com/esola-thomas/huitzo/issues"
+  }
+}

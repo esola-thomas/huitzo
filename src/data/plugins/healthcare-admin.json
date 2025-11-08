@@ -8,7 +8,7 @@
   "tagline": "Cut Through Healthcare Bureaucracy",
   "description": "Automate the $1 trillion administrative burden in healthcare. Intelligent claims processing, prior authorization, patient scheduling, and insurance verification—all while maintaining HIPAA compliance and data security.",
   "category": "automation",
-  "status": "coming-soon",
+  "status": "idea-phase",
   "features": [
     "Automated claims processing with CPT/ICD-10 code identification",
     "Prior authorization request preparation and tracking",

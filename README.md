@@ -11,15 +11,14 @@ Huitzo transforms overwhelming data into unfair competitive advantage. Using a w
 - **Plugin-based intelligence** - Extensible architecture for specialized domains
 - **Web-based CLI interface** - Command-driven intelligence access
 - **Intelligence-as-a-Service** - On-demand data analysis and insights
-- **Multiple intelligence domains** - Financial analysis, goal setting, job market intelligence, and more
+- **Multiple intelligence domains** - Financial analysis, and more
 - **Repository-driven content** - Dynamic stats and metrics from live plugin data
 
 **Current Plugins (4):**
 
 1. **Financial Intelligence** - Market insights, portfolio analysis, investment guidance
-2. **Goal Helper** - Goal setting and achievement tracking with AI guidance
-3. **Job Market Report** - Labor market analysis and employment trends
-4. **Rubber Ducky** - Collaborative problem-solving and brainstorming
+2. **Mechanical Engineering Intelligence** - Engineering calculations, stress analysis, unit conversions
+3. **Rubber Ducky** - Collaborative problem-solving and brainstorming
 
 **Project Timeline:** October 2025 - May 2026 (7-month development cycle)
 
@@ -67,7 +66,6 @@ huitzo.com/
 │   │   ├── config.yaml               # Site configuration
 │   │   └── plugins/
 │   │       ├── financial.json        # Financial Intelligence plugin
-│   │       ├── goal-helper.json      # Goal Helper plugin
 │   │       ├── job-report.json       # Job Market Report plugin
 │   │       ├── rubber-ducky.json     # Rubber Ducky plugin
 │   │       ├── schema.json           # Plugin data validation schema
@@ -250,12 +248,12 @@ To add a new plugin to the website:
 
 ### Current Plugins
 
-| Plugin                 | Slug           | Status      | Version |
-| ---------------------- | -------------- | ----------- | ------- |
-| Financial Intelligence | `financial`    | Active      | 1.0.0   |
-| Goal Helper            | `goal-helper`  | Coming Soon | 0.9.0   |
-| Job Market Report      | `job-report`   | Coming Soon | 0.8.0   |
-| Rubber Ducky           | `rubber-ducky` | Coming Soon | 0.7.0   |
+| Plugin                              | Slug                    | Status      | Version |
+| ----------------------------------- | ----------------------- | ----------- | ------- |
+| Financial Intelligence              | `financial`             | Active      | 1.0.0   |
+| Mechanical Engineering Intelligence | `mechanical-engineering`| Idea Phase  | 0.0.0   |
+| Job Market Report                   | `job-report`            | Coming Soon | 0.8.0   |
+| Rubber Ducky                        | `rubber-ducky`          | Coming Soon | 0.7.0   |
 
 ### Plugin Data Validation
 
