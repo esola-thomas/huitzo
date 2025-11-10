@@ -1,6 +1,11 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import DocsSidebar from '~/components/docs/DocsSidebar.astro';
+import DocsTableOfContents from '~/components/docs/DocsTableOfContents.astro';
+import DocsBreadcrumbs from '~/components/docs/DocsBreadcrumbs.astro';
 import type { MetaData } from '~/types';
+import type { NavSection } from '~/components/docs/DocsSidebar.astro';
+import type { BreadcrumbItem } from '~/components/docs/DocsBreadcrumbs.astro';
 
 export interface Props {
   frontmatter?: {
@@ -16,14 +21,33 @@ export interface Props {
     slug: string;
     text: string;
   }>;
+  navSections?: NavSection[];
+  breadcrumbs?: BreadcrumbItem[];
 }
 
-const { frontmatter = {}, headings = [] } = Astro.props;
+const {
+  frontmatter = {},
+  headings = [],
+  navSections = [],
+  breadcrumbs = []
+} = Astro.props;
 
 const metadata: MetaData = {
   title: frontmatter?.title,
   description: frontmatter?.description,
 };
+
+// Get current path for active link highlighting
+const currentPath = Astro.url.pathname;
+
+// Determine audience from frontmatter or URL
+const audience = frontmatter?.audience || (currentPath.includes('/developers') ? 'developers' : 'users');
+
+// Default breadcrumbs if not provided
+const defaultBreadcrumbs: BreadcrumbItem[] = breadcrumbs.length > 0 ? breadcrumbs : [
+  { text: 'Docs', href: '/docs' },
+  { text: audience === 'users' ? 'User Guide' : 'Developer Guide', href: `/docs/${audience}` },
+];
 
 // Format last updated date
 const formatDate = (date: Date | undefined) => {
@@ -38,10 +62,24 @@ const formatDate = (date: Date | undefined) => {
 ---
 
 <Layout metadata={metadata}>
-  <div class="docs-container min-h-screen">
+  <div class="docs-container">
+    <!-- Sidebar Navigation -->
+    {navSections.length > 0 && (
+      <DocsSidebar
+        sections={navSections}
+        currentPath={currentPath}
+        audience={audience}
+      />
+    )}
+
     <!-- Main Content Area -->
     <main class="docs-content">
-      <div class="container mx-auto px-4 py-16 sm:px-6 lg:px-8 max-w-4xl">
+      <div class="docs-content-inner">
+        <!-- Breadcrumbs -->
+        {defaultBreadcrumbs.length > 0 && (
+          <DocsBreadcrumbs path={defaultBreadcrumbs} />
+        )}
+
         <!-- Document Header -->
         <article class="prose-docs">
           {frontmatter.title && (
@@ -84,12 +122,32 @@ const formatDate = (date: Date | undefined) => {
         </article>
       </div>
     </main>
+
+    <!-- Table of Contents -->
+    {headings.length > 0 && (
+      <DocsTableOfContents headings={headings} />
+    )}
   </div>
 </Layout>
 
 <style>
   .docs-container {
+    display: grid;
+    grid-template-columns: 280px 1fr 240px;
+    gap: 0;
     background: var(--aw-color-bg-page);
+    min-height: 100vh;
+  }
+
+  .docs-content {
+    overflow-x: hidden;
+    min-width: 0;
+  }
+
+  .docs-content-inner {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: 2rem 2rem;
   }
 
   .prose-docs {
@@ -109,6 +167,7 @@ const formatDate = (date: Date | undefined) => {
     font-weight: 700;
     margin-top: 2rem;
     margin-bottom: 1rem;
+    scroll-margin-top: 5rem;
   }
 
   .prose-docs :global(h2) {
@@ -235,5 +294,40 @@ const formatDate = (date: Date | undefined) => {
     border: none;
     border-top: 1px solid var(--aw-color-border);
     margin: 2rem 0;
+  }
+
+  /* Responsive Layout */
+
+  /* Tablet: Hide ToC */
+  @media (max-width: 1024px) {
+    .docs-container {
+      grid-template-columns: 280px 1fr;
+    }
+  }
+
+  /* Mobile: Single column */
+  @media (max-width: 768px) {
+    .docs-container {
+      grid-template-columns: 1fr;
+    }
+
+    .docs-content-inner {
+      padding: 1.5rem 1rem;
+    }
+  }
+
+  /* Mobile: Smaller text */
+  @media (max-width: 640px) {
+    .prose-docs :global(h1) {
+      font-size: 2rem;
+    }
+
+    .prose-docs :global(h2) {
+      font-size: 1.5rem;
+    }
+
+    .prose-docs :global(h3) {
+      font-size: 1.25rem;
+    }
   }
 </style>

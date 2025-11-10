@@ -1,0 +1,93 @@
+---
+export interface BreadcrumbItem {
+  text: string;
+  href: string;
+}
+
+export interface Props {
+  path: BreadcrumbItem[];
+  class?: string;
+}
+
+const { path, class: className = '' } = Astro.props;
+---
+
+<nav class={`docs-breadcrumbs ${className}`} aria-label="Breadcrumb">
+  <ol class="breadcrumb-list">
+    {path.map((item, index) => (
+      <li class="breadcrumb-item">
+        {index < path.length - 1 ? (
+          <>
+            <a href={item.href} class="breadcrumb-link">
+              {item.text}
+            </a>
+            <span class="breadcrumb-separator">→</span>
+          </>
+        ) : (
+          <span class="breadcrumb-current" aria-current="page">
+            {item.text}
+          </span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .docs-breadcrumbs {
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--aw-color-border);
+  }
+
+  .breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .breadcrumb-link {
+    font-family: var(--aw-font-mono);
+    font-size: 0.875rem;
+    color: var(--aw-color-text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--aw-color-primary);
+    text-decoration: underline;
+  }
+
+  .breadcrumb-separator {
+    color: var(--aw-color-primary);
+    font-family: var(--aw-font-mono);
+    font-size: 0.875rem;
+  }
+
+  .breadcrumb-current {
+    font-family: var(--aw-font-mono);
+    font-size: 0.875rem;
+    color: var(--aw-color-text-default);
+    font-weight: 600;
+  }
+
+  /* Mobile: smaller text */
+  @media (max-width: 640px) {
+    .breadcrumb-link,
+    .breadcrumb-separator,
+    .breadcrumb-current {
+      font-size: 0.75rem;
+    }
+  }
+</style>

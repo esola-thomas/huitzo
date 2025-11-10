@@ -1,0 +1,160 @@
+---
+export interface Props {
+  type?: 'info' | 'warning' | 'tip' | 'danger';
+  title?: string;
+  class?: string;
+}
+
+const { type = 'info', title, class: className = '' } = Astro.props;
+
+const typeConfig = {
+  info: {
+    icon: 'i>',
+    color: 'cyan',
+    emoji: '💡',
+    defaultTitle: 'Info',
+  },
+  warning: {
+    icon: 'w>',
+    color: 'yellow',
+    emoji: '⚠️',
+    defaultTitle: 'Warning',
+  },
+  tip: {
+    icon: 's>',
+    color: 'green',
+    emoji: '✨',
+    defaultTitle: 'Tip',
+  },
+  danger: {
+    icon: 'e>',
+    color: 'red',
+    emoji: '🚨',
+    defaultTitle: 'Danger',
+  },
+};
+
+const config = typeConfig[type];
+const displayTitle = title || config.defaultTitle;
+---
+
+<div class={`docs-callout callout-${type} ${className}`}>
+  <div class="callout-header">
+    <span class="callout-icon" aria-hidden="true">{config.emoji}</span>
+    <span class="callout-prefix">{config.icon}</span>
+    <strong class="callout-title">{displayTitle}</strong>
+  </div>
+  <div class="callout-content">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .docs-callout {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    border-left: 4px solid;
+    background: var(--aw-color-bg-tertiary);
+  }
+
+  .callout-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .callout-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .callout-prefix {
+    font-family: var(--aw-font-mono);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .callout-title {
+    font-family: var(--aw-font-heading);
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .callout-content {
+    color: var(--aw-color-text-default);
+    line-height: 1.6;
+  }
+
+  .callout-content :global(p:first-child) {
+    margin-top: 0;
+  }
+
+  .callout-content :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .callout-content :global(code) {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  /* Type-specific styles */
+  .callout-info {
+    border-left-color: var(--aw-color-info);
+    background: rgba(88, 166, 255, 0.1);
+  }
+
+  .callout-info .callout-prefix,
+  .callout-info .callout-title {
+    color: var(--aw-color-info);
+  }
+
+  .callout-warning {
+    border-left-color: var(--aw-color-warning);
+    background: rgba(210, 153, 34, 0.1);
+  }
+
+  .callout-warning .callout-prefix,
+  .callout-warning .callout-title {
+    color: var(--aw-color-warning);
+  }
+
+  .callout-tip {
+    border-left-color: var(--aw-color-success);
+    background: rgba(63, 185, 80, 0.1);
+  }
+
+  .callout-tip .callout-prefix,
+  .callout-tip .callout-title {
+    color: var(--aw-color-success);
+  }
+
+  .callout-danger {
+    border-left-color: var(--aw-color-error);
+    background: rgba(248, 81, 73, 0.1);
+  }
+
+  .callout-danger .callout-prefix,
+  .callout-danger .callout-title {
+    color: var(--aw-color-error);
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 640px) {
+    .docs-callout {
+      padding: 0.875rem 1rem;
+    }
+
+    .callout-icon {
+      font-size: 1rem;
+    }
+
+    .callout-prefix,
+    .callout-title {
+      font-size: 0.8125rem;
+    }
+  }
+</style>
