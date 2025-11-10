@@ -7,6 +7,14 @@ export const headerData = {
       href: getPermalink("/"),
     },
     {
+      text: "Docs",
+      links: [
+        { text: "Documentation Home", href: getPermalink("/docs") },
+        { text: "User Guide", href: getPermalink("/docs/users") },
+        { text: "Developer Guide", href: getPermalink("/docs/developers") },
+      ],
+    },
+    {
       text: "Roadmap",
       href: getPermalink("/roadmap"),
     },
@@ -41,6 +49,14 @@ export const footerData = {
           href: "https://cli.huitzo.com",
           target: "_blank",
         },
+      ],
+    },
+    {
+      title: "Documentation",
+      links: [
+        { text: "User Guide", href: getPermalink("/docs/users") },
+        { text: "Developer Guide", href: getPermalink("/docs/developers") },
+        { text: "SDK Reference", href: getPermalink("/docs/developers/sdk-reference") },
       ],
     },
     {

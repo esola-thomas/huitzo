@@ -1,0 +1,239 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import type { MetaData } from '~/types';
+
+export interface Props {
+  frontmatter?: {
+    title?: string;
+    description?: string;
+    category?: string;
+    tags?: string[];
+    audience?: 'users' | 'developers';
+    lastUpdated?: Date;
+  };
+  headings?: Array<{
+    depth: number;
+    slug: string;
+    text: string;
+  }>;
+}
+
+const { frontmatter = {}, headings = [] } = Astro.props;
+
+const metadata: MetaData = {
+  title: frontmatter?.title,
+  description: frontmatter?.description,
+};
+
+// Format last updated date
+const formatDate = (date: Date | undefined) => {
+  if (!date) return null;
+  return new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC'
+  });
+};
+---
+
+<Layout metadata={metadata}>
+  <div class="docs-container min-h-screen">
+    <!-- Main Content Area -->
+    <main class="docs-content">
+      <div class="container mx-auto px-4 py-16 sm:px-6 lg:px-8 max-w-4xl">
+        <!-- Document Header -->
+        <article class="prose-docs">
+          {frontmatter.title && (
+            <h1 class="text-4xl md:text-5xl font-bold font-heading leading-tighter tracking-tighter mb-4">
+              {frontmatter.title}
+            </h1>
+          )}
+
+          {/* Document Metadata */}
+          {(frontmatter.tags || frontmatter.lastUpdated) && (
+            <div class="doc-meta flex flex-wrap items-center gap-4 mb-8 pb-6 border-b border-gray-700">
+              {frontmatter.tags && frontmatter.tags.length > 0 && (
+                <div class="flex items-center gap-2">
+                  <span class="text-sm text-muted">Tags:</span>
+                  <div class="flex flex-wrap gap-2">
+                    {frontmatter.tags.map(tag => (
+                      <span class="text-xs px-2 py-1 bg-primary/10 text-primary rounded-md font-mono">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {frontmatter.lastUpdated && (
+                <div class="flex items-center gap-2 text-sm text-muted">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>Updated: {formatDate(frontmatter.lastUpdated)}</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          <!-- Markdown Content -->
+          <div class="markdown-content">
+            <slot />
+          </div>
+        </article>
+      </div>
+    </main>
+  </div>
+</Layout>
+
+<style>
+  .docs-container {
+    background: var(--aw-color-bg-page);
+  }
+
+  .prose-docs {
+    color: var(--aw-color-text-default);
+    line-height: 1.7;
+  }
+
+  /* Headings */
+  .prose-docs :global(h1),
+  .prose-docs :global(h2),
+  .prose-docs :global(h3),
+  .prose-docs :global(h4),
+  .prose-docs :global(h5),
+  .prose-docs :global(h6) {
+    font-family: var(--aw-font-heading);
+    color: var(--aw-color-text-heading);
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .prose-docs :global(h2) {
+    font-size: 1.875rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--aw-color-border);
+    margin-top: 3rem;
+  }
+
+  .prose-docs :global(h3) {
+    font-size: 1.5rem;
+  }
+
+  .prose-docs :global(h4) {
+    font-size: 1.25rem;
+  }
+
+  /* Code */
+  .prose-docs :global(code) {
+    font-family: var(--aw-font-mono);
+    font-size: 0.875em;
+    background: var(--aw-color-bg-tertiary);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    color: var(--aw-color-accent);
+  }
+
+  .prose-docs :global(pre) {
+    background: var(--aw-color-bg-tertiary);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .prose-docs :global(pre code) {
+    background: transparent;
+    padding: 0;
+    color: var(--aw-color-text-default);
+  }
+
+  /* Links */
+  .prose-docs :global(a) {
+    color: var(--aw-color-primary);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .prose-docs :global(a:hover) {
+    color: var(--aw-color-secondary);
+    text-decoration: underline;
+  }
+
+  /* Lists */
+  .prose-docs :global(ul),
+  .prose-docs :global(ol) {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .prose-docs :global(li) {
+    margin: 0.5rem 0;
+  }
+
+  .prose-docs :global(li::marker) {
+    color: var(--aw-color-primary);
+  }
+
+  /* Paragraphs */
+  .prose-docs :global(p) {
+    margin: 1rem 0;
+  }
+
+  /* Tables */
+  .prose-docs :global(table) {
+    width: 100%;
+    background: var(--aw-color-bg-secondary);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 8px;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    overflow: hidden;
+  }
+
+  .prose-docs :global(th) {
+    background: var(--aw-color-bg-tertiary);
+    color: var(--aw-color-primary);
+    font-family: var(--aw-font-mono);
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--aw-color-border);
+  }
+
+  .prose-docs :global(td) {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--aw-color-border);
+  }
+
+  .prose-docs :global(tr:last-child td) {
+    border-bottom: none;
+  }
+
+  /* Blockquotes */
+  .prose-docs :global(blockquote) {
+    border-left: 4px solid var(--aw-color-primary);
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: var(--aw-color-text-muted);
+  }
+
+  /* Images */
+  .prose-docs :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+  }
+
+  /* Horizontal rules */
+  .prose-docs :global(hr) {
+    border: none;
+    border-top: 1px solid var(--aw-color-border);
+    margin: 2rem 0;
+  }
+</style>

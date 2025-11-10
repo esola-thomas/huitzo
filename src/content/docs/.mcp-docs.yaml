@@ -1,0 +1,25 @@
+# Markdown-MCP Configuration for Huitzo Documentation
+# This enables AI-assisted documentation authoring and navigation
+
+sources:
+  - path: ./users
+    category: users
+    label: User Documentation
+    recursive: true
+
+  - path: ./developers
+    category: developers
+    label: Developer Documentation
+    recursive: true
+
+  - path: ./developers/api
+    format_type: openapi
+    label: API Reference
+
+cache:
+  ttl: 3600
+  max_memory_mb: 500
+
+security:
+  allow_hidden_files: false
+  audit_logging: false

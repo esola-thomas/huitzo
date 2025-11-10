@@ -1,0 +1,213 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import TerminalPrompt from '~/components/TerminalPrompt.astro';
+import FeatureCard from '~/components/FeatureCard.astro';
+
+const metadata = {
+  title: 'Documentation',
+  description: 'Comprehensive documentation for users and developers. Learn how to use Huitzo and build powerful plugins.',
+};
+
+const terminalLines = [
+  '$ huitzo --help',
+  'i> Welcome to Huitzo Documentation',
+  's> Choose your path: User or Developer',
+];
+---
+
+<Layout metadata={metadata}>
+  <!-- Header Section -->
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-4xl lg:text-5xl font-bold mb-6">
+          <span class="text-gradient animated-gradient">Documentation</span>
+        </h1>
+        <p class="text-lg text-muted mb-8 max-w-2xl mx-auto">
+          Everything you need to know about using Huitzo and building powerful
+          intelligence plugins for the command line.
+        </p>
+
+        <!-- Terminal Preview -->
+        <div class="max-w-2xl mx-auto mb-12">
+          <TerminalPrompt lines={terminalLines} animate={false} class="glow" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Documentation Paths -->
+  <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold mb-12 text-center">
+          Choose Your <span class="text-gradient animated-gradient">Path</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- User Documentation -->
+          <a href="/docs/users" class="block group">
+            <div class="card h-full hover:scale-105 transition-transform duration-300">
+              <div class="text-5xl mb-4">📚</div>
+              <h3 class="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">
+                User Documentation
+              </h3>
+              <p class="text-muted mb-6">
+                Learn how to install, configure, and use Huitzo. Master the CLI,
+                discover plugins, and build intelligent workflows.
+              </p>
+
+              <div class="space-y-2">
+                <div class="flex items-center gap-2 text-sm text-muted">
+                  <span class="text-primary">→</span>
+                  <span>Getting Started Guide</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-muted">
+                  <span class="text-primary">→</span>
+                  <span>CLI Reference</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-muted">
+                  <span class="text-primary">→</span>
+                  <span>Plugin Guides</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-muted">
+                  <span class="text-primary">→</span>
+                  <span>Troubleshooting</span>
+                </div>
+              </div>
+
+              <div class="mt-6 inline-flex items-center gap-2 text-primary font-mono text-sm group-hover:gap-3 transition-all">
+                <span>Explore User Docs</span>
+                <span>→</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Developer Documentation -->
+          <a href="/docs/developers" class="block group">
+            <div class="card h-full hover:scale-105 transition-transform duration-300">
+              <div class="text-5xl mb-4">🛠️</div>
+              <h3 class="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">
+                Developer Documentation
+              </h3>
+              <p class="text-muted mb-6">
+                Build powerful plugins with the Huitzo SDK. Access comprehensive
+                API references, tutorials, and examples.
+              </p>
+
+              <div class="space-y-2">
+                <div class="flex items-center gap-2 text-sm text-muted">
+                  <span class="text-primary">→</span>
+                  <span>SDK Installation</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-muted">
+                  <span class="text-primary">→</span>
+                  <span>API Reference</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-muted">
+                  <span class="text-primary">→</span>
+                  <span>Plugin Development</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-muted">
+                  <span class="text-primary">→</span>
+                  <span>Code Examples</span>
+                </div>
+              </div>
+
+              <div class="mt-6 inline-flex items-center gap-2 text-primary font-mono text-sm group-hover:gap-3 transition-all">
+                <span>Explore Developer Docs</span>
+                <span>→</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Links -->
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-8 text-center">
+          Popular <span class="text-gradient animated-gradient">Resources</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Quick Start -->
+          <div class="card">
+            <div class="text-3xl mb-3">⚡</div>
+            <h3 class="text-lg font-semibold mb-2">Quick Start</h3>
+            <p class="text-sm text-muted mb-4">
+              Get up and running with Huitzo in under 5 minutes.
+            </p>
+            <a href="/docs/users/getting-started" class="text-primary text-sm hover:underline">
+              Read Guide →
+            </a>
+          </div>
+
+          <!-- SDK Reference -->
+          <div class="card">
+            <div class="text-3xl mb-3">📖</div>
+            <h3 class="text-lg font-semibold mb-2">SDK Reference</h3>
+            <p class="text-sm text-muted mb-4">
+              Complete reference for the Huitzo Python SDK.
+            </p>
+            <a href="/docs/developers/sdk-reference" class="text-primary text-sm hover:underline">
+              View Reference →
+            </a>
+          </div>
+
+          <!-- Examples -->
+          <div class="card">
+            <div class="text-3xl mb-3">💡</div>
+            <h3 class="text-lg font-semibold mb-2">Code Examples</h3>
+            <p class="text-sm text-muted mb-4">
+              Real-world examples and integration patterns.
+            </p>
+            <a href="/docs/developers/examples" class="text-primary text-sm hover:underline">
+              Browse Examples →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
+    <div class="container mx-auto px-4">
+      <div class="max-w-2xl mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-6">
+          Need <span class="text-gradient animated-gradient">Help</span>?
+        </h2>
+        <p class="text-lg text-muted mb-8">
+          Can't find what you're looking for? We're here to help.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="https://github.com/esola-thomas/huitzo/issues/new"
+            target="_blank"
+            rel="noopener"
+            class="btn-primary"
+          >
+            Report an Issue
+          </a>
+          <a href="mailto:support@huitzo.com" class="btn-secondary">
+            Contact Support
+          </a>
+        </div>
+
+        <!-- Search Coming Soon -->
+        <div class="mt-12 p-6 bg-[var(--aw-color-bg-page)] rounded-lg border border-gray-700">
+          <div class="text-2xl mb-2">🔍</div>
+          <p class="text-sm text-muted">
+            <strong class="text-primary">Search Coming Soon</strong> - We're building a
+            powerful search feature to help you find answers faster.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

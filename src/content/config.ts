@@ -65,6 +65,21 @@ const postCollection = defineCollection({
   }),
 });
 
+const docsCollection = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/docs" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+    category: z.string(),
+    order: z.number().optional(),
+    audience: z.enum(['users', 'developers']),
+    lastUpdated: z.coerce.date().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
 export const collections = {
   post: postCollection,
+  docs: docsCollection,
 };

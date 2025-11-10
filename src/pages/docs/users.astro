@@ -1,0 +1,170 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import TerminalPrompt from '~/components/TerminalPrompt.astro';
+
+const metadata = {
+  title: 'User Documentation',
+  description: 'Learn how to install, configure, and use Huitzo. Master the CLI and build intelligent workflows.',
+};
+
+const terminalLines = [
+  '$ huitzo --version',
+  's> Huitzo CLI v1.0.0',
+  'i> Ready to command your intelligence',
+];
+---
+
+<Layout metadata={metadata}>
+  <!-- Header Section -->
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl lg:text-5xl font-bold mb-6 text-center">
+          User <span class="text-gradient animated-gradient">Documentation</span>
+        </h1>
+        <p class="text-lg text-muted mb-8 text-center max-w-2xl mx-auto">
+          Everything you need to get started with Huitzo, from installation to
+          advanced workflows.
+        </p>
+
+        <!-- Terminal Preview -->
+        <div class="max-w-2xl mx-auto mb-12">
+          <TerminalPrompt lines={terminalLines} animate={false} class="glow" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Documentation Sections -->
+  <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Getting Started -->
+          <div class="card">
+            <div class="text-4xl mb-4">🚀</div>
+            <h2 class="text-2xl font-bold mb-4">Getting Started</h2>
+            <p class="text-muted mb-6">
+              New to Huitzo? Start here to install the CLI, run your first command,
+              and discover what's possible.
+            </p>
+            <div class="space-y-2 mb-6">
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Installation Guide</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Quick Start Tutorial</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Your First Plugin</span>
+              </div>
+            </div>
+            <span class="text-primary text-sm font-mono">Coming Soon →</span>
+          </div>
+
+          <!-- User Guides -->
+          <div class="card">
+            <div class="text-4xl mb-4">📖</div>
+            <h2 class="text-2xl font-bold mb-4">User Guides</h2>
+            <p class="text-muted mb-6">
+              In-depth guides covering CLI basics, plugin usage, and building
+              powerful workflows.
+            </p>
+            <div class="space-y-2 mb-6">
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Using Plugins</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">CLI Basics</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Building Workflows</span>
+              </div>
+            </div>
+            <span class="text-primary text-sm font-mono">Coming Soon →</span>
+          </div>
+
+          <!-- Plugin Documentation -->
+          <div class="card">
+            <div class="text-4xl mb-4">🔌</div>
+            <h2 class="text-2xl font-bold mb-4">Plugin Documentation</h2>
+            <p class="text-muted mb-6">
+              Detailed guides for each available plugin, including examples and
+              best practices.
+            </p>
+            <div class="space-y-2 mb-6">
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Financial Plugin Guide</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Engineering Plugin Guide</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Plugin Overview</span>
+              </div>
+            </div>
+            <span class="text-primary text-sm font-mono">Coming Soon →</span>
+          </div>
+
+          <!-- Reference -->
+          <div class="card">
+            <div class="text-4xl mb-4">📚</div>
+            <h2 class="text-2xl font-bold mb-4">Reference</h2>
+            <p class="text-muted mb-6">
+              Complete CLI command reference, configuration options, and
+              troubleshooting guides.
+            </p>
+            <div class="space-y-2 mb-6">
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">CLI Command Reference</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Configuration Reference</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Troubleshooting Guide</span>
+              </div>
+            </div>
+            <span class="text-primary text-sm font-mono">Coming Soon →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coming Soon Notice -->
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-2xl mx-auto text-center">
+        <div class="card bg-gradient-to-r from-primary/10 to-accent/10 border-2 border-primary/30">
+          <div class="text-5xl mb-4">🚧</div>
+          <h2 class="text-2xl font-bold mb-4">Documentation In Progress</h2>
+          <p class="text-muted mb-6">
+            We're working hard to create comprehensive user documentation. Check back
+            soon for detailed guides, tutorials, and reference materials.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/roadmap" class="btn-primary">
+              View Roadmap
+            </a>
+            <a href="/docs/developers" class="btn-secondary">
+              Explore Developer Docs
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

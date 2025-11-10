@@ -1,0 +1,267 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import TerminalPrompt from '~/components/TerminalPrompt.astro';
+import Command from '~/components/Command.astro';
+
+const metadata = {
+  title: 'Developer Documentation',
+  description: 'Build powerful plugins with the Huitzo SDK. Access comprehensive API references, tutorials, and examples.',
+};
+
+const terminalLines = [
+  '$ pip install huitzo-sdk',
+  's> Successfully installed huitzo-sdk',
+  'i> Ready to build intelligent plugins',
+];
+---
+
+<Layout metadata={metadata}>
+  <!-- Header Section -->
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl lg:text-5xl font-bold mb-6 text-center">
+          Developer <span class="text-gradient animated-gradient">Documentation</span>
+        </h1>
+        <p class="text-lg text-muted mb-8 text-center max-w-2xl mx-auto">
+          Build powerful plugins with the Huitzo SDK. Access comprehensive API
+          references, tutorials, and real-world examples.
+        </p>
+
+        <!-- Terminal Preview -->
+        <div class="max-w-2xl mx-auto mb-8">
+          <TerminalPrompt lines={terminalLines} animate={false} class="glow" />
+        </div>
+
+        <!-- Quick Install -->
+        <div class="max-w-2xl mx-auto">
+          <Command command="pip install huitzo-sdk" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Documentation Sections -->
+  <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Getting Started -->
+          <div class="card">
+            <div class="text-4xl mb-4">🚀</div>
+            <h2 class="text-2xl font-bold mb-4">Getting Started</h2>
+            <p class="text-muted mb-6">
+              Set up your development environment and create your first Huitzo
+              plugin in minutes.
+            </p>
+            <div class="space-y-2 mb-6">
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">SDK Installation</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Development Environment</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Your First Plugin</span>
+              </div>
+            </div>
+            <span class="text-primary text-sm font-mono">Coming Soon →</span>
+          </div>
+
+          <!-- SDK Reference -->
+          <div class="card">
+            <div class="text-4xl mb-4">📖</div>
+            <h2 class="text-2xl font-bold mb-4">SDK Reference</h2>
+            <p class="text-muted mb-6">
+              Complete reference for the Huitzo Python SDK, including CRON, Email,
+              LLM, and Hosting services.
+            </p>
+            <div class="space-y-2 mb-6">
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">CRON Service</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Email Service</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">LLM Service</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Hosting Service</span>
+              </div>
+            </div>
+            <a
+              href="https://pypi.org/project/huitzo-sdk/#description"
+              target="_blank"
+              rel="noopener"
+              class="text-primary text-sm font-mono hover:underline"
+            >
+              View on PyPI →
+            </a>
+          </div>
+
+          <!-- Plugin Development -->
+          <div class="card">
+            <div class="text-4xl mb-4">🛠️</div>
+            <h2 class="text-2xl font-bold mb-4">Plugin Development</h2>
+            <p class="text-muted mb-6">
+              Learn best practices for building, testing, and publishing Huitzo
+              plugins.
+            </p>
+            <div class="space-y-2 mb-6">
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Architecture Guide</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Testing Your Plugin</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Publishing to Marketplace</span>
+              </div>
+            </div>
+            <span class="text-primary text-sm font-mono">Coming Soon →</span>
+          </div>
+
+          <!-- Code Examples -->
+          <div class="card">
+            <div class="text-4xl mb-4">💡</div>
+            <h2 class="text-2xl font-bold mb-4">Code Examples</h2>
+            <p class="text-muted mb-6">
+              Real-world examples and integration patterns to accelerate your
+              development.
+            </p>
+            <div class="space-y-2 mb-6">
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Basic Plugin Example</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">LLM Integration Patterns</span>
+              </div>
+              <div class="flex items-center gap-2 text-sm">
+                <span class="text-primary">→</span>
+                <span class="text-muted">Email Workflow Automation</span>
+              </div>
+            </div>
+            <span class="text-primary text-sm font-mono">Coming Soon →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SDK Quick Reference -->
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-8 text-center">
+          SDK <span class="text-gradient animated-gradient">Quick Reference</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Services -->
+          <div class="card">
+            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+              <span class="text-2xl">⚙️</span>
+              Available Services
+            </h3>
+            <ul class="space-y-2 text-sm">
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span><strong class="text-default">CRON:</strong> Schedule recurring tasks</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span><strong class="text-default">Email:</strong> Send templated emails</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span><strong class="text-default">LLM:</strong> AI completions (OpenAI, Claude)</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span><strong class="text-default">Hosting:</strong> Temporary static sites</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Requirements -->
+          <div class="card">
+            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+              <span class="text-2xl">📋</span>
+              Requirements
+            </h3>
+            <ul class="space-y-2 text-sm">
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Python 3.10 or later</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>HUITZO_API_TOKEN environment variable</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Async/await support (aiohttp)</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Full type hints for IDE support</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- External Link -->
+        <div class="mt-8 text-center">
+          <a
+            href="https://pypi.org/project/huitzo-sdk/"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 btn-primary"
+          >
+            <span>View Full SDK Documentation on PyPI</span>
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coming Soon Notice -->
+  <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
+    <div class="container mx-auto px-4">
+      <div class="max-w-2xl mx-auto text-center">
+        <div class="card bg-gradient-to-r from-primary/10 to-accent/10 border-2 border-primary/30">
+          <div class="text-5xl mb-4">🚧</div>
+          <h2 class="text-2xl font-bold mb-4">Documentation In Progress</h2>
+          <p class="text-muted mb-6">
+            We're actively building comprehensive developer documentation. In the
+            meantime, check out the SDK reference on PyPI for complete API details.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="https://pypi.org/project/huitzo-sdk/" target="_blank" rel="noopener" class="btn-primary">
+              SDK on PyPI
+            </a>
+            <a href="/roadmap" class="btn-secondary">
+              View Roadmap
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
