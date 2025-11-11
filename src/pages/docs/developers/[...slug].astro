@@ -1,0 +1,116 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import DocsLayout from '~/layouts/DocsLayout.astro';
+import type { NavSection } from '~/components/docs/DocsSidebar.astro';
+import type { BreadcrumbItem } from '~/components/docs/DocsBreadcrumbs.astro';
+
+export async function getStaticPaths() {
+  const developerDocs = await getCollection('docs', ({ data }) => {
+    return data.audience === 'developers' && !data.draft;
+  });
+
+  return developerDocs.map((doc) => {
+    // Remove 'developers/' prefix from the id to get the slug
+    const slug = doc.id.replace(/^developers\//, '').replace(/\.mdx?$/, '');
+
+    return {
+      params: { slug },
+      props: { doc },
+    };
+  });
+}
+
+const { doc } = Astro.props;
+const { Content, headings } = await render(doc);
+
+// Build navigation sections for sidebar
+const allDeveloperDocs = await getCollection('docs', ({ data }) => {
+  return data.audience === 'developers' && !data.draft;
+});
+
+// Group docs by category
+const docsByCategory: Record<string, typeof allDeveloperDocs> = {};
+allDeveloperDocs.forEach((d) => {
+  const category = d.data.category || 'other';
+  if (!docsByCategory[category]) {
+    docsByCategory[category] = [];
+  }
+  docsByCategory[category].push(d);
+});
+
+// Sort docs within each category by order
+Object.keys(docsByCategory).forEach((category) => {
+  docsByCategory[category].sort((a, b) => {
+    const orderA = a.data.order || 999;
+    const orderB = b.data.order || 999;
+    return orderA - orderB;
+  });
+});
+
+// Build navigation sections
+const navSections: NavSection[] = [
+  {
+    title: 'Getting Started',
+    links: (docsByCategory['getting-started'] || []).map((d) => ({
+      text: d.data.title,
+      href: `/docs/developers/${d.id.replace(/^developers\//, '').replace(/\.mdx?$/, '')}`,
+    })),
+  },
+  {
+    title: 'SDK Reference',
+    links: (docsByCategory['sdk-reference'] || []).map((d) => ({
+      text: d.data.title,
+      href: `/docs/developers/${d.id.replace(/^developers\//, '').replace(/\.mdx?$/, '')}`,
+    })),
+  },
+  {
+    title: 'Plugin Development',
+    links: (docsByCategory['plugin-development'] || []).map((d) => ({
+      text: d.data.title,
+      href: `/docs/developers/${d.id.replace(/^developers\//, '').replace(/\.mdx?$/, '')}`,
+    })),
+  },
+  {
+    title: 'API Reference',
+    links: (docsByCategory['api'] || []).map((d) => ({
+      text: d.data.title,
+      href: `/docs/developers/${d.id.replace(/^developers\//, '').replace(/\.mdx?$/, '')}`,
+    })),
+  },
+  {
+    title: 'Examples',
+    links: (docsByCategory['examples'] || []).map((d) => ({
+      text: d.data.title,
+      href: `/docs/developers/${d.id.replace(/^developers\//, '').replace(/\.mdx?$/, '')}`,
+    })),
+  },
+].filter(section => section.links.length > 0);
+
+// Build breadcrumbs
+const pathParts = doc.id.replace(/^developers\//, '').split('/');
+const breadcrumbs: BreadcrumbItem[] = [
+  { text: 'Docs', href: '/docs' },
+  { text: 'Developer Guide', href: '/docs/developers' },
+];
+
+// Add intermediate path segments
+let currentPath = '/docs/developers';
+for (let i = 0; i < pathParts.length - 1; i++) {
+  const part = pathParts[i];
+  currentPath += `/${part}`;
+  const title = part.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  breadcrumbs.push({ text: title, href: currentPath });
+}
+
+// Add current page
+breadcrumbs.push({ text: doc.data.title, href: Astro.url.pathname });
+---
+
+<DocsLayout
+  frontmatter={doc.data}
+  headings={headings}
+  navSections={navSections}
+  breadcrumbs={breadcrumbs}
+>
+  <Content />
+</DocsLayout>
