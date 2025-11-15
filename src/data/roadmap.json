@@ -25,14 +25,15 @@
       "status": "in-progress",
       "title": "Core CLI Platform MVP",
       "targetDate": "2025-11-15",
-      "progress": 75,
+      "progress": 90,
       "description": "Building the foundational web-based CLI with hot-reloadable plugin architecture. This enables rapid development of intelligence services without complex setup. Users interact with AI-powered tools through simple, familiar command-line syntax.",
       "deliverables": [
         "Web terminal interface with real-time WebSocket communication",
         "Hot-reloadable plugin system supporting Python modules",
         "User authentication and secure session management",
         "PostgreSQL database with Row-Level Security for multi-tenancy",
-        "Basic CLI commands, help system, and auto-completion"
+        "Basic CLI commands, help system, and auto-completion",
+        "Rearchitect database for scalability, performance and security"
       ]
     },
     {
