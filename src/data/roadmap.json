@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-10-30T12:00:00.000Z",
+  "lastUpdated": "2025-11-19T12:00:00.000Z",
   "vision": {
     "statement": "Make intelligent data analysis accessible to everyone through a simple, powerful CLI platform",
     "mission": "Transform how people interact with their data by combining the power of AI with the simplicity of command-line tools",
@@ -24,16 +24,15 @@
       "id": "core-mvp",
       "status": "in-progress",
       "title": "Core CLI Platform MVP",
-      "targetDate": "2025-11-15",
-      "progress": 90,
-      "description": "Building the foundational web-based CLI with hot-reloadable plugin architecture. This enables rapid development of intelligence services without complex setup. Users interact with AI-powered tools through simple, familiar command-line syntax.",
+      "targetDate": "2025-11-25",
+      "progress": 95,
+      "description": "Building the foundational CLI platform. To ensure long-term scalability, we prioritized a significant platform redesign, slightly extending the MVP timeline. This investment in our architecture enables a more robust, extensible, and high-performance system for future growth.",
       "deliverables": [
         "Web terminal interface with real-time WebSocket communication",
         "Hot-reloadable plugin system supporting Python modules",
         "User authentication and secure session management",
-        "PostgreSQL database with Row-Level Security for multi-tenancy",
-        "Basic CLI commands, help system, and auto-completion",
-        "Rearchitect database for scalability, performance and security"
+        "Rearchitected database and backend for scalability and performance",
+        "Expanded SDK with multi-channel support (Telegram, Discord) and new core tools"
       ]
     },
     {
@@ -53,16 +52,29 @@
     },
     {
       "id": "rubber-ducky",
-      "status": "in-progress",
+      "status": "completed",
       "title": "Rubber Ducky Coaching Plugin",
-      "targetDate": "2025-11-16",
-      "progress": 80,
+      "date": "2025-11-19",
+      "progress": 100,
       "description": "Interactive problem-solving assistant using Socratic questioning to help developers and professionals think through challenges. Demonstrates the platform's conversational AI capabilities and shows how plugins can facilitate reflective thinking rather than just providing answers.",
       "deliverables": [
         "Conversational AI using Socratic method for problem exploration",
         "Persistent conversation history with save/resume capability",
         "Automatic insight summarization and action items",
         "Integration with common development workflows"
+      ]
+    },
+    {
+      "id": "plugin-scoping-agent",
+      "status": "in-progress",
+      "title": "AI-Powered Plugin Scoping Agent",
+      "targetDate": "2025-11-30",
+      "progress": 75,
+      "description": "A conversational agent to help customers scope new plugin ideas. This tool streamlines the plugin creation process by translating user needs into initial technical specifications, accelerating development and ensuring features align with user expectations. Currently in testing with initial customers.",
+      "deliverables": [
+        "Conversational AI for plugin requirement gathering",
+        "Automated generation of plugin specifications",
+        "Integration with customer feedback and development workflow"
       ]
     },
     {
