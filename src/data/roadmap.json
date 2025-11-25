@@ -22,10 +22,10 @@
     },
     {
       "id": "core-mvp",
-      "status": "in-progress",
+      "status": "completed",
       "title": "Core CLI Platform MVP",
-      "targetDate": "2025-11-25",
-      "progress": 95,
+      "date": "2025-11-25",
+      "progress": 100,
       "description": "Building the foundational CLI platform. To ensure long-term scalability, we prioritized a significant platform redesign, slightly extending the MVP timeline. This investment in our architecture enables a more robust, extensible, and high-performance system for future growth.",
       "deliverables": [
         "Web terminal interface with real-time WebSocket communication",

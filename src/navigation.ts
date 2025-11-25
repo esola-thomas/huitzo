@@ -22,7 +22,7 @@ export const headerData = {
   ],
   actions: [
     {
-      text: "Launch CLI (COMING SOON)",
+      text: "Launch CLI (ALPHA USERS)",
       href: "https://cli.huitzo.com",
       target: "_blank",
     },
@@ -37,7 +37,7 @@ export const footerData = {
         { text: "Roadmap", href: getPermalink("/roadmap") },
         { text: "Plugins", href: getPermalink("/plugins") },
         {
-          text: "CLI Platform (COMING SOON)",
+          text: "CLI Platform (ALPHA USERS)",
           href: "https://cli.huitzo.com",
           target: "_blank",
         },
