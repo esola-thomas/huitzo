@@ -59,22 +59,22 @@ To add/remove navigation items, edit this file only. The Header and Footer widge
 
 ### Data-Driven Content
 
-Plugin and roadmap data are JSON files in `src/data/`:
+Intelligence pack and roadmap data are JSON files in `src/data/`:
 
 ```
 src/data/
 ├── roadmap.json                    # Roadmap milestones and metrics
-└── plugins/
-    ├── _template.json              # Template for new plugins
-    ├── financial.json              # Financial plugin data
-    └── mechanical-engineering.json # Mechanical engineering plugin data
+└── intelligence-packs/
+    ├── _template.json              # Template for new intelligence packs
+    ├── financial.json              # Financial intelligence pack data
+    └── mechanical-engineering.json # Mechanical engineering pack data
 ```
 
-To add a new plugin:
+To add a new intelligence pack:
 
-1. Create JSON file in `src/data/plugins/` using `_template.json`
-2. Import in `src/pages/plugins/index.astro`
-3. Add slug to `getStaticPaths()` in `src/pages/plugins/[slug].astro`
+1. Create JSON file in `src/data/intelligence-packs/` using `_template.json`
+2. Import in `src/pages/intelligence-packs/index.astro`
+3. Add slug to `getStaticPaths()` in `src/pages/intelligence-packs/[slug].astro`
 
 ### Custom Components
 
@@ -83,7 +83,7 @@ To add a new plugin:
 - **TerminalPrompt.astro**: Terminal-style text display with optional typing animation
   - Prefix syntax: `$` (command), `i>` (info), `s>` (success), `w>` (warning), `e>` (error), `!` (highlight)
 - **FeatureCard.astro**: Feature cards with icons
-- **PluginCard.astro**: Plugin showcase cards
+- **IntelligencePackCard.astro**: Intelligence pack showcase cards
 - **RoadmapTimeline.astro**: Roadmap visualization with progress bars
 - **Command.astro**: Command display with copy-to-clipboard
 

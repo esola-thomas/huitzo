@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Validate plugin schema
- * This script validates all plugin JSON files against the schema
- * Run: npm run validate:plugins
+ * Validate intelligence pack schema
+ * This script validates all intelligence pack JSON files against the schema
+ * Run: npm run validate:packs
  */
 
 import fs from "fs";
@@ -12,8 +12,8 @@ import { fileURLToPath } from "url";
 import Ajv from "ajv";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const pluginsDir = path.join(__dirname, "../src/data/plugins");
-const schemaPath = path.join(pluginsDir, "schema.json");
+const packsDir = path.join(__dirname, "../src/data/intelligence-packs");
+const schemaPath = path.join(packsDir, "schema.json");
 
 // Initialize AJV validator
 const ajv = new Ajv({
@@ -63,11 +63,11 @@ function formatError(error) {
   return output;
 }
 
-function validatePluginFile(filePath) {
+function validatePackFile(filePath) {
   try {
     const content = fs.readFileSync(filePath, "utf-8");
-    const plugin = JSON.parse(content);
-    return { valid: true, data: plugin, errors: [] };
+    const pack = JSON.parse(content);
+    return { valid: true, data: pack, errors: [] };
   } catch (error) {
     return {
       valid: false,
@@ -77,8 +77,8 @@ function validatePluginFile(filePath) {
   }
 }
 
-function validateAgainstSchema(plugin, schema, validate) {
-  const isValid = validate(plugin);
+function validateAgainstSchema(pack, schema, validate) {
+  const isValid = validate(pack);
 
   if (!isValid) {
     return validate.errors.map(formatError);
@@ -108,34 +108,34 @@ function main() {
     process.exit(1);
   }
 
-  // Find all plugin files
-  let pluginFiles;
+  // Find all intelligence pack files
+  let packFiles;
   try {
-    pluginFiles = fs
-      .readdirSync(pluginsDir)
+    packFiles = fs
+      .readdirSync(packsDir)
       .filter((file) => file.endsWith(".json") && file !== "schema.json")
-      .map((file) => path.join(pluginsDir, file));
+      .map((file) => path.join(packsDir, file));
   } catch (error) {
-    console.error(`❌ Failed to read plugins directory: ${error.message}`);
+    console.error(`❌ Failed to read intelligence packs directory: ${error.message}`);
     process.exit(1);
   }
 
-  if (pluginFiles.length === 0) {
-    console.warn("⚠️  No plugin files found to validate");
+  if (packFiles.length === 0) {
+    console.warn("⚠️  No intelligence pack files found to validate");
     return;
   }
 
-  console.log(`🔍 Validating ${pluginFiles.length} plugin file(s)...\n`);
+  console.log(`🔍 Validating ${packFiles.length} intelligence pack file(s)...\n`);
 
   let totalErrors = 0;
   const results = [];
 
-  // Validate each plugin file
-  pluginFiles.forEach((filePath) => {
+  // Validate each intelligence pack file
+  packFiles.forEach((filePath) => {
     const fileName = path.basename(filePath);
 
     // First, validate JSON syntax
-    const parseResult = validatePluginFile(filePath);
+    const parseResult = validatePackFile(filePath);
 
     if (!parseResult.valid) {
       totalErrors += parseResult.errors.length;
@@ -197,7 +197,7 @@ function main() {
     console.error("❌ Validation failed. Please fix the errors above.");
     process.exit(1);
   } else {
-    console.log("✅ All plugins validated successfully!");
+    console.log("✅ All intelligence packs validated successfully!");
     process.exit(0);
   }
 }

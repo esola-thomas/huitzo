@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Generate plugin schema documentation from schema.json
+ * Generate intelligence pack schema documentation from schema.json
  * This script generates human-readable documentation from the JSON schema
- * Run: node scripts/generate-plugin-docs.js
+ * Run: node scripts/generate-pack-docs.js
  */
 
 import fs from "fs";
@@ -11,8 +11,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const schemaPath = path.join(__dirname, "../src/data/plugins/schema.json");
-const docsPath = path.join(__dirname, "../src/data/plugins/SCHEMA.md");
+const schemaPath = path.join(__dirname, "../src/data/intelligence-packs/schema.json");
+const docsPath = path.join(__dirname, "../src/data/intelligence-packs/SCHEMA.md");
 
 function getTypeDescription(prop) {
   let type = prop.type;
@@ -117,14 +117,14 @@ function generateNestedObjectDocumentation(propName, prop, parentPath = "") {
 }
 
 function generateMarkdown(schema) {
-  let markdown = `# Plugin Schema Documentation
+  let markdown = `# Intelligence Pack Schema Documentation
 
 > **Auto-generated documentation from [\`schema.json\`](./schema.json)**
 > 
 > This documentation is automatically generated and should not be manually edited.
-> Changes to plugin schema should be made in \`schema.json\` and documentation should be regenerated using:
+> Changes to intelligence pack schema should be made in \`schema.json\` and documentation should be regenerated using:
 > \`\`\`bash
-> npm run generate:plugin-docs
+> npm run generate:pack-docs
 > \`\`\`
 
 ## Overview
@@ -133,7 +133,7 @@ ${schema.description}
 
 ## Required Fields
 
-The following fields are mandatory for every plugin definition:
+The following fields are mandatory for every intelligence pack definition:
 
 `;
 
@@ -183,24 +183,24 @@ The following fields are mandatory for every plugin definition:
 
 ## Examples
 
-### Minimal Plugin (with only required fields)
+### Minimal Intelligence Pack (with only required fields)
 
 \`\`\`json
 {
-  "id": "my-plugin",
-  "slug": "my-plugin",
-  "name": "My Plugin",
+  "id": "my-pack",
+  "slug": "my-pack",
+  "name": "My Intelligence Pack",
   "version": "1.0.0",
   "author": "Your Name",
   "icon": "🔌",
   "tagline": "Brief description of what it does",
-  "description": "Longer description explaining the plugin functionality",
+  "description": "Longer description explaining the intelligence pack functionality",
   "category": "productivity",
   "status": "active"
 }
 \`\`\`
 
-### Complete Plugin Example
+### Complete Intelligence Pack Example
 
 \`\`\`json
 {
@@ -230,26 +230,26 @@ The following fields are mandatory for every plugin definition:
     }
   },
   "installation": {
-    "command": "huitzo plugin install financial",
+    "command": "huitzo pack install financial",
     "requirements": ["Huitzo Core v1.0+"]
   },
   "quickstart": [
     {
       "step": 1,
-      "title": "Initialize the plugin",
+      "title": "Initialize the pack",
       "command": "finance setup"
     }
   ],
   "links": {
     "documentation": "https://docs.example.com",
-    "repository": "https://github.com/example/plugin"
+    "repository": "https://github.com/example/pack"
   }
 }
 \`\`\`
 
 ## Validation
 
-All plugin files are automatically validated against this schema. Validation is performed:
+All intelligence pack files are automatically validated against this schema. Validation is performed:
 
 - On every PR via GitHub Actions workflow
 - Pre-commit using the validation script
@@ -258,7 +258,7 @@ All plugin files are automatically validated against this schema. Validation is 
 ### Running Validation Locally
 
 \`\`\`bash
-npm run validate:plugins
+npm run validate:packs
 \`\`\`
 
 ### Validation Errors
@@ -274,7 +274,7 @@ If you encounter validation errors, ensure:
 
 ## Categories
 
-Plugins must belong to one of these categories:
+Intelligence packs must belong to one of these categories:
 
 - \`finance\` - Financial and banking integrations
 - \`analytics\` - Data analytics and reporting
@@ -308,7 +308,7 @@ try {
   const markdown = generateMarkdown(schema);
   fs.writeFileSync(docsPath, markdown, "utf-8");
 
-  console.log(`✅ Plugin documentation generated successfully!`);
+  console.log(`✅ Intelligence pack documentation generated successfully!`);
   console.log(`📄 Output: ${docsPath}`);
   process.exit(0);
 } catch (error) {

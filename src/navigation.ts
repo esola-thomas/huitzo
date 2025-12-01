@@ -11,8 +11,8 @@ export const headerData = {
       href: getPermalink("/roadmap"),
     },
     {
-      text: "Plugins",
-      href: getPermalink("/plugins"),
+      text: "Intelligence Packs",
+      href: getPermalink("/intelligence-packs"),
     },
     {
       text: "Report an issue",
@@ -35,7 +35,7 @@ export const footerData = {
       title: "Platform",
       links: [
         { text: "Roadmap", href: getPermalink("/roadmap") },
-        { text: "Plugins", href: getPermalink("/plugins") },
+        { text: "Intelligence Packs", href: getPermalink("/intelligence-packs") },
         {
           text: "CLI Platform (ALPHA USERS)",
           href: "https://cli.huitzo.com",

@@ -18,7 +18,7 @@
     "Reproducible research workflows and documentation"
   ],
   "installation": {
-    "command": "huitzo plugin install scientific-research",
+    "command": "huitzo intelligence pack install scientific-research",
     "requirements": ["Research credentials", "Data analysis environment", "Statistical computing packages"]
   },
   "quickstart": [

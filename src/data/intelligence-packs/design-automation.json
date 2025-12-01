@@ -18,7 +18,7 @@
     "Design-to-code pipeline with component libraries"
   ],
   "installation": {
-    "command": "huitzo plugin install design-automation",
+    "command": "huitzo intelligence pack install design-automation",
     "requirements": ["Design tools integration", "Frontend framework selection", "Brand assets"]
   },
   "quickstart": [

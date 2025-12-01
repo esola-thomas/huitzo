@@ -1,0 +1,88 @@
+---
+import type { IntelligencePack } from '~/utils/intelligence-packs';
+import { getCategoryColors, getStatusInfo } from '~/utils/intelligence-packs';
+
+export interface Props {
+  pack: IntelligencePack;
+  showFullDescription?: boolean;
+  class?: string;
+}
+
+const { pack, showFullDescription = false, class: className = '' } = Astro.props;
+
+const description = showFullDescription
+  ? pack.description
+  : pack.description.length > 120
+    ? pack.description.substring(0, 120) + '...'
+    : pack.description;
+
+const categoryColors = getCategoryColors(pack.category);
+const statusInfo = getStatusInfo(pack.status);
+const categoryName = pack.category.charAt(0).toUpperCase() + pack.category.slice(1);
+
+// Determine pricing display
+const pricingText = pack.pricing?.free?.available
+  ? 'Free Tier Available'
+  : pack.pricing?.pro?.price
+    ? pack.pricing.pro.price
+    : 'Pricing TBA';
+
+// CTA link and text based on status
+const ctaLink = pack.status === 'active'
+  ? `${import.meta.env.BASE_URL}intelligence-packs/${pack.slug}`
+  : pack.status === 'coming-soon' || pack.status === 'beta' || pack.status === 'idea-phase'
+    ? `${import.meta.env.BASE_URL}intelligence-packs/${pack.slug}`
+    : `${import.meta.env.BASE_URL}roadmap`;
+
+const ctaText = pack.status === 'active'
+  ? 'Learn More →'
+  : pack.status === 'beta'
+    ? 'Try Beta →'
+    : pack.status === 'idea-phase'
+      ? 'View Concept →'
+      : 'View Details →';
+---
+
+<div class={`card relative transition-all duration-300 ${categoryColors.hover} ${className}`}>
+  <!-- Status and Category Badges -->
+  <div class="absolute top-4 right-4 flex flex-col gap-2 items-end">
+    <!-- Status Badge -->
+    <span class={`text-xs px-2.5 py-1 rounded-full border ${statusInfo.badge} font-medium`}>
+      {statusInfo.text}
+    </span>
+
+    <!-- Category Badge -->
+    <span class={`text-xs px-2.5 py-1 rounded-full border ${categoryColors.badge} font-medium`}>
+      {categoryName}
+    </span>
+  </div>
+
+  <!-- Icon -->
+  <div class="text-4xl mb-4">{pack.icon}</div>
+
+  <!-- Intelligence Pack Name and Version -->
+  <h3 class="text-xl font-semibold mb-1 text-text-primary pr-32">{pack.name}</h3>
+  <p class="text-sm text-text-muted mb-3">v{pack.version} • By {pack.author}</p>
+
+  <!-- Tagline -->
+  <p class="text-sm font-medium text-huitzo-accent mb-2">{pack.tagline}</p>
+
+  <!-- Description -->
+  <p class="text-text-secondary leading-relaxed mb-6">{description}</p>
+
+  <!-- Footer -->
+  <div class="flex flex-col gap-3 mt-auto">
+    <!-- Pricing Info -->
+    {pack.pricing?.free?.available && (
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-status-success">✓</span>
+        <span class="text-xs text-status-success font-medium">{pricingText}</span>
+      </div>
+    )}
+
+    <!-- CTA Button -->
+    <a href={ctaLink} class={pack.status === 'active' ? 'btn-primary text-sm w-full text-center' : 'btn-secondary text-sm w-full text-center'}>
+      {ctaText}
+    </a>
+  </div>
+</div>

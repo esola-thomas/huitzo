@@ -17,7 +17,7 @@
     "Set up recurring job searches on your schedule"
   ],
   "installation": {
-    "command": "huitzo plugin install job-report",
+    "command": "huitzo intelligence pack install job-report",
     "requirements": ["Huitzo Core v0.1.0+"]
   },
   "pricing": {

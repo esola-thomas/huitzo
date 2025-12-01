@@ -2,25 +2,25 @@
 import Layout from '~/layouts/PageLayout.astro';
 import Command from '~/components/Command.astro';
 import CTAButton from '~/components/CTAButton.astro';
-import { loadAllPlugins, type Plugin, getStatusInfo, getCategoryColors } from '~/utils/plugins';
+import { loadAllIntelligencePacks, type IntelligencePack, getStatusInfo, getCategoryColors } from '~/utils/intelligence-packs';
 
-// Generate static paths for all plugins
+// Generate static paths for all intelligence packs
 export async function getStaticPaths() {
-  const plugins = await loadAllPlugins();
+  const packs = await loadAllIntelligencePacks();
 
-  return plugins.map(plugin => ({
-    params: { slug: plugin.slug },
-    props: { plugin },
+  return packs.map(pack => ({
+    params: { slug: pack.slug },
+    props: { pack },
   }));
 }
 
 interface Props {
-  plugin: Plugin;
+  pack: IntelligencePack;
 }
 
-const { plugin } = Astro.props;
+const { pack } = Astro.props;
 
-if (!plugin) {
+if (!pack) {
   return Astro.redirect('/404');
 }
 
@@ -30,17 +30,17 @@ function formatPrice(price: string) {
 }
 
 const metadata = {
-  title: `${plugin.name} Plugin | Huitzo`,
-  description: plugin.description
+  title: `${pack.name} Intelligence Pack | Huitzo`,
+  description: pack.description
 };
 
 // Get status and category info
-const statusInfo = getStatusInfo(plugin.status);
-const categoryColors = getCategoryColors(plugin.category);
-const isComingSoon = plugin.status === 'coming-soon';
-const isBeta = plugin.status === 'beta';
-const isActive = plugin.status === 'active';
-const isIdeaPhase = plugin.status === 'idea-phase';
+const statusInfo = getStatusInfo(pack.status);
+const categoryColors = getCategoryColors(pack.category);
+const isComingSoon = pack.status === 'coming-soon';
+const isBeta = pack.status === 'beta';
+const isActive = pack.status === 'active';
+const isIdeaPhase = pack.status === 'idea-phase';
 ---
 
 <Layout metadata={metadata}>
@@ -60,17 +60,17 @@ const isIdeaPhase = plugin.status === 'idea-phase';
         }`}>
           {isBeta && (
             <>
-              🧪 <strong>Beta Plugin:</strong> This plugin is currently in beta testing. Features may change before official release.
+              🧪 <strong>Beta Intelligence Pack:</strong> This intelligence pack is currently in beta testing. Features may change before official release.
             </>
           )}
           {isComingSoon && (
             <>
-              🚀 <strong>Coming Soon:</strong> This plugin is currently in development. Check out the planned features and documentation below.
+              🚀 <strong>Coming Soon:</strong> This intelligence pack is currently in development. Check out the planned features and documentation below.
             </>
           )}
           {isIdeaPhase && (
             <>
-              💡 <strong>Idea Phase:</strong> This plugin is in the concept stage. We're exploring the idea and would love your feedback to shape its development.
+              💡 <strong>Idea Phase:</strong> This intelligence pack is in the concept stage. We're exploring the idea and would love your feedback to shape its development.
             </>
           )}
         </p>
@@ -83,15 +83,15 @@ const isIdeaPhase = plugin.status === 'idea-phase';
     {{
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      "name": plugin.name,
-      "description": plugin.description,
+      "name": pack.name,
+      "description": pack.description,
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Any",
       "author": {
         "@type": "Person",
-        "name": plugin.author
+        "name": pack.author
       },
-      "offers": (plugin.pricing && plugin.pricing.free && plugin.pricing.free.available) ? {
+      "offers": (pack.pricing && pack.pricing.free && pack.pricing.free.available) ? {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
@@ -104,27 +104,27 @@ const isIdeaPhase = plugin.status === 'idea-phase';
       <div class="max-w-4xl mx-auto">
         <!-- Back Link -->
         <div class="mb-8">
-          <a href={`${import.meta.env.BASE_URL}plugins`} class="inline-flex items-center text-text-secondary hover:text-huitzo-accent transition-colors">
+          <a href={`${import.meta.env.BASE_URL}intelligence-packs`} class="inline-flex items-center text-text-secondary hover:text-huitzo-accent transition-colors">
             <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="mr-2">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
-            Back to Plugins
+            Back to Intelligence Packs
           </a>
         </div>
 
-        <!-- Plugin Header -->
+        <!-- Intelligence Pack Header -->
         <div class="flex items-start justify-between mb-8">
           <div class="flex items-start gap-4">
-            <div class="text-5xl">{plugin.icon}</div>
+            <div class="text-5xl">{pack.icon}</div>
             <div>
               <h1 class="text-4xl lg:text-5xl font-bold text-text-primary mb-2">
-                {plugin.name} Plugin
+                {pack.name} Intelligence Pack
               </h1>
               <div class="flex items-center gap-4 text-sm text-text-muted mb-4">
-                <span>v{plugin.version}</span>
+                <span>v{pack.version}</span>
                 <span>•</span>
-                <span>By {plugin.author}</span>
-                {plugin.pricing?.free?.available && (
+                <span>By {pack.author}</span>
+                {pack.pricing?.free?.available && (
                   <>
                     <span>•</span>
                     <span class="text-status-success font-medium">Free Tier Available</span>
@@ -132,7 +132,7 @@ const isIdeaPhase = plugin.status === 'idea-phase';
                 )}
               </div>
               <p class="text-lg text-text-secondary leading-relaxed">
-                {plugin.tagline}
+                {pack.tagline}
               </p>
             </div>
           </div>
@@ -150,13 +150,13 @@ const isIdeaPhase = plugin.status === 'idea-phase';
         </h2>
         <div class="card">
           <p class="text-text-secondary leading-relaxed text-lg">
-            {plugin.description}
+            {pack.description}
           </p>
 
           {isIdeaPhase && (
             <div class="mt-6 pt-6 border-t border-huitzo-border">
               <p class="text-sm text-text-muted">
-                💭 <strong>This is just an idea:</strong> We're exploring whether this plugin would be valuable.
+                💭 <strong>This is just an idea:</strong> We're exploring whether this intelligence pack would be valuable.
                 The features below represent what we're thinking about building. Your feedback can help shape or even change this direction entirely.
               </p>
             </div>
@@ -165,7 +165,7 @@ const isIdeaPhase = plugin.status === 'idea-phase';
           {isComingSoon && !isIdeaPhase && (
             <div class="mt-6 pt-6 border-t border-huitzo-border">
               <p class="text-sm text-text-muted">
-                💡 <strong>Why this matters:</strong> We're developing this plugin to address a real need in the market.
+                💡 <strong>Why this matters:</strong> We're developing this intelligence pack to address a real need in the market.
                 All features documented below are planned for the initial release.
               </p>
             </div>
@@ -193,7 +193,7 @@ const isIdeaPhase = plugin.status === 'idea-phase';
           </p>
         )}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {Array.isArray(plugin.features) && plugin.features.map((feature: string) => (
+          {Array.isArray(pack.features) && pack.features.map((feature: string) => (
             <div class="flex items-start gap-3 p-4 bg-huitzo-secondary/50 rounded-lg border border-huitzo-border">
               <span class="text-huitzo-accent mt-1">{isIdeaPhase ? '💭' : isComingSoon ? '📋' : '✓'}</span>
               <span class="text-text-secondary">{feature}</span>
@@ -205,22 +205,22 @@ const isIdeaPhase = plugin.status === 'idea-phase';
   </section>
 
   <!-- Pricing Section -->
-  {plugin.pricing && (
+  {pack.pricing && (
     <section class="py-20 bg-huitzo-secondary/30">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
           <h2 class="text-3xl font-bold text-text-primary mb-8 text-center">Pricing</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
               <!-- Free Tier -->
-              {plugin.pricing.free && plugin.pricing.free.available && (
+              {pack.pricing.free && pack.pricing.free.available && (
                 <div class="card">
                   <div class="text-center mb-6">
                     <h3 class="text-xl font-semibold text-text-primary mb-2">Free Tier</h3>
                     <div class="text-3xl font-bold text-huitzo-accent mb-2">$0</div>
-                    <div class="text-sm text-text-muted">{plugin.pricing.free.limits}</div>
+                    <div class="text-sm text-text-muted">{pack.pricing.free.limits}</div>
                   </div>
                   <ul class="space-y-3 mb-6">
-                    {plugin.pricing && plugin.pricing.free && Array.isArray(plugin.pricing.free.features) && plugin.pricing.free.features.map((feature: string) => (
+                    {pack.pricing && pack.pricing.free && Array.isArray(pack.pricing.free.features) && pack.pricing.free.features.map((feature: string) => (
                       <li class="flex items-start gap-2">
                         <span class="text-status-success mt-1">✓</span>
                         <span class="text-text-secondary text-sm">{feature}</span>
@@ -236,15 +236,15 @@ const isIdeaPhase = plugin.status === 'idea-phase';
               )}
 
               <!-- Pro Tier -->
-              {plugin.pricing.pro && (
+              {pack.pricing.pro && (
                 <div class="card border-huitzo-accent">
                   <div class="text-center mb-6">
                     <h3 class="text-xl font-semibold text-text-primary mb-2">Pro</h3>
-                    <div class="text-3xl font-bold text-huitzo-accent mb-2">{plugin.pricing.pro.price ? formatPrice(plugin.pricing.pro.price) : 'Coming Soon'}</div>
-                    <div class="text-sm text-text-muted">{plugin.pricing.pro.price ? 'per month' : ''}</div>
+                    <div class="text-3xl font-bold text-huitzo-accent mb-2">{pack.pricing.pro.price ? formatPrice(pack.pricing.pro.price) : 'Coming Soon'}</div>
+                    <div class="text-sm text-text-muted">{pack.pricing.pro.price ? 'per month' : ''}</div>
                   </div>
                   <ul class="space-y-3 mb-6">
-                    {plugin.pricing && plugin.pricing.pro && Array.isArray(plugin.pricing.pro.features) && plugin.pricing.pro.features.map((feature: string) => (
+                    {pack.pricing && pack.pricing.pro && Array.isArray(pack.pricing.pro.features) && pack.pricing.pro.features.map((feature: string) => (
                       <li class="flex items-start gap-2">
                         <span class="text-status-success mt-1">✓</span>
                         <span class="text-text-secondary text-sm">{feature}</span>
@@ -265,7 +265,7 @@ const isIdeaPhase = plugin.status === 'idea-phase';
   )}
 
   <!-- Installation Section -->
-  {plugin.installation && (
+  {pack.installation && (
     <section class="py-20">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
@@ -276,7 +276,7 @@ const isIdeaPhase = plugin.status === 'idea-phase';
           {isIdeaPhase && (
             <div class="mb-6 p-4 bg-purple-500/10 border border-purple-500/30 rounded-lg">
               <p class="text-sm text-text-secondary">
-                💡 This is a conceptual installation command showing how we envision this plugin might work if developed.
+                💡 This is a conceptual installation command showing how we envision this intelligence pack might work if developed.
               </p>
             </div>
           )}
@@ -284,20 +284,20 @@ const isIdeaPhase = plugin.status === 'idea-phase';
           {isComingSoon && !isIdeaPhase && (
             <div class="mb-6 p-4 bg-huitzo-accent/10 border border-huitzo-accent/30 rounded-lg">
               <p class="text-sm text-text-secondary">
-                ℹ️ This plugin is not yet available. The installation command below shows how it will work once released.
+                ℹ️ This intelligence pack is not yet available. The installation command below shows how it will work once released.
               </p>
             </div>
           )}
 
           <div class="mb-8">
-            <Command command={plugin.installation.command} />
+            <Command command={pack.installation.command} />
           </div>
 
-      {plugin.installation.requirements && plugin.installation.requirements.length > 0 && (
+      {pack.installation.requirements && pack.installation.requirements.length > 0 && (
           <div class="card">
             <h3 class="text-lg font-semibold text-text-primary mb-4">Requirements</h3>
             <ul class="space-y-2">
-              {plugin.installation && Array.isArray(plugin.installation.requirements) && plugin.installation.requirements.map((req: string) => (
+              {pack.installation && Array.isArray(pack.installation.requirements) && pack.installation.requirements.map((req: string) => (
                 <li class="flex items-start gap-2">
                   <span class="text-huitzo-accent mt-1">•</span>
                   <span class="text-text-secondary text-sm">{req}</span>
@@ -312,7 +312,7 @@ const isIdeaPhase = plugin.status === 'idea-phase';
   )}
 
   <!-- Quick Start Section -->
-  {plugin.quickstart && Array.isArray(plugin.quickstart) && plugin.quickstart.length > 0 && (
+  {pack.quickstart && Array.isArray(pack.quickstart) && pack.quickstart.length > 0 && (
     <section class="py-20 bg-huitzo-secondary/30">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
@@ -321,16 +321,16 @@ const isIdeaPhase = plugin.status === 'idea-phase';
           </h2>
           {isIdeaPhase && (
             <p class="text-text-muted mb-6">
-              Here's how we imagine using this plugin might work:
+              Here's how we imagine using this intelligence pack might work:
             </p>
           )}
           {isComingSoon && !isIdeaPhase && (
             <p class="text-text-muted mb-6">
-              Here's how you'll use this plugin once it's available:
+              Here's how you'll use this intelligence pack once it's available:
             </p>
           )}
           <div class="space-y-6">
-            {Array.isArray(plugin.quickstart) && plugin.quickstart.map((step: { step: number; title: string; command: string; description: string }) => (
+            {Array.isArray(pack.quickstart) && pack.quickstart.map((step: { step: number; title: string; command: string; description: string }) => (
               <div class="card">
                 <div class="flex items-start gap-4">
                   <div class="flex-shrink-0 w-8 h-8 bg-huitzo-accent text-huitzo-dark rounded-full flex items-center justify-center font-mono font-bold text-sm">
@@ -350,13 +350,13 @@ const isIdeaPhase = plugin.status === 'idea-phase';
   )}
 
   <!-- Available Commands Section -->
-  {plugin.commands && Array.isArray(plugin.commands) && plugin.commands.length > 0 && (
+  {pack.commands && Array.isArray(pack.commands) && pack.commands.length > 0 && (
     <section class="py-20">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
           <h2 class="text-3xl font-bold text-text-primary mb-8">Available Commands</h2>
           <div class="space-y-4">
-            {Array.isArray(plugin.commands) && plugin.commands.map((cmd: { name: string; description: string }) => (
+            {Array.isArray(pack.commands) && pack.commands.map((cmd: { name: string; description: string }) => (
               <div class="card">
                 <div class="flex flex-col md:flex-row md:items-center gap-4">
                   <div class="flex-1">
@@ -378,30 +378,30 @@ const isIdeaPhase = plugin.status === 'idea-phase';
   )}
 
   <!-- Links Section -->
-  {plugin.links && (
+  {pack.links && (
     <section class="py-20 bg-huitzo-secondary/30">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
           <h2 class="text-3xl font-bold text-text-primary mb-8 text-center">Resources</h2>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {plugin.links.documentation && (
-              <a href={plugin.links.documentation} class="card text-center hover:border-huitzo-accent transition-colors">
+            {pack.links.documentation && (
+              <a href={pack.links.documentation} class="card text-center hover:border-huitzo-accent transition-colors">
                 <div class="text-3xl mb-4">📚</div>
                 <h3 class="text-lg font-semibold text-text-primary mb-2">Documentation</h3>
                 <p class="text-text-secondary text-sm">Complete guide and API reference</p>
               </a>
             )}
 
-            {plugin.sourceCode && plugin.links.repository && (
-              <a href={plugin.links.repository} target="_blank" rel="noopener" class="card text-center hover:border-huitzo-accent transition-colors">
+            {pack.sourceCode && pack.links.repository && (
+              <a href={pack.links.repository} target="_blank" rel="noopener" class="card text-center hover:border-huitzo-accent transition-colors">
                 <div class="text-3xl mb-4">💻</div>
                 <h3 class="text-lg font-semibold text-text-primary mb-2">Source Code</h3>
                 <p class="text-text-secondary text-sm">Source code and development</p>
               </a>
             )}
 
-            {plugin.links.support && (
-              <a href={plugin.links.support} class="card text-center hover:border-huitzo-accent transition-colors">
+            {pack.links.support && (
+              <a href={pack.links.support} class="card text-center hover:border-huitzo-accent transition-colors">
                 <div class="text-3xl mb-4">💬</div>
                 <h3 class="text-lg font-semibold text-text-primary mb-2">Support</h3>
                 <p class="text-text-secondary text-sm">Get help and report issues</p>
@@ -420,18 +420,18 @@ const isIdeaPhase = plugin.status === 'idea-phase';
         {isIdeaPhase ? (
           <>
             <h2 class="text-3xl font-bold text-text-primary mb-6">
-              Help Shape This Plugin
+              Help Shape This Intelligence Pack
             </h2>
             <p class="text-lg text-text-secondary mb-8">
-              This plugin is still just an idea. Your feedback could make it real - or help us pivot to something even better.
+              This intelligence pack is still just an idea. Your feedback could make it real - or help us pivot to something even better.
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-              <CTAButton href={plugin.links?.support || 'https://github.com/esola-thomas/huitzo/issues'} target="_blank" rel="noopener">
+              <CTAButton href={pack.links?.support || 'https://github.com/esola-thomas/huitzo/issues'} target="_blank" rel="noopener">
                 Share Your Thoughts →
               </CTAButton>
-              <CTAButton href={`${import.meta.env.BASE_URL}plugins`} variant="secondary">
-                Explore Other Plugins
+              <CTAButton href={`${import.meta.env.BASE_URL}intelligence-packs`} variant="secondary">
+                Explore Other Intelligence Packs
               </CTAButton>
             </div>
           </>
@@ -441,15 +441,15 @@ const isIdeaPhase = plugin.status === 'idea-phase';
               Want to Know When This Launches?
             </h2>
             <p class="text-lg text-text-secondary mb-8">
-              This plugin is actively in development. Check our roadmap to see the timeline and stay updated on progress.
+              This intelligence pack is actively in development. Check our roadmap to see the timeline and stay updated on progress.
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
               <CTAButton href={`${import.meta.env.BASE_URL}roadmap`}>
                 View Development Roadmap →
               </CTAButton>
-              <CTAButton href={`${import.meta.env.BASE_URL}plugins`} variant="secondary">
-                Explore Other Plugins
+              <CTAButton href={`${import.meta.env.BASE_URL}intelligence-packs`} variant="secondary">
+                Explore Other Intelligence Packs
               </CTAButton>
             </div>
           </>
@@ -459,14 +459,14 @@ const isIdeaPhase = plugin.status === 'idea-phase';
               Ready to Try the Beta?
             </h2>
             <p class="text-lg text-text-secondary mb-8">
-              Help us test and improve this plugin. Your feedback will shape the final release.
+              Help us test and improve this intelligence pack. Your feedback will shape the final release.
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
               <CTAButton href="https://cli.huitzo.com" target="_blank" rel="noopener">
                 Get Started with Beta →
               </CTAButton>
-              <CTAButton href={plugin.links?.support || 'https://github.com/esola-thomas/huitzo/issues'} target="_blank" rel="noopener" variant="secondary">
+              <CTAButton href={pack.links?.support || 'https://github.com/esola-thomas/huitzo/issues'} target="_blank" rel="noopener" variant="secondary">
                 Report Issues or Feedback
               </CTAButton>
             </div>
@@ -477,15 +477,15 @@ const isIdeaPhase = plugin.status === 'idea-phase';
               Your Intelligence Advantage Starts Now
             </h2>
             <p class="text-lg text-text-secondary mb-8">
-              Activate this plugin and let simple commands deliver insights your competition will miss.
+              Activate this intelligence pack and let simple commands deliver insights your competition will miss.
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
               <CTAButton href="https://cli.huitzo.com" target="_blank" rel="noopener">
                 Command Your Intelligence (Launching Soon) →
               </CTAButton>
-              <CTAButton href={`${import.meta.env.BASE_URL}plugins`} variant="secondary">
-                Explore Other Intelligence Plugins
+              <CTAButton href={`${import.meta.env.BASE_URL}intelligence-packs`} variant="secondary">
+                Explore Other Intelligence Packs
               </CTAButton>
             </div>
           </>

@@ -190,7 +190,7 @@
           "description": "Command to install the plugin",
           "minLength": 1,
           "maxLength": 200,
-          "examples": ["huitzo plugin install financial"]
+          "examples": ["huitzo intelligence pack install financial"]
         },
         "requirements": {
           "type": "array",

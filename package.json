@@ -20,8 +20,8 @@
     "fix": "npm run fix:eslint && npm run fix:prettier",
     "fix:eslint": "eslint --fix .",
     "fix:prettier": "prettier -w .",
-    "generate:plugin-docs": "node scripts/generate-plugin-docs.js",
-    "validate:plugins": "node scripts/validate-plugins.js",
+    "generate:pack-docs": "node scripts/generate-pack-docs.js",
+    "validate:packs": "node scripts/validate-packs.js",
     "validate:roadmap": "node scripts/validate-roadmap.js"
   },
   "dependencies": {

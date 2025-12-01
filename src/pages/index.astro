@@ -1,581 +1,158 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import TerminalPrompt from '~/components/TerminalPrompt.astro';
-import FeatureCard from '~/components/FeatureCard.astro';
-import PluginCard from '~/components/PluginCard.astro';
-import { getPluginsByStatus, getPluginStats } from '~/utils/plugins';
+import IntelligencePackCard from '~/components/IntelligencePackCard.astro';
+import { getIntelligencePacksByStatus, getIntelligencePackStats } from '~/utils/intelligence-packs';
 
-// Get the first active plugin for featured display
-const activePlugins = await getPluginsByStatus('active');
-const featuredPlugin = activePlugins[0] || null;
+// Get the first active pack for featured display
+const activePacks = await getIntelligencePacksByStatus('active');
+const featuredPack = activePacks[0] || null;
 
 // Compute safe stats for hero section
-const pluginStats = await getPluginStats();
-const pluginCount = pluginStats?.total ?? 0;
-const pluginsInDev = pluginStats?.comingSoon + pluginStats?.beta || 0;
+const packStats = await getIntelligencePackStats();
+const packCount = packStats?.total ?? 0;
+const packsInDev = packStats?.comingSoon + packStats?.beta || 0;
 
-// Find public launch target from roadmap
+// Find current milestone from roadmap
 const roadmapModule = await import('~/data/roadmap.json');
-const publicLaunch = roadmapModule.default.milestones.find(m => /public/i.test(m.title) || m.id === 'public-launch');
-const publicLaunchDate = publicLaunch?.targetDate || publicLaunch?.date || 'TBD';
-
 const currentMilestone = roadmapModule.default.milestones.find(m => m.status === 'in-progress');
 
 const metadata = {
   title: 'Huitzo - Intelligence on Demand',
-  description: 'Command intelligence with simple text. Huitzo turns overwhelming data into unfair competitive advantage.',
+  description: 'Huitzo intelligence packs analyze your data and deliver actionable insights so you decide faster and smarter.',
 };
-
-const terminalLines = [
-  '!$ huitzo --intelligence',
-  'i> Your unfair advantage starts now',
-  's> Command AI-powered insights in plain English',
-  'w> Stay ahead before the public launch',
-  'e> _'
-];
 ---
 
 <Layout metadata={metadata}>
   <!-- Hero Section -->
   <section class="py-20 lg:py-32">
     <div class="container mx-auto px-4">
-      <div class="max-w-6xl mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <!-- Content -->
-          <div>
-            <h1 class="text-4xl lg:text-6xl font-bold mb-10 lg:mb-12 leading-normal lg:leading-tight">
-              Your Competition Has Data.
-              <span class="text-gradient animated-gradient block">You'll Have Intelligence.</span>
-            </h1>
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-4xl lg:text-6xl font-bold mb-6 leading-normal lg:leading-tight">
+          Your Competition Has Data.
+          <span class="text-gradient animated-gradient block">You'll Have Intelligence on Demand.</span>
+        </h1>
 
-            <p class="text-xl text-muted mt-2 mb-6 leading-relaxed">
-              While they drown in spreadsheets, you'll command AI-powered insights through simple text. Huitzo transforms complex data into decisions that actually matter.
-            </p>
+        <p class="text-xl text-muted mb-6 leading-relaxed max-w-3xl mx-auto">
+          Huitzo intelligence packs analyze your data and deliver actionable insights so you can decide faster and smarter.
+        </p>
 
-            <div class="bg-[var(--aw-color-bg-secondary)]/60 border border-gray-700 rounded-lg px-6 py-5 mb-8">
-              <p class="text-sm uppercase tracking-[0.3em] text-primary font-semibold mb-3">Why now</p>
-              <p class="text-base text-muted leading-relaxed">
-                The world generates 402 million terabytes of data every day. Without intelligence, it's noise. With Huitzo, it's your unfair advantage.
-              </p>
-            </div>
-
-            <div class="flex flex-col sm:flex-row gap-4 mb-12">
-              <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="btn-primary">
-                Claim Your Intelligence Advantage →
-              </a>
-              <a href="/plugins" class="btn-secondary">
-                Explore Your Intelligence Options
-              </a>
-            </div>
-
-            <!-- Key Stats -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-gray-700">
-              <div>
-                <div class="text-2xl font-bold text-primary font-mono">{pluginCount}</div>
-                <div class="text-sm text-muted">Available plugins</div>
-              </div>
-              <div>
-                <div class="text-2xl font-bold text-primary font-mono">{pluginsInDev}</div>
-                <div class="text-sm text-muted">Plugins in development</div>
-              </div>
-              <div>
-                <div class="text-2xl font-bold text-primary font-mono">May '26</div>                
-                <div class="text-sm text-muted">Public launch (target)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Terminal Demo -->
-          <div class="lg:pl-8">
-            <TerminalPrompt lines={terminalLines} animate={true} class="glow" />
-
-            <!-- Features Preview -->
-            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-lg p-4">
-                <div class="text-lg mb-2">🧠</div>
-                <div class="text-sm font-medium">Intelligence On Demand</div>
-                <div class="text-xs text-muted">YOU make the decisions</div>
-              </div>
-              <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-lg p-4">
-                <div class="text-lg mb-2">⌨️</div>
-                <div class="text-sm font-medium">Simple Text Commands</div>
-                <div class="text-xs text-muted">No dashboards to wrangle</div>
-              </div>
-              <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-lg p-4">
-                <div class="text-lg mb-2">⚡</div>
-                <div class="text-sm font-medium">Automated Briefings</div>
-                <div class="text-xs text-muted">Alerts when you need them</div>
-              </div>
-              <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-lg p-4">
-                <div class="text-lg mb-2">🧩</div>
-                <div class="text-sm font-medium">Plugins That Grow</div>
-                <div class="text-xs text-muted">Expand to every function</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Feature Highlights -->
-  <section class="py-20">
-    <div class="container mx-auto px-4">
-      <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-16">
-          <h2 class="text-3xl lg:text-4xl font-bold mb-4">Intelligence That Adapts With You</h2>
-          <p class="text-lg text-muted max-w-3xl mx-auto">
-            Each plugin unlocks a new superpower. Start with financial intelligence and expand into every corner of your life or business without adding headcount.
+        <div class="bg-[var(--aw-color-bg-secondary)]/60 border border-gray-700 rounded-lg px-6 py-5 mb-8 max-w-2xl mx-auto text-left">
+          <p class="text-sm uppercase tracking-[0.3em] text-primary font-semibold mb-3">Why Now</p>
+          <p class="text-base text-muted leading-relaxed">
+            The world generates 402 million terabytes of data every day. Without the right tools, it's just noise. With Huitzo, it becomes your competitive edge.
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <FeatureCard icon="🧠" title="Intelligence That Evolves With You">
-            <div class="border-l-4 border-primary pl-4">
-              <div class="font-semibold mb-2">Launch with our Financial Intelligence plugin — your personal Warren Buffett.</div>
-              <div class="mt-1 text-sm text-text-secondary">“The best investment you can make is an investment in yourself. The more you learn, the more you earn.” - Warren Buffett</div>
-            </div>
-          </FeatureCard>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="btn-primary">
+            Get Started →
+          </a>
+          <a href="/intelligence-packs" class="btn-secondary">
+            Explore Intelligence Packs
+          </a>
+        </div>
 
-            <FeatureCard icon="🦆" title="Rubber Ducky">
-            <div class="border-l-4 border-primary pl-4">
-              <div class="font-semibold mb-2">Talk through problems and find your own solutions.</div>
-              <div class="mt-1 text-sm text-text-secondary">Chat with an AI designed to ask questions, not give answers. Our first proof-of-concept shows how Huitzo adapts to your thinking style and helps you break through blockers.</div>
-            </div>
-            </FeatureCard>
-
-          <FeatureCard icon="⚡" title="Intelligence That Never Sleeps">
-            <div class="border-l-4 border-primary pl-4">
-              <div class="font-semibold mb-2">Automated briefings & alerts</div>
-              <div class="mt-1 text-sm text-text-secondary">Wake up to overnight market moves, get pinged when opportunities match your criteria, and receive weekly briefings tailored to your goals. Set it once — stay ahead forever.</div>
-            </div>
-          </FeatureCard>
+        <!-- Key Stats -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-gray-700 max-w-2xl mx-auto">
+          <div>
+            <div class="text-2xl font-bold text-primary font-mono">{packCount}</div>
+            <div class="text-sm text-muted">Intelligence packs</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-primary font-mono">{packsInDev}</div>
+            <div class="text-sm text-muted">In development</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-primary font-mono">May '26</div>
+            <div class="text-sm text-muted">Public launch</div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Intelligence Carousel Section -->
-  <section class="py-20 bg-[var(--aw-color-bg-secondary)]/50 border-y border-gray-800/50 overflow-hidden">
-    <style>
-      .carousel-slide {
-        opacity: 0;
-        visibility: hidden;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out, visibility 0s 0.8s;
-        transform: translateY(20px);
-      }
-
-      .carousel-slide.active {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-        transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out, visibility 0s 0s;
-      }
-
-      .carousel-container {
-        position: relative;
-        min-height: 450px;
-      }
-
-      .carousel-controls {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 1rem;
-        margin-top: 2rem;
-      }
-
-      .carousel-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: var(--aw-color-text-muted);
-        opacity: 0.3;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
-      }
-
-      .carousel-dot:hover {
-        opacity: 0.6;
-        transform: scale(1.1);
-      }
-
-      .carousel-dot.active {
-        background: var(--aw-color-primary);
-        opacity: 1;
-        border-color: var(--aw-color-primary);
-        transform: scale(1.2);
-      }
-
-      .carousel-btn {
-        background: var(--aw-color-bg-secondary);
-        border: 1px solid var(--aw-color-border);
-        color: var(--aw-color-text-primary);
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        font-size: 0.875rem;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .carousel-btn:hover {
-        background: var(--aw-color-primary);
-        color: white;
-        border-color: var(--aw-color-primary);
-      }
-
-      @media (max-width: 768px) {
-        .carousel-container { min-height: 600px; }
-      }
-    </style>
-
+  <!-- The Problem Section -->
+  <section class="py-20 bg-[var(--aw-color-bg-secondary)]/50">
     <div class="container mx-auto px-4">
-      <div class="carousel-container" id="intelligenceCarousel">
-        <!-- Slide 1: The Power of Knowing -->
-        <div class="carousel-slide">
-          <div class="max-w-4xl mx-auto text-center mb-12">
-            <h2 class="text-3xl lg:text-4xl font-bold mb-4">
-              Imagine Knowing, Not Guessing
-            </h2>
-            <p class="text-lg text-muted">
-              What would change if every decision you made was backed by intelligence? 
-              If every question had a data-driven answer?
-            </p>
-          </div>
-          <div class="max-w-4xl mx-auto space-y-4">
-            <div class="flex items-start gap-4">
-              <span class="text-primary text-xl">→</span>
-              <p class="text-muted">
-                <span class="font-semibold">Know</span> which investments match your exact risk profile
-              </p>
-            </div>
-            <div class="flex items-start gap-4">
-              <span class="text-primary text-xl">→</span>
-              <p class="text-muted">
-                <span class="font-semibold">Discover</span> patterns your competitors haven't noticed yet
-              </p>
-            </div>
-            <div class="flex items-start gap-4">
-              <span class="text-primary text-xl">→</span>
-              <p class="text-muted">
-                <span class="font-semibold">Predict</span> trends before they become obvious
-              </p>
-            </div>
-            <div class="flex items-start gap-4">
-              <span class="text-primary text-xl">→</span>
-              <p class="text-muted">
-                <span class="font-semibold">Optimize</span> everything from portfolios to business operations
-              </p>
-            </div>
-          </div>
-          <div class="text-center mt-12">
-            <p class="text-lg font-semibold">
-              This isn't science fiction. It's Huitzo.
-            </p>
-          </div>
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl lg:text-4xl font-bold mb-4">
+            While You're Drowning in Data, Your Competitors Are Making Moves
+          </h2>
+          <p class="text-lg text-muted">
+            Too much information. Not enough clarity. Sound familiar?
+          </p>
         </div>
 
-        <!-- Slide 2: What If You Could See -->
-        <div class="carousel-slide">
-          <div class="max-w-4xl mx-auto text-center mb-12">
-            <h2 class="text-3xl lg:text-4xl font-bold mb-4">
-              What If You Could See What Others Can't?
-            </h2>
-            <p class="text-lg text-muted">
-              Intelligence isn't about having all the data... It is about understanding what matters. 
-              Huitzo turns information overload into "aha!" moments.
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl p-6">
+            <div class="text-3xl mb-4">🏢</div>
+            <h3 class="text-lg font-semibold mb-3">The Competitive Gap</h3>
+            <p class="text-sm text-muted leading-relaxed">
+              Your competitors have data teams and expensive consultants. You have spreadsheets and guesswork. The gap widens every day.
             </p>
           </div>
-          <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl px-6 py-8 text-center">
-              <div class="text-3xl font-semibold text-primary font-mono mb-2">402M TB</div>
-              <p class="text-sm text-muted leading-relaxed">
-                Data created daily. Huitzo helps you find the signal in the noise.
-              </p>
-            </div>
-            <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl px-6 py-8 text-center">
-              <div class="text-3xl font-semibold text-primary font-mono mb-2">15 min</div>
-              <p class="text-sm text-muted leading-relaxed">
-                Average time to learn Huitzo commands. From beginner to intelligence commander.
-              </p>
-            </div>
-            <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl px-6 py-8 text-center">
-              <div class="text-3xl font-semibold text-primary font-mono mb-2">∞</div>
-              <p class="text-sm text-muted leading-relaxed">
-                Possibilities when you combine human creativity with machine intelligence.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slide 3: Intelligence Evolution -->
-        <div class="carousel-slide">
-          <div class="max-w-4xl mx-auto text-center mb-12">
-            <h2 class="text-3xl lg:text-4xl font-bold mb-4">
-              From Data to Decisions: The Evolution
-            </h2>
-            <p class="text-lg text-muted">
-              We've moved from calculators to computers, from search to AI. 
-              Now, we're moving from raw data to refined intelligence.
+          <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl p-6">
+            <div class="text-3xl mb-4">🤯</div>
+            <h3 class="text-lg font-semibold mb-3">Decision Paralysis</h3>
+            <p class="text-sm text-muted leading-relaxed">
+              More data should lead to better decisions. Instead, it creates more confusion. You're stuck analyzing instead of acting.
             </p>
           </div>
-          <div class="max-w-5xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4">
-              <div class="text-center flex-1">
-                <div class="text-4xl mb-4">📊</div>
-                <h3 class="font-semibold mb-2">Yesterday</h3>
-                <p class="text-sm text-muted">Spreadsheets & Guesswork</p>
-              </div>
-              <div class="text-center flex-1">
-                <div class="text-4xl mb-4">🤖</div>
-                <h3 class="font-semibold mb-2">Today</h3>
-                <p class="text-sm text-muted">AI Tools & Complexity</p>
-              </div>
-              <div class="text-center flex-1">
-                <div class="text-4xl mb-4">🚀</div>
-                <h3 class="font-semibold text-primary mb-2">Tomorrow</h3>
-                <p class="text-sm text-muted">Intelligence on Demand</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slide 4: Intelligence Democratized -->
-        <div class="carousel-slide">
-          <div class="max-w-4xl mx-auto text-center mb-12">
-            <h2 class="text-3xl lg:text-4xl font-bold mb-4">
-              Intelligence for Everyone, Not Just the Elite
-            </h2>
-            <p class="text-lg text-muted">
-              For too long, advanced analytics belonged only to those who could afford it. 
-              We're changing that story.
+          <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl p-6">
+            <div class="text-3xl mb-4">⏳</div>
+            <h3 class="text-lg font-semibold mb-3">Analysis Fatigue</h3>
+            <p class="text-sm text-muted leading-relaxed">
+              By the time you find the insight, the opportunity has passed. Manual analysis can't keep pace with today's market.
             </p>
           </div>
-          <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl px-6 py-8">
-              <h3 class="font-semibold mb-3">Before Huitzo</h3>
-              <ul class="text-sm text-muted space-y-2">
-                <li>• $150K+ data scientists</li>
-                <li>• Complex BI tools</li>
-                <li>• Months of training</li>
-              </ul>
-            </div>
-            <div class="bg-[var(--aw-color-bg-secondary)] border border-primary/50 border-2 rounded-xl px-6 py-8">
-              <h3 class="font-semibold text-primary mb-3">With Huitzo</h3>
-              <ul class="text-sm space-y-2">
-                <li>✓ Simple text commands</li>
-                <li>✓ Instant intelligence</li>
-                <li>✓ Learn in minutes</li>
-              </ul>
-            </div>
-            <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl px-6 py-8">
-              <h3 class="font-semibold mb-3">Your Future</h3>
-              <ul class="text-sm text-muted space-y-2">
-                <li>→ Confident decisions</li>
-                <li>→ Hidden insights revealed</li>
-                <li>→ Competitive edge</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slide 5: Intelligence Pioneers -->
-        <div class="carousel-slide">
-          <div class="max-w-4xl mx-auto text-center mb-12">
-            <h2 class="text-3xl lg:text-4xl font-bold mb-4">
-              Be Part of Something Revolutionary
-            </h2>
-            <p class="text-lg text-muted">
-              A growing community of thinkers, builders, and innovators are discovering 
-              what's possible when intelligence becomes accessible.
-            </p>
-          </div>
-          <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="text-center">
-              <div class="text-5xl mb-4">🧠</div>
-              <h3 class="font-semibold text-lg mb-2">Thinkers</h3>
-              <p class="text-sm text-muted">
-                Researchers and analysts pushing the boundaries of what's possible
-              </p>
-            </div>
-            <div class="text-center">
-              <div class="text-5xl mb-4">⚡</div>
-              <h3 class="font-semibold text-lg mb-2">Builders</h3>
-              <p class="text-sm text-muted">
-                Entrepreneurs and innovators creating the future with intelligence
-              </p>
-            </div>
-            <div class="text-center">
-              <div class="text-5xl mb-4">🚀</div>
-              <h3 class="font-semibold text-lg mb-2">Pioneers</h3>
-              <p class="text-sm text-muted">
-                Early adopters defining how intelligence transforms industries
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Carousel Controls -->
-      <div class="carousel-controls">
-        <button class="carousel-btn" id="carouselPlayPause">
-          <span id="playPauseIcon">⏸️</span>
-          <span id="playPauseText">Pause</span>
-        </button>
-        <div style="display: flex; gap: 0.5rem;">
-          <button class="carousel-dot active" data-slide="0" aria-label="Go to slide 1"></button>
-          <button class="carousel-dot" data-slide="1" aria-label="Go to slide 2"></button>
-          <button class="carousel-dot" data-slide="2" aria-label="Go to slide 3"></button>
-          <button class="carousel-dot" data-slide="3" aria-label="Go to slide 4"></button>
-          <button class="carousel-dot" data-slide="4" aria-label="Go to slide 5"></button>
         </div>
       </div>
     </div>
-
-    <script>
-      const carousel = document.getElementById('intelligenceCarousel');
-      const slides = carousel?.querySelectorAll('.carousel-slide');
-      const dots = document.querySelectorAll('.carousel-dot');
-      const playPauseBtn = document.getElementById('carouselPlayPause');
-      const playPauseIcon = document.getElementById('playPauseIcon');
-      const playPauseText = document.getElementById('playPauseText');
-      
-      let currentSlide = 0;
-      let isPlaying = true;
-      let intervalId: number | null = null;
-
-      function showSlide(index: number) {
-        if (!slides) return;
-        
-        slides.forEach((slide, i) => {
-          if (i === index) {
-            slide.classList.add('active');
-          } else {
-            slide.classList.remove('active');
-          }
-        });
-
-        dots.forEach((dot, i) => {
-          if (i === index) {
-            dot.classList.add('active');
-          } else {
-            dot.classList.remove('active');
-          }
-        });
-
-        currentSlide = index;
-      }
-
-      function nextSlide() {
-        const next = (currentSlide + 1) % slides!.length;
-        showSlide(next);
-      }
-
-      function startAutoplay() {
-        if (intervalId) clearInterval(intervalId);
-        intervalId = window.setInterval(nextSlide, 8000); // 8 seconds per slide
-        isPlaying = true;
-        if (playPauseIcon) playPauseIcon.textContent = '⏸️';
-        if (playPauseText) playPauseText.textContent = 'Pause';
-      }
-
-      function stopAutoplay() {
-        if (intervalId) {
-          clearInterval(intervalId);
-          intervalId = null;
-        }
-        isPlaying = false;
-        if (playPauseIcon) playPauseIcon.textContent = '▶️';
-        if (playPauseText) playPauseText.textContent = 'Play';
-      }
-
-      // Initialize first slide
-      if (slides && slides.length > 0) {
-        showSlide(0);
-        startAutoplay();
-      }
-
-      // Play/Pause button
-      playPauseBtn?.addEventListener('click', () => {
-        if (isPlaying) {
-          stopAutoplay();
-        } else {
-          startAutoplay();
-        }
-      });
-
-      // Dot navigation
-      dots.forEach((dot) => {
-        dot.addEventListener('click', () => {
-          const slideIndex = parseInt(dot.getAttribute('data-slide') || '0');
-          showSlide(slideIndex);
-          stopAutoplay();
-        });
-      });
-
-      // Pause on hover (optional for better UX)
-      carousel?.addEventListener('mouseenter', () => {
-        if (isPlaying && intervalId) {
-          clearInterval(intervalId);
-          intervalId = null;
-        }
-      });
-
-      carousel?.addEventListener('mouseleave', () => {
-        if (isPlaying) {
-          startAutoplay();
-        }
-      });
-    </script>
   </section>
 
-  <!-- What is Huitzo Section -->
+  <!-- The Solution Section -->
   <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
     <div class="container mx-auto px-4">
       <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-16">
+        <div class="text-center mb-12">
           <h2 class="text-3xl lg:text-4xl font-bold mb-4">
-            The Intelligence Revolution Starts Here
+            Huitzo: Your On-Demand Analysis Team
           </h2>
           <p class="text-lg text-muted max-w-3xl mx-auto">
-            Imagine standing up a team of analysts, economists, and AI researchers without hiring a single person. Huitzo gives you their collective intelligence through commands you can learn in 15 minutes.
+            Each intelligence pack specializes in a domain. You get the answers. No team required.
           </p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           <div class="space-y-6">
             <p class="text-base text-muted leading-relaxed">
-              Right now there are two types of businesses: those with multi-million-dollar analytics teams shaping every decision, and everyone else guessing. We're ending that divide by putting elite intelligence behind every question you ask.
+              Right now, there are two types of decision-makers: those with expensive analytics teams, and everyone else flying blind. Huitzo closes that gap.
             </p>
             <p class="text-base text-muted leading-relaxed">
-              With Huitzo you command insights, not dashboards. Tell us what matters - cash flow, headcount, market share - and the platform listens, learns, and advises in plain English.
+              Our intelligence packs do the heavy lifting by analyzing data, spotting patterns, and delivering clear recommendations. You stay focused on what matters: making the call.
+            </p>
+            <p class="text-base text-muted leading-relaxed">
+              Start with one intelligence pack. Add more as your needs grow. Each one is designed to deliver specific, actionable outputs you can use immediately.
             </p>
           </div>
           <div class="space-y-6">
-            <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-2xl p-6">
-              <h3 class="text-xl font-semibold text-text-primary mb-2">The Problem We Solve</h3>
+            <div class="bg-[var(--aw-color-bg-page)] border border-gray-700 rounded-2xl p-6">
+              <h3 class="text-xl font-semibold mb-2">What We Do</h3>
               <p class="text-sm text-muted leading-relaxed">
-                Without intelligence, data is just noise. Decision-makers are stuck between manual spreadsheets and expensive consultants while competitors automate their advantage.
+                Transform raw data into clear recommendations. No dashboards to build and no reports to generate. You just get answers when you need them.
               </p>
             </div>
-            <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-2xl p-6">
-              <h3 class="text-xl font-semibold text-text-primary mb-2">The Huitzo Difference</h3>
+            <div class="bg-[var(--aw-color-bg-page)] border border-primary/50 border-2 rounded-2xl p-6">
+              <h3 class="text-xl font-semibold text-primary mb-2">The Huitzo Difference</h3>
               <p class="text-sm text-muted leading-relaxed">
-                We don't just analyze. Huitzo interpret, contextualize, and recommends. Our intelligence understands your goals, adapts to your language, and suggests the next move.
+                We don't just analyze; we interpret, contextualize, and recommend. Each intelligence pack understands your goals and delivers personalized insights.
               </p>
             </div>
-            <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-2xl p-6">
-              <h3 class="text-xl font-semibold text-text-primary mb-2">Command It Like a Pro</h3>
+            <div class="bg-[var(--aw-color-bg-page)] border border-gray-700 rounded-2xl p-6">
+              <h3 class="text-xl font-semibold mb-2">How It Works</h3>
               <p class="text-sm text-muted leading-relaxed">
-                Simple text prompts replace complex tooling. Personalize once, access forever, and let your team focus on bold decisions instead of building dashboards.
+                Ask a question, get an answer. Our intelligence packs analyze your data in the background and deliver results you can act on in seconds, not days.
               </p>
             </div>
           </div>
@@ -584,70 +161,141 @@ const terminalLines = [
     </div>
   </section>
 
-  <!-- Who Needs Intelligence -->
+  <!-- Who Benefits -->
   <section class="py-20 bg-[var(--aw-color-bg-secondary)]/60">
     <div class="container mx-auto px-4">
       <div class="max-w-5xl mx-auto text-center mb-14">
-        <h2 class="text-3xl lg:text-4xl font-bold mb-4">If You Make Decisions, You Need Intelligence</h2>
+        <h2 class="text-3xl lg:text-4xl font-bold mb-4">Built for Decision-Makers</h2>
         <p class="text-lg text-muted">
-          Huitzo levels the playing field for investors, operators, and builders who refuse to fly blind.
+          Whether you're managing a portfolio or running a business, Huitzo helps you move faster.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
         <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl px-5 py-6 text-center">
           <div class="text-2xl mb-3">📈</div>
           <h3 class="text-lg font-semibold mb-2">Investors</h3>
-          <p class="text-sm text-muted">Stop gambling. Personalize risk and opportunity in minutes.</p>
+          <p class="text-sm text-muted">Get personalized risk analysis and market insights without the guesswork.</p>
         </div>
         <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl px-5 py-6 text-center">
           <div class="text-2xl mb-3">🚀</div>
-          <h3 class="text-lg font-semibold mb-2">Entrepreneurs</h3>
-          <p class="text-sm text-muted">Spot the trends your competitors will notice months later.</p>
-        </div>
-        <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl px-5 py-6 text-center">
-          <div class="text-2xl mb-3">🧮</div>
-          <h3 class="text-lg font-semibold mb-2">Analysts</h3>
-          <p class="text-sm text-muted">Multiply your output 100× without sacrificing accuracy.</p>
+          <h3 class="text-lg font-semibold mb-2">Founders</h3>
+          <p class="text-sm text-muted">Spot trends and make data-backed decisions without hiring analysts.</p>
         </div>
         <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl px-5 py-6 text-center">
           <div class="text-2xl mb-3">🏪</div>
           <h3 class="text-lg font-semibold mb-2">Small Businesses</h3>
-          <p class="text-sm text-muted">Operate with Fortune 500 clarity at a startup price.</p>
+          <p class="text-sm text-muted">Access the same analytical power as enterprise teams at a fraction of the cost.</p>
         </div>
         <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl px-5 py-6 text-center">
-          <div class="text-2xl mb-3">🧾</div>
-          <h3 class="text-lg font-semibold mb-2">Anyone With Data</h3>
-          <p class="text-sm text-muted">Turn noise into knowledge and act before the window closes.</p>
+          <div class="text-2xl mb-3">🧠</div>
+          <h3 class="text-lg font-semibold mb-2">Anyone Stuck</h3>
+          <p class="text-sm text-muted">Break through decision paralysis with tools designed to help you think.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- What Intelligence Looks Like -->
+  <!-- How It Works - Plugin Outputs -->
   <section class="py-20">
     <div class="container mx-auto px-4">
-      <div class="max-w-4xl mx-auto text-center mb-12">
-        <h2 class="text-3xl lg:text-4xl font-bold mb-4">From Question to Intelligence in Seconds</h2>
-        <p class="text-lg text-muted">
-          Ask a question, receive a briefing. The difference is measured in seconds - not billable hours.
-        </p>
-      </div>
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl lg:text-4xl font-bold mb-4">From Question to Answer in Seconds</h2>
+          <p class="text-lg text-muted">
+            Ask what you need. Get what matters.
+          </p>
+        </div>
 
-      <div class="max-w-4xl mx-auto bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-2xl p-6 md:p-10">
-        <pre class="text-left text-sm md:text-base text-muted whitespace-pre-wrap leading-relaxed">
-You type a cli command like: "portafolio analyze --question Should I rebalance my portafolio?"
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <!-- Financial Analysis Output -->
+          <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-2xl overflow-hidden">
+            <div class="bg-emerald-500/10 border-b border-emerald-500/30 px-6 py-4">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">💰</span>
+                <div>
+                  <h3 class="font-semibold text-emerald-400">Financial Analysis</h3>
+                  <p class="text-xs text-muted">Available now</p>
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="mb-4">
+                <p class="text-sm text-muted mb-2">You ask:</p>
+                <p class="text-base font-medium">"Should I rebalance my portfolio?"</p>
+              </div>
+              <div class="border-t border-gray-700 pt-4">
+                <p class="text-sm text-muted mb-3">You get:</p>
+                <ul class="space-y-2 text-sm">
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-400">✓</span>
+                    <span>Risk profile analysis matched to your criteria.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-400">✓</span>
+                    <span>Real-time market signals (VIX, sector trends).</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-400">✓</span>
+                    <span>A personalized recommendation with clear reasoning.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-emerald-400">✓</span>
+                    <span>Automated weekly briefings delivered to your inbox.</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="mt-4 pt-4 border-t border-gray-700">
+                <a href="/intelligence-packs/financial" class="text-sm text-primary hover:underline">Learn more →</a>
+              </div>
+            </div>
+          </div>
 
-Huitzo analyzes:
-- Your current positions and risk profile
-- Market signals across real-time indicators
-- Historical patterns
-- Your personal goals, constraints, and upcoming liquidity needs
+          <!-- Rubber Ducky Output -->
+          <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-2xl overflow-hidden">
+            <div class="bg-amber-500/10 border-b border-amber-500/30 px-6 py-4">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">🦆</span>
+                <div>
+                  <h3 class="font-semibold text-amber-400">Rubber Ducky</h3>
+                  <p class="text-xs text-muted">Available now</p>
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="mb-4">
+                <p class="text-sm text-muted mb-2">You say:</p>
+                <p class="text-base font-medium">"I'm stuck on this decision and keep going in circles..."</p>
+              </div>
+              <div class="border-t border-gray-700 pt-4">
+                <p class="text-sm text-muted mb-3">You get:</p>
+                <ul class="space-y-2 text-sm">
+                  <li class="flex items-start gap-2">
+                    <span class="text-amber-400">✓</span>
+                    <span>Guided questions that help you think clearly</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-amber-400">✓</span>
+                    <span>A partner that asks rather than tells</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-amber-400">✓</span>
+                    <span>Conversation summary with your insights highlighted</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-amber-400">✓</span>
+                    <span>Clarity on what you actually want</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="mt-4 pt-4 border-t border-gray-700">
+                <a href="/intelligence-packs/rubber-ducky" class="text-sm text-primary hover:underline">Learn more →</a>
+              </div>
+            </div>
+          </div>
+        </div>
 
-You receive:
-"Based on current volatility (VIX at 23.4) and your moderate risk profile, a rebalance reduces exposure by 18% while protecting returns. Here's the action plan..."
-        </pre>
-        <p class="text-xs text-muted mt-6 text-center">
+        <p class="text-center text-sm text-muted mt-8">
           A human analyst takes three days. Huitzo delivers in three seconds.
         </p>
       </div>
@@ -660,10 +308,10 @@ You receive:
       <div class="max-w-4xl mx-auto">
         <div class="text-center mb-12">
           <h2 class="text-3xl lg:text-4xl font-bold mb-4">
-            The Countdown to Your Competitive Advantage
+            Building in Public
           </h2>
           <p class="text-lg text-muted">
-            In seven months, early adopters will already be making intelligence-led decisions. The clock is running - where will you be?
+            We're transparent about where we are and where we're headed. Join us on the journey.
           </p>
         </div>
 
@@ -671,7 +319,7 @@ You receive:
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center text-left md:text-left">
             <div class="space-y-4">
               <h3 class="text-xl font-semibold">Where We Are Now</h3>
-              <p class="text-primary font-medium">Onboarding first users and expanding the plugin ecosystem</p>
+              <p class="text-primary font-medium">Onboarding first users and expanding our intelligence pack catalog</p>
 
               {currentMilestone && (
                 <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl p-5">
@@ -695,7 +343,7 @@ You receive:
             </div>
 
             <div>
-              <h3 class="text-xl font-semibold mb-4">Milestones That Matter</h3>
+              <h3 class="text-xl font-semibold mb-4">Milestones</h3>
               <div class="space-y-3 text-sm">
                 <div class="flex items-center justify-between">
                   <span class="text-muted">✓ Project Kickoff</span>
@@ -710,7 +358,7 @@ You receive:
                   <span class="text-muted">Jan 2026</span>
                 </div>
                 <div class="flex items-center justify-between">
-                  <span class="text-muted">⏳ 3+ Intelligence Domains</span>
+                  <span class="text-muted">⏳ 3+ Intelligence Packs</span>
                   <span class="text-muted">Jan 2026</span>
                 </div>
                 <div class="flex items-center justify-between">
@@ -731,54 +379,61 @@ You receive:
     </div>
   </section>
 
-  <!-- Featured Plugin Section -->
-  {featuredPlugin && (
-    <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
-          <div class="text-center mb-12">
-            <h2 class="text-3xl lg:text-4xl font-bold mb-4">
-              Featured <span class="text-gradient animated-gradient">Plugin</span>
-            </h2>
-            <p class="text-lg text-muted">
-              Get a preview of what's possible with our first Intelligence-as-a-Service offering
-            </p>
-          </div>
+  <!-- Intelligence Packs Section -->
+  <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
+    <div class="container mx-auto px-4">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl lg:text-4xl font-bold mb-4">
+            Intelligence Packs for Every Challenge
+          </h2>
+          <p class="text-lg text-muted">
+            Intelligence-as-a-Service, delivered one pack at a time. Start with one. Expand as you grow.
+          </p>
+        </div>
 
-          <div class="max-w-2xl mx-auto">
-            <PluginCard plugin={featuredPlugin} showFullDescription={true} />
-          </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {featuredPack && (
+            <IntelligencePackCard pack={featuredPack} showFullDescription={false} />
+          )}
+          {activePacks[1] && (
+            <IntelligencePackCard pack={activePacks[1]} showFullDescription={false} />
+          )}
+        </div>
+
+        <div class="text-center mt-8">
+          <a href="/intelligence-packs" class="btn-secondary">
+            View All Intelligence Packs →
+          </a>
         </div>
       </div>
-    </section>
-  )}
+    </div>
+  </section>
 
   <!-- Final CTA Section -->
   <section class="py-20">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto text-center">
         <h2 class="text-3xl lg:text-4xl font-bold mb-6">
-          The Intelligence Revolution Has Already Started
+          Ready to Stop Guessing?
         </h2>
         <p class="text-lg text-muted mb-8">
-          While you're reading this, early adopters are already unlocking insights that will define the next decade. Every day you wait is a day your competition pulls ahead.
+          Join the early adopters who are already making faster, smarter decisions with Huitzo.
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="btn-primary">
-            Claim Your Intelligence Advantage →
+            Get Started →
           </a>
-          <a href="/plugins" class="btn-secondary">
-            Explore Your Intelligence Options
+          <a href="/intelligence-packs" class="btn-secondary">
+            Explore Intelligence Packs
           </a>
         </div>
-
-        <p class="text-sm text-muted mt-6">Join Huitzo in transforming data into inteligence.</p>
 
         <!-- Contact Info -->
         <div class="mt-12 pt-8 border-t border-gray-700">
           <p class="text-sm text-muted">
-            Questions? Get in touch at
+            Questions? Reach out at
             <a href="mailto:huitzo@solathomas.com" class="text-primary hover:underline">huitzo@solathomas.com</a>
           </p>
         </div>

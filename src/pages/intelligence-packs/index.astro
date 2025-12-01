@@ -1,11 +1,11 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import PluginCard from '~/components/PluginCard.astro';
-import { loadAllPlugins, getAllCategories, getPluginsByStatusGroups } from '~/utils/plugins';
+import IntelligencePackCard from '~/components/IntelligencePackCard.astro';
+import { loadAllIntelligencePacks, getAllCategories, getIntelligencePacksByStatusGroups } from '~/utils/intelligence-packs';
 
-// Load all plugins and group by status
-const allPlugins = await loadAllPlugins();
-const pluginsByStatus = await getPluginsByStatusGroups();
+// Load all intelligence packs and group by status
+const allPacks = await loadAllIntelligencePacks();
+const packsByStatus = await getIntelligencePacksByStatusGroups();
 
 // Get unique categories for filtering
 const uniqueCategories = await getAllCategories();
@@ -14,7 +14,7 @@ const statuses = ['All', 'Active', 'Beta', 'Coming Soon', 'Idea Phase'];
 
 // Calculate counts for each category
 const categoryCounts = uniqueCategories.reduce((acc, cat) => {
-  acc[cat] = allPlugins.filter(p => p.category === cat).length;
+  acc[cat] = allPacks.filter(p => p.category === cat).length;
   return acc;
 }, {} as Record<string, number>);
 
@@ -22,39 +22,39 @@ const categoryCounts = uniqueCategories.reduce((acc, cat) => {
 const statusSections = [
   {
     id: 'active',
-    title: 'Active Plugins',
+    title: 'Active Intelligence Packs',
     description: 'Ready to install and use right now',
-    plugins: pluginsByStatus.active,
-    showSection: pluginsByStatus.active.length > 0,
+    packs: packsByStatus.active,
+    showSection: packsByStatus.active.length > 0,
   },
   {
     id: 'beta',
     title: 'Beta Testing',
-    description: 'Try these new plugins and help us improve them',
-    plugins: pluginsByStatus.beta,
-    showSection: pluginsByStatus.beta.length > 0,
+    description: 'Try these new intelligence packs and help us improve them',
+    packs: packsByStatus.beta,
+    showSection: packsByStatus.beta.length > 0,
   },
   {
     id: 'coming-soon',
     title: 'Coming Soon',
-    description: 'Plugins currently in development - view planned features and documentation',
-    plugins: pluginsByStatus.comingSoon,
-    showSection: pluginsByStatus.comingSoon.length > 0,
+    description: 'Intelligence packs currently in development - view planned features and documentation',
+    packs: packsByStatus.comingSoon,
+    showSection: packsByStatus.comingSoon.length > 0,
   },
   {
     id: 'idea-phase',
     title: 'Idea Phase',
-    description: 'Concepts being explored - help shape these plugins with your feedback',
-    plugins: pluginsByStatus.ideaPhase,
-    showSection: pluginsByStatus.ideaPhase.length > 0,
+    description: 'Concepts being explored - help shape these intelligence packs with your feedback',
+    packs: packsByStatus.ideaPhase,
+    showSection: packsByStatus.ideaPhase.length > 0,
   },
 ];
 ---
 
 <Layout
   metadata={{
-    title: 'Available Plugins',
-    description: 'Extend Huitzo with specialized intelligence services. Browse our plugin directory to find tools for financial analysis and more.',
+    title: 'Available Intelligence Packs',
+    description: 'Extend Huitzo with specialized intelligence services. Browse our intelligence pack directory to find tools for financial analysis and more.',
   }}
 >
   <!-- Header Section -->
@@ -62,10 +62,10 @@ const statusSections = [
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto text-center">
         <h1 class="text-4xl lg:text-5xl font-bold text-default mb-6">
-          Available <span class="text-gradient animated-gradient">Plugins</span>
+          Available <span class="text-gradient animated-gradient">Intelligence Packs</span>
         </h1>
         <p class="text-lg text-muted mb-8 max-w-2xl mx-auto">
-          Extend Huitzo with specialized intelligence services. Each plugin provides
+          Extend Huitzo with specialized intelligence services. Each pack provides
           a complete solution for a specific data analysis domain.
         </p>
 
@@ -73,25 +73,25 @@ const statusSections = [
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto">
           <div class="text-center">
             <div class="text-2xl font-bold text-primary font-mono">
-              {pluginsByStatus.active.length}
+              {packsByStatus.active.length}
             </div>
             <div class="text-sm text-muted">Active</div>
           </div>
           <div class="text-center">
             <div class="text-2xl font-bold text-primary font-mono">
-              {pluginsByStatus.beta.length}
+              {packsByStatus.beta.length}
             </div>
             <div class="text-sm text-muted">Beta</div>
           </div>
           <div class="text-center">
             <div class="text-2xl font-bold text-primary font-mono">
-              {pluginsByStatus.comingSoon.length}
+              {packsByStatus.comingSoon.length}
             </div>
             <div class="text-sm text-muted">Coming Soon</div>
           </div>
           <div class="text-center">
             <div class="text-2xl font-bold text-primary font-mono">
-              {pluginsByStatus.ideaPhase.length}
+              {packsByStatus.ideaPhase.length}
             </div>
             <div class="text-sm text-muted">Ideas</div>
           </div>
@@ -113,8 +113,8 @@ const statusSections = [
               </svg>
               <input
                 type="text"
-                id="plugin-search"
-                placeholder="Search plugins..."
+                id="pack-search"
+                placeholder="Search intelligence packs..."
                 class="w-full pl-10 pr-4 py-3 bg-[var(--aw-color-bg-tertiary)] border border-gray-700 rounded-lg text-default placeholder-text-muted focus:outline-none focus:border-primary transition-colors"
               />
             </div>
@@ -139,17 +139,17 @@ const statusSections = [
               class="flex-1 md:flex-none px-4 py-3 bg-[var(--aw-color-bg-tertiary)] border border-gray-700 rounded-lg text-default focus:outline-none focus:border-primary transition-colors"
             >
               <option value="all">All Status</option>
-              <option value="active">Active ({pluginsByStatus.active.length})</option>
-              <option value="beta">Beta ({pluginsByStatus.beta.length})</option>
-              <option value="coming-soon">Coming Soon ({pluginsByStatus.comingSoon.length})</option>
-              <option value="idea-phase">Idea Phase ({pluginsByStatus.ideaPhase.length})</option>
+              <option value="active">Active ({packsByStatus.active.length})</option>
+              <option value="beta">Beta ({packsByStatus.beta.length})</option>
+              <option value="coming-soon">Coming Soon ({packsByStatus.comingSoon.length})</option>
+              <option value="idea-phase">Idea Phase ({packsByStatus.ideaPhase.length})</option>
             </select>
           </div>
         </div>
 
         <!-- Results Count -->
         <div id="results-count" class="text-sm text-muted">
-          Showing <span id="visible-count" class="text-primary font-medium">{allPlugins.length}</span> of {allPlugins.length} plugins
+          Showing <span id="visible-count" class="text-primary font-medium">{allPacks.length}</span> of {allPacks.length} intelligence packs
         </div>
 
         <!-- Active Filters -->
@@ -163,30 +163,30 @@ const statusSections = [
     </div>
   </section>
 
-  <!-- Plugin Sections by Status -->
+  <!-- Intelligence Pack Sections by Status -->
   {statusSections.map(section => section.showSection && (
-    <section id={`section-${section.id}`} class="py-20 plugin-status-section" data-section-status={section.id}>
+    <section id={`section-${section.id}`} class="py-20 pack-status-section" data-section-status={section.id}>
       <div class="container mx-auto px-4">
         <div class="max-w-6xl mx-auto">
           <!-- Section Header -->
           <div class="mb-10">
             <h2 class="text-3xl font-bold text-default mb-2">
               {section.title}
-              <span class="text-lg text-muted font-normal ml-3">({section.plugins.length})</span>
+              <span class="text-lg text-muted font-normal ml-3">({section.packs.length})</span>
             </h2>
             <p class="text-muted">{section.description}</p>
           </div>
 
-          <!-- Plugins Grid -->
-          <div class="plugin-section-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {section.plugins.map(plugin => (
+          <!-- Packs Grid -->
+          <div class="pack-section-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {section.packs.map(pack => (
               <div
-                class="plugin-card"
-                data-category={plugin.category}
-                data-status={plugin.status}
-                data-name={plugin.name.toLowerCase()}
+                class="pack-card"
+                data-category={pack.category}
+                data-status={pack.status}
+                data-name={pack.name.toLowerCase()}
               >
-                <PluginCard plugin={plugin} />
+                <IntelligencePackCard pack={pack} />
               </div>
             ))}
           </div>
@@ -200,9 +200,9 @@ const statusSections = [
     <div class="container mx-auto px-4">
       <div class="max-w-6xl mx-auto text-center">
         <div class="text-6xl mb-4">🔍</div>
-        <h3 class="text-xl font-semibold text-default mb-2">No plugins found</h3>
+        <h3 class="text-xl font-semibold text-default mb-2">No intelligence packs found</h3>
         <p class="text-muted mb-6">
-          No plugins match your current search criteria. Try adjusting your filters.
+          No intelligence packs match your current search criteria. Try adjusting your filters.
         </p>
         <button id="clear-filters-empty" class="btn-secondary">
           Clear Filters
@@ -219,7 +219,7 @@ const statusSections = [
           Ready to get <span class="text-gradient animated-gradient">started</span>?
         </h2>
         <p class="text-lg text-muted mb-8">
-          Install plugins and start building intelligent analysis workflows with simple commands.
+          Install intelligence packs and start building intelligent analysis workflows with simple commands.
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -231,14 +231,14 @@ const statusSections = [
           </a>
         </div>
 
-        <!-- Plugin Request -->
+        <!-- Intelligence Pack Request -->
         <div class="mt-12 pt-8 border-t border-gray-700">
-          <h3 class="text-lg font-semibold text-default mb-2">Need a specific plugin?</h3>
+          <h3 class="text-lg font-semibold text-default mb-2">Need a specific intelligence pack?</h3>
           <p class="text-sm text-muted mb-4">
             Have an idea for an intelligence service that doesn't exist yet?
           </p>
-          <a href="mailto:huitzo@solathomas.com?subject=Plugin Request" class="text-primary hover:underline">
-            Send us your plugin request →
+          <a href="mailto:huitzo@solathomas.com?subject=Intelligence Pack Request" class="text-primary hover:underline">
+            Send us your intelligence pack request →
           </a>
         </div>
       </div>
@@ -248,7 +248,7 @@ const statusSections = [
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('plugin-search') as HTMLInputElement | null;
+    const searchInput = document.getElementById('pack-search') as HTMLInputElement | null;
     const categoryFilter = document.getElementById('category-filter') as HTMLSelectElement | null;
     const statusFilter = document.getElementById('status-filter') as HTMLSelectElement | null;
     const emptyState = document.getElementById('empty-state') as HTMLElement | null;
@@ -257,14 +257,14 @@ const statusSections = [
     const clearAllBtn = document.getElementById('clear-all-filters') as HTMLButtonElement | null;
     const clearEmptyBtn = document.getElementById('clear-filters-empty') as HTMLButtonElement | null;
 
-    function filterPlugins() {
+    function filterPacks() {
       if (!searchInput || !categoryFilter || !statusFilter || !emptyState || !visibleCountSpan) return;
 
       const searchTerm = searchInput.value.toLowerCase().trim();
       const selectedCategory = categoryFilter.value;
       const selectedStatus = statusFilter.value;
 
-      const sections = document.querySelectorAll('.plugin-status-section');
+      const sections = document.querySelectorAll('.pack-status-section');
       let totalVisibleCount = 0;
       let hasActiveFilters = false;
 
@@ -285,10 +285,10 @@ const statusSections = [
       sections.forEach(section => {
         const htmlSection = section as HTMLElement;
         const sectionStatus = htmlSection.dataset.sectionStatus || '';
-        const pluginCards = htmlSection.querySelectorAll('.plugin-card');
+        const packCards = htmlSection.querySelectorAll('.pack-card');
         let sectionVisibleCount = 0;
 
-        pluginCards.forEach(card => {
+        packCards.forEach(card => {
           const htmlCard = card as HTMLElement;
           const cardName = htmlCard.dataset.name || '';
           const cardCategory = htmlCard.dataset.category || '';
@@ -333,17 +333,17 @@ const statusSections = [
       searchInput.value = '';
       categoryFilter.value = 'all';
       statusFilter.value = 'all';
-      filterPlugins();
+      filterPacks();
     }
 
     // Event listeners
-    searchInput?.addEventListener('input', filterPlugins);
-    categoryFilter?.addEventListener('change', filterPlugins);
-    statusFilter?.addEventListener('change', filterPlugins);
+    searchInput?.addEventListener('input', filterPacks);
+    categoryFilter?.addEventListener('change', filterPacks);
+    statusFilter?.addEventListener('change', filterPacks);
     clearAllBtn?.addEventListener('click', clearFilters);
     clearEmptyBtn?.addEventListener('click', clearFilters);
 
     // Initial filter
-    filterPlugins();
+    filterPacks();
   });
 </script>

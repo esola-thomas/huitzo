@@ -18,7 +18,7 @@
     "Multi-platform integration (Gmail, Outlook, Google Calendar)"
   ],
   "installation": {
-    "command": "huitzo plugin install personal-assistant",
+    "command": "huitzo intelligence pack install personal-assistant",
     "requirements": ["Email account connection", "Calendar API access", "Huitzo account"]
   },
   "quickstart": [

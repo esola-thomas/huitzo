@@ -18,7 +18,7 @@
     "Free to use, always available"
   ],
   "installation": {
-    "command": "huitzo plugin install rubber-ducky",
+    "command": "huitzo intelligence pack install rubber-ducky",
     "requirements": ["Huitzo Core v0.1.0+"]
   },
   "pricing": {

@@ -1,10 +1,10 @@
 /**
- * Plugin Utilities
- * Automatically discover and load all plugin JSON files using Vite's glob import
+ * Intelligence Pack Utilities
+ * Automatically discover and load all intelligence pack JSON files using Vite's glob import
  */
 
-// Define the plugin interface based on our schema
-export interface Plugin {
+// Define the intelligence pack interface based on our schema
+export interface IntelligencePack {
   id: string;
   slug: string;
   name: string;
@@ -61,38 +61,38 @@ export interface Plugin {
 }
 
 /**
- * Load all plugins from the plugins directory using Vite's glob import
- * Returns an array of plugin objects
+ * Load all intelligence packs from the intelligence-packs directory using Vite's glob import
+ * Returns an array of intelligence pack objects
  */
-export async function loadAllPlugins(): Promise<Plugin[]> {
+export async function loadAllIntelligencePacks(): Promise<IntelligencePack[]> {
   // Use Vite's glob import to get all JSON files except schema.json
-  const pluginModules = import.meta.glob<{ default: Plugin }>(
-    "../data/plugins/*.json",
+  const packModules = import.meta.glob<{ default: IntelligencePack }>(
+    "../data/intelligence-packs/*.json",
     {
       eager: true,
     },
   );
 
-  const plugins: Plugin[] = [];
+  const packs: IntelligencePack[] = [];
 
-  for (const [filepath, module] of Object.entries(pluginModules)) {
+  for (const [filepath, module] of Object.entries(packModules)) {
     // Skip schema.json
     if (filepath.includes("schema.json")) {
       continue;
     }
 
-    const plugin = module.default;
+    const pack = module.default;
 
     // Validate required fields
-    if (plugin && plugin.id && plugin.slug && plugin.name && plugin.status) {
-      plugins.push(plugin);
+    if (pack && pack.id && pack.slug && pack.name && pack.status) {
+      packs.push(pack);
     } else {
-      console.warn(`Plugin at ${filepath} is missing required fields`);
+      console.warn(`Intelligence pack at ${filepath} is missing required fields`);
     }
   }
 
   // Sort by status (active first) and then by name
-  return plugins.sort((a, b) => {
+  return packs.sort((a, b) => {
     if (a.status === "active" && b.status !== "active") return -1;
     if (a.status !== "active" && b.status === "active") return 1;
     return a.name.localeCompare(b.name);
@@ -100,76 +100,76 @@ export async function loadAllPlugins(): Promise<Plugin[]> {
 }
 
 /**
- * Load all plugins and create a map by slug for easy lookup
+ * Load all intelligence packs and create a map by slug for easy lookup
  */
-export async function loadPluginsMap(): Promise<Record<string, Plugin>> {
-  const plugins = await loadAllPlugins();
-  const pluginsMap: Record<string, Plugin> = {};
+export async function loadIntelligencePacksMap(): Promise<Record<string, IntelligencePack>> {
+  const packs = await loadAllIntelligencePacks();
+  const packsMap: Record<string, IntelligencePack> = {};
 
-  for (const plugin of plugins) {
-    pluginsMap[plugin.slug] = plugin;
+  for (const pack of packs) {
+    packsMap[pack.slug] = pack;
   }
 
-  return pluginsMap;
+  return packsMap;
 }
 
 /**
- * Get a single plugin by slug
+ * Get a single intelligence pack by slug
  */
-export async function getPluginBySlug(slug: string): Promise<Plugin | null> {
-  const pluginsMap = await loadPluginsMap();
-  return pluginsMap[slug] || null;
+export async function getIntelligencePackBySlug(slug: string): Promise<IntelligencePack | null> {
+  const packsMap = await loadIntelligencePacksMap();
+  return packsMap[slug] || null;
 }
 
 /**
- * Get all plugin slugs for static path generation
+ * Get all intelligence pack slugs for static path generation
  */
-export async function getAllPluginSlugs(): Promise<string[]> {
-  const plugins = await loadAllPlugins();
-  return plugins.map((p) => p.slug);
+export async function getAllIntelligencePackSlugs(): Promise<string[]> {
+  const packs = await loadAllIntelligencePacks();
+  return packs.map((p) => p.slug);
 }
 
 /**
- * Filter plugins by status
+ * Filter intelligence packs by status
  */
-export async function getPluginsByStatus(
-  status: Plugin["status"],
-): Promise<Plugin[]> {
-  const plugins = await loadAllPlugins();
-  return plugins.filter((p) => p.status === status);
+export async function getIntelligencePacksByStatus(
+  status: IntelligencePack["status"],
+): Promise<IntelligencePack[]> {
+  const packs = await loadAllIntelligencePacks();
+  return packs.filter((p) => p.status === status);
 }
 
 /**
- * Filter plugins by category
+ * Filter intelligence packs by category
  */
-export async function getPluginsByCategory(
+export async function getIntelligencePacksByCategory(
   category: string,
-): Promise<Plugin[]> {
-  const plugins = await loadAllPlugins();
-  return plugins.filter((p) => p.category === category);
+): Promise<IntelligencePack[]> {
+  const packs = await loadAllIntelligencePacks();
+  return packs.filter((p) => p.category === category);
 }
 
 /**
- * Get all unique categories from plugins
+ * Get all unique categories from intelligence packs
  */
 export async function getAllCategories(): Promise<string[]> {
-  const plugins = await loadAllPlugins();
-  const categories = new Set(plugins.map((p) => p.category));
+  const packs = await loadAllIntelligencePacks();
+  const categories = new Set(packs.map((p) => p.category));
   return Array.from(categories).sort();
 }
 
 /**
- * Get plugin statistics
+ * Get intelligence pack statistics
  */
-export async function getPluginStats() {
-  const plugins = await loadAllPlugins();
+export async function getIntelligencePackStats() {
+  const packs = await loadAllIntelligencePacks();
 
   return {
-    total: plugins.length,
-    active: plugins.filter((p) => p.status === "active").length,
-    beta: plugins.filter((p) => p.status === "beta").length,
-    comingSoon: plugins.filter((p) => p.status === "coming-soon").length,
-    ideaPhase: plugins.filter((p) => p.status === "idea-phase").length,
+    total: packs.length,
+    active: packs.filter((p) => p.status === "active").length,
+    beta: packs.filter((p) => p.status === "beta").length,
+    comingSoon: packs.filter((p) => p.status === "coming-soon").length,
+    ideaPhase: packs.filter((p) => p.status === "idea-phase").length,
     categories: await getAllCategories(),
   };
 }
@@ -250,22 +250,22 @@ export const STATUS_COLORS = {
 /**
  * Get status display info
  */
-export function getStatusInfo(status: Plugin["status"]) {
+export function getStatusInfo(status: IntelligencePack["status"]) {
   return STATUS_COLORS[status] || STATUS_COLORS["coming-soon"];
 }
 
 /**
- * Group plugins by status
+ * Group intelligence packs by status
  */
-export async function getPluginsByStatusGroups() {
-  const plugins = await loadAllPlugins();
+export async function getIntelligencePacksByStatusGroups() {
+  const packs = await loadAllIntelligencePacks();
 
   return {
-    active: plugins.filter((p) => p.status === "active"),
-    beta: plugins.filter((p) => p.status === "beta"),
-    comingSoon: plugins.filter((p) => p.status === "coming-soon"),
-    ideaPhase: plugins.filter((p) => p.status === "idea-phase"),
-    deprecated: plugins.filter((p) => p.status === "deprecated"),
-    archived: plugins.filter((p) => p.status === "archived"),
+    active: packs.filter((p) => p.status === "active"),
+    beta: packs.filter((p) => p.status === "beta"),
+    comingSoon: packs.filter((p) => p.status === "coming-soon"),
+    ideaPhase: packs.filter((p) => p.status === "idea-phase"),
+    deprecated: packs.filter((p) => p.status === "deprecated"),
+    archived: packs.filter((p) => p.status === "archived"),
   };
 }

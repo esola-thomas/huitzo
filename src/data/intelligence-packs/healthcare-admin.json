@@ -18,7 +18,7 @@
     "HIPAA-compliant data handling with row-level security"
   ],
   "installation": {
-    "command": "huitzo plugin install healthcare-admin",
+    "command": "huitzo intelligence pack install healthcare-admin",
     "requirements": ["Healthcare provider credentials", "EHR system integration", "HIPAA compliance certification"]
   },
   "quickstart": [

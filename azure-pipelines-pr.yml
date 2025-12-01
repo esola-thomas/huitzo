@@ -8,8 +8,8 @@ trigger:
     include:
       - src/*
       - public/*
-      - scripts/validate-plugins.js
-      - scripts/generate-plugin-docs.js
+      - scripts/validate-packs.js
+      - scripts/generate-packs-docs.js
       - astro.config.ts
       - package.json
       - tailwind.config.cjs
@@ -23,8 +23,8 @@ pr:
     include:
       - src/*
       - public/*
-      - scripts/validate-plugins.js
-      - scripts/generate-plugin-docs.js
+      - scripts/validate-packs.js
+      - scripts/generate-packs-docs.js
       - astro.config.ts
       - package.json
       - tailwind.config.cjs
@@ -42,35 +42,35 @@ steps:
   - script: npm ci --include=dev
     displayName: "Install (ci) including devDependencies"
 
-  - script: npm run validate:plugins
-    displayName: "Validate plugin schema"
+  - script: npm run validate:packs
+    displayName: "Validate Intelligence Packs schema"
     continueOnError: false
 
   - script: npm run validate:roadmap
     displayName: "Validate roadmap schema"
     continueOnError: false
 
-  - script: npm run generate:plugin-docs
-    displayName: "Generate plugin documentation"
+  - script: npm run generate:pack-docs
+    displayName: "Generate Intelligence Pack documentation"
 
   - script: |
       # Store the newly generated file
-      cp src/data/plugins/SCHEMA.md src/data/plugins/SCHEMA.md.generated
+      cp src/data/intelligence-packs/SCHEMA.md src/data/intelligence-packs/SCHEMA.md.generated
       # Check if the committed file matches the generated file
-      if diff -q src/data/plugins/SCHEMA.md src/data/plugins/SCHEMA.md.generated > /dev/null; then
+      if diff -q src/data/intelligence-packs/SCHEMA.md src/data/intelligence-packs/SCHEMA.md.generated > /dev/null; then
         echo "✅ Documentation is up-to-date (committed file matches generated file)"
-        rm src/data/plugins/SCHEMA.md.generated
+        rm src/data/intelligence-packs/SCHEMA.md.generated
         exit 0
       else
         echo "❌ Documentation is out of date!"
         echo "The committed SCHEMA.md does not match the generated documentation."
         echo ""
         echo "Differences found:"
-        diff src/data/plugins/SCHEMA.md src/data/plugins/SCHEMA.md.generated || true
+        diff src/data/intelligence-packs/SCHEMA.md src/data/intelligence-packs/SCHEMA.md.generated || true
         echo ""
-        echo "To fix this, run: npm run generate:plugin-docs"
+        echo "To fix this, run: npm run generate:pack-docs"
         echo "Then commit the updated SCHEMA.md file"
-        rm src/data/plugins/SCHEMA.md.generated
+        rm src/data/intelligence-packs/SCHEMA.md.generated
         exit 1
       fi
     displayName: "Verify documentation is up-to-date"

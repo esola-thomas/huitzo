@@ -18,7 +18,7 @@
     "API-first video generation infrastructure"
   ],
   "installation": {
-    "command": "huitzo plugin install video-generation",
+    "command": "huitzo intelligence pack install video-generation",
     "requirements": ["Pro account", "GPU compute credits", "Media storage allocation"]
   },
   "quickstart": [

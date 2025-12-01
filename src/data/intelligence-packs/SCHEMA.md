@@ -226,7 +226,7 @@ Command to install the plugin
 **String length:** min: 1, max: 200
 
 **Examples:**
-`huitzo plugin install financial`
+`huitzo intelligence pack install financial`
 
 #### `requirements`
 
@@ -416,7 +416,7 @@ Link to plugin website
     }
   },
   "installation": {
-    "command": "huitzo plugin install financial",
+    "command": "huitzo intelligence pack install financial",
     "requirements": ["Huitzo Core v1.0+"]
   },
   "quickstart": [

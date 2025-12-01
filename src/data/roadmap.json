@@ -3,7 +3,7 @@
   "vision": {
     "statement": "Make intelligent data analysis accessible to everyone through a simple, powerful CLI platform",
     "mission": "Transform how people interact with their data by combining the power of AI with the simplicity of command-line tools",
-    "approach": "Build a plugin-based platform where the community can create and share intelligence services"
+    "approach": "Build a intelligence pack based platform where the community can create and share intelligence services"
   },
   "milestones": [
     {
@@ -12,10 +12,10 @@
       "title": "Project Foundation & Architecture",
       "date": "2025-09-30",
       "progress": 100,
-      "description": "Established the technical foundation and architecture for the platform. Defined the plugin system design, chose the technology stack, and created development standards to ensure rapid, sustainable development.",
+      "description": "Established the technical foundation and architecture for the platform. Defined the intelligence-packs system design, chose the technology stack, and created development standards to ensure rapid, sustainable development.",
       "deliverables": [
         "Technical architecture documentation",
-        "Plugin system design and API specifications",
+        "intelligence-packs system design and API specifications",
         "Development environment setup with hot-reload",
         "Project roadmap and milestone planning"
       ]
@@ -29,7 +29,7 @@
       "description": "Building the foundational CLI platform. To ensure long-term scalability, we prioritized a significant platform redesign, slightly extending the MVP timeline. This investment in our architecture enables a more robust, extensible, and high-performance system for future growth.",
       "deliverables": [
         "Web terminal interface with real-time WebSocket communication",
-        "Hot-reloadable plugin system supporting Python modules",
+        "Hot-reloadable intelligence-packs system supporting Python modules",
         "User authentication and secure session management",
         "Rearchitected database and backend for scalability and performance",
         "Expanded SDK with multi-channel support (Telegram, Discord) and new core tools"
@@ -38,10 +38,10 @@
     {
       "id": "mechanical-engineering",
       "status": "in-progress",
-      "title": "Mechanical Engineering Intelligence Plugin",
+      "title": "Mechanical Engineering Intelligence Pack",
       "targetDate": "2025-11-30",
       "progress": 15,
-      "description": "Engineering calculation automation plugin that replaces spreadsheets and reference manuals with intelligent CLI commands. Provides instant stress analysis, torque calculations, unit conversions, material property lookups, and fastener selection—supporting both SI and Imperial units for mechanical design workflows.",
+      "description": "Engineering calculation automation intelligence-packs that replaces spreadsheets and reference manuals with intelligent CLI commands. Provides instant stress analysis, torque calculations, unit conversions, material property lookups, and fastener selection—supporting both SI and Imperial units for mechanical design workflows.",
       "deliverables": [
         "Stress and strain analysis engine for shafts, beams, and components",
         "Comprehensive unit conversion system (SI/Imperial)",
@@ -53,10 +53,10 @@
     {
       "id": "rubber-ducky",
       "status": "completed",
-      "title": "Rubber Ducky Coaching Plugin",
+      "title": "Rubber Ducky Coaching Intelligence Pack",
       "date": "2025-11-19",
       "progress": 100,
-      "description": "Interactive problem-solving assistant using Socratic questioning to help developers and professionals think through challenges. Demonstrates the platform's conversational AI capabilities and shows how plugins can facilitate reflective thinking rather than just providing answers.",
+      "description": "Interactive problem-solving assistant using Socratic questioning to help developers and professionals think through challenges. Demonstrates the platform's conversational AI capabilities and shows how intelligence packs can facilitate reflective thinking rather than just providing answers.",
       "deliverables": [
         "Conversational AI using Socratic method for problem exploration",
         "Persistent conversation history with save/resume capability",
@@ -65,25 +65,25 @@
       ]
     },
     {
-      "id": "plugin-scoping-agent",
+      "id": "intelligence-pack-scoping-agent",
       "status": "in-progress",
-      "title": "AI-Powered Plugin Scoping Agent",
+      "title": "AI-Powered intelligence-packs Scoping Agent",
       "targetDate": "2025-11-30",
       "progress": 75,
-      "description": "A conversational agent to help customers scope new plugin ideas. This tool streamlines the plugin creation process by translating user needs into initial technical specifications, accelerating development and ensuring features align with user expectations. Currently in testing with initial customers.",
+      "description": "A conversational agent to help customers scope new intelligence-packs ideas. This tool streamlines the intelligence-packs creation process by translating user needs into initial technical specifications, accelerating development and ensuring features align with user expectations. Currently in testing with initial customers.",
       "deliverables": [
-        "Conversational AI for plugin requirement gathering",
-        "Automated generation of plugin specifications",
+        "Conversational AI for intelligence-packs requirement gathering",
+        "Automated generation of intelligence-packs specifications",
         "Integration with customer feedback and development workflow"
       ]
     },
     {
-      "id": "financial-plugin",
+      "id": "financial",
       "status": "in-progress",
-      "title": "Financial Analysis Intelligence Plugin",
+      "title": "Financial Analysis Intelligence Intelligence Pack",
       "targetDate": "2025-12-31",
       "progress": 45,
-      "description": "Sophisticated financial market analysis plugin showcasing real-time data integration, personalized portfolio analysis, and automated reporting. Demonstrates the platform's ability to handle complex data workflows, integrate with external APIs, and deliver valuable insights through simple commands.",
+      "description": "Sophisticated financial market analysis intelligence-packs showcasing real-time data integration, personalized portfolio analysis, and automated reporting. Demonstrates the platform's ability to handle complex data workflows, integrate with external APIs, and deliver valuable insights through simple commands.",
       "deliverables": [
         "Real-time market data integration via Polygon.io API",
         "Portfolio configuration with custom constraints and preferences",
@@ -95,7 +95,7 @@
     {
       "id": "personal-assistant",
       "status": "upcoming",
-      "title": "Personal AI Assistant Plugin",
+      "title": "Personal AI Assistant Intelligence Pack",
       "targetDate": "2025-12-15",
       "progress": 0,
       "description": "Transform email chaos, calendar conflicts, and task overload into organized productivity. The AI assistant handles scheduling optimization, drafts email responses, prioritizes work based on goals, and prepares meeting briefings—demonstrating the platform's ability to automate and enhance personal productivity workflows.",
@@ -108,9 +108,9 @@
       ]
     },
     {
-      "id": "educational-plugin",
+      "id": "educational",
       "status": "upcoming",
-      "title": "Educational Personalization Plugin",
+      "title": "Educational Personalization Intelligence Pack",
       "targetDate": "2026-01-15",
       "progress": 0,
       "description": "Personalized learning paths powered by AI that adapt to individual pace, style, and goals. Interactive lessons with real-time feedback, progress tracking, and multi-modal learning demonstrate how the platform can democratize education and skill development through intelligent tutoring.",
@@ -128,7 +128,7 @@
       "title": "Private Beta Launch",
       "targetDate": "2026-01-31",
       "progress": 0,
-      "description": "Launch controlled beta program to validate product-market fit with early adopters. Gather detailed feedback on core platform and initial plugins to refine user experience, fix bugs, and optimize performance before public launch. Focus on understanding which plugin types resonate most with users.",
+      "description": "Launch controlled beta program to validate product-market fit with early adopters. Gather detailed feedback on core platform and initial intelligence packs to refine user experience, fix bugs, and optimize performance before public launch. Focus on understanding which intelligence-packs types resonate most with users.",
       "deliverables": [
         "Comprehensive onboarding system with interactive tutorials",
         "Multi-channel feedback collection (surveys, usage analytics, interviews)",
@@ -138,27 +138,27 @@
       ]
     },
     {
-      "id": "plugin-marketplace",
+      "id": "intelligence-pack-marketplace",
       "status": "upcoming",
-      "title": "Plugin Marketplace Foundation",
+      "title": "intelligence-packs Marketplace Foundation",
       "targetDate": "2026-02-28",
       "progress": 0,
-      "description": "Build marketplace infrastructure enabling third-party developers to create, publish, and share plugins. This is the key differentiator - creating an ecosystem where the community extends platform capabilities. Developers can build specialized intelligence services for niche use cases we haven't imagined.",
+      "description": "Build marketplace infrastructure enabling third-party developers to create, publish, and share Intelligence Packs. This is the key differentiator - creating an ecosystem where the community extends platform capabilities. Developers can build specialized intelligence services for niche use cases we haven't imagined.",
       "deliverables": [
-        "Plugin submission and review workflow for quality assurance",
+        "intelligence-packs submission and review workflow for quality assurance",
         "Comprehensive developer portal with SDK documentation and examples",
-        "Plugin discovery system with search, categories, and ratings",
-        "Developer analytics showing plugin usage and performance",
-        "Plugin versioning and safe update system"
+        "intelligence-packs discovery system with search, categories, and ratings",
+        "Developer analytics showing intelligence-packs usage and performance",
+        "intelligence-packs versioning and safe update system"
       ]
     },
     {
-      "id": "advanced-plugin-suite",
+      "id": "advanced-intelligence-pack-suite",
       "status": "upcoming",
-      "title": "Advanced Plugin Suite Launch",
+      "title": "Advanced intelligence-packs Suite Launch",
       "targetDate": "2026-02-28",
       "progress": 0,
-      "description": "Launch sophisticated plugins demonstrating the platform's capability to handle complex, specialized workflows. Multi-Agent Orchestration enables distributed intelligence for research tasks, while Healthcare Administrative Intelligence showcases industry-specific automation—both highlighting the platform's B2B potential and technical differentiation.",
+      "description": "Launch sophisticated Intelligence Packs demonstrating the platform's capability to handle complex, specialized workflows. Multi-Agent Orchestration enables distributed intelligence for research tasks, while Healthcare Administrative Intelligence showcases industry-specific automation—both highlighting the platform's B2B potential and technical differentiation.",
       "deliverables": [
         "Multi-Agent Orchestration: Spawn and coordinate multiple AI agents for parallel workflows",
         "Healthcare Administrative Intelligence: Automate claims processing and prior authorization",
@@ -183,18 +183,18 @@
       ]
     },
     {
-      "id": "plugin-ecosystem",
+      "id": "intelligence-pack-ecosystem",
       "status": "upcoming",
-      "title": "Plugin Ecosystem Expansion",
+      "title": "intelligence-packs Ecosystem Expansion",
       "targetDate": "2026-06-30",
       "progress": 0,
-      "description": "Grow the plugin ecosystem with both first-party and third-party plugins spanning diverse use cases. Demonstrate the platform's versatility and the power of community-driven intelligence services. Each new plugin category attracts a new user segment and creates network effects.",
+      "description": "Grow the intelligence-packs ecosystem with both first-party and third-party Intelligence Packs spanning diverse use cases. Demonstrate the platform's versatility and the power of community-driven intelligence services. Each new intelligence-packs category attracts a new user segment and creates network effects.",
       "deliverables": [
         "Government & Enterprise Compliance: FedRAMP preparation and regulatory analysis",
         "Scientific Computing Intelligence: Experiment design and optimization for researchers",
         "Video-as-Primitive Tools: On-demand video generation infrastructure",
         "Design Automation Intelligence: AI-powered UI generation and design systems",
-        "Community-contributed plugins across health, e-commerce, social media, and academic domains"
+        "Community-contributed Intelligence packs across health, e-commerce, social media, and academic domains"
       ]
     }
   ]

@@ -18,7 +18,7 @@
     "Thermal expansion and heat transfer analysis"
   ],
   "installation": {
-    "command": "huitzo plugin install mechanical-engineering",
+    "command": "huitzo intelligence pack install mechanical-engineering",
     "requirements": ["Huitzo account", "Engineering unit system preference", "Material standards library"]
   },
   "quickstart": [

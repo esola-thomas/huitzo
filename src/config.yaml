@@ -11,7 +11,7 @@ metadata:
   title:
     default: Huitzo - Intelligence-as-a-Service Platform
     template: "%s | Huitzo"
-  description: "Democratize intelligent data analysis through a plugin-based architecture. Build powerful tools with simple CLI commands."
+  description: "Democratize intelligent data analysis through a intelligence-pack based architecture. Build powerful tools with simple CLI commands."
   robots:
     index: true
     follow: true

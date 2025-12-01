@@ -18,7 +18,7 @@
     "Multi-framework support (FedRAMP, SOC2, ISO 27001, GDPR)"
   ],
   "installation": {
-    "command": "huitzo plugin install gov-compliance",
+    "command": "huitzo intelligence pack install gov-compliance",
     "requirements": ["Enterprise account", "System documentation access", "Compliance framework selection"]
   },
   "quickstart": [

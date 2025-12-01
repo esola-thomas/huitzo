@@ -18,7 +18,7 @@
     "Career-focused tracks and certification preparation"
   ],
   "installation": {
-    "command": "huitzo plugin install educational",
+    "command": "huitzo intelligence pack install educational",
     "requirements": ["Huitzo account", "Learning goal setup"]
   },
   "quickstart": [
