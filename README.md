@@ -1,6 +1,6 @@
 # Huitzo Website
 
-The official marketing and documentation website for **Huitzo** - an Intelligence-as-a-Service platform that democratizes intelligent data analysis through a plugin-based architecture.
+The official marketing and documentation website for **Huitzo** - an Intelligence-as-a-Service platform that democratizes intelligent data analysis through a intelligence-packs-based architecture.
 
 ## 🌟 About Huitzo
 
@@ -12,7 +12,7 @@ Huitzo transforms overwhelming data into unfair competitive advantage. Using a w
 - **Web-based CLI interface** - Command-driven intelligence access
 - **Intelligence-as-a-Service** - On-demand data analysis and insights
 - **Multiple intelligence domains** - Financial analysis, and more
-- **Repository-driven content** - Dynamic stats and metrics from live plugin data
+- **Repository-driven content** - Dynamic stats and metrics from live intelligence-packs data
 
 **Current Intelligence Packs (4):**
 
@@ -123,7 +123,7 @@ huitzo.com/
 - **Styling:** Tailwind CSS 3.x with custom terminal-inspired theme
 - **Animations:** CSS transitions + keyframe animations, minimal JavaScript for interactivity
 - **Type Safety:** TypeScript with strict type checking (`astro check`)
-- **Data Validation:** JSON Schema for plugin and roadmap data
+- **Data Validation:** JSON Schema for intelligence-packs and roadmap data
 - **SEO:** Astro Sitemap integration, meta tags, robots.txt, Open Graph
 - **Performance:**
   - Image optimization with lazy loading
@@ -159,12 +159,12 @@ All commands are run from the root of the project:
 ### Core Pages
 
 - **Homepage** (`/`)
-  - Dynamic hero with real-time plugin counts and launch date
+  - Dynamic hero with real-time intelligence-packs counts and launch date
   - Terminal-style demo with animated prompt
   - Feature highlights with left-accent borders
   - **Interactive intelligence carousel** - Cycles through 5 empowering messaging angles with Play/Pause controls and navigation dots
   - Project status and current milestone progress
-  - Featured plugin showcase
+  - Featured intelligence-packs showcase
   - Multiple CTAs for engagement
 
 - **Development Roadmap** (`/roadmap`)
@@ -210,9 +210,9 @@ To add a new intelligence pack to the website:
 
    ```json
    {
-     "id": "plugin-id",
-     "slug": "plugin-slug",
-     "name": "Plugin Name",
+     "id": "intelligence-packs-id",
+     "slug": "intelligence-packs-slug",
+     "name": "intelligence-packs Name",
      "version": "1.0.0",
      "icon": "🔧",
      "tagline": "Short description",
@@ -223,14 +223,14 @@ To add a new intelligence pack to the website:
      "pricing": { "model": "freemium", "freeLimit": "100 queries/month" },
      "installation": {
        "method": "cli",
-       "command": "huitzo install plugin-slug"
+       "command": "huitzo install intelligence-packs-slug"
      },
      "quickstart": [
        { "title": "Step 1", "description": "..." },
        { "title": "Step 2", "description": "..." }
      ],
      "commands": [
-       { "command": "plugin command --flag", "description": "What it does" }
+       { "command": "intelligence-packs command --flag", "description": "What it does" }
      ]
    }
    ```

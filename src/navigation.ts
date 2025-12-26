@@ -7,10 +7,6 @@ export const headerData = {
       href: getPermalink("/"),
     },
     {
-      text: "Roadmap",
-      href: getPermalink("/roadmap"),
-    },
-    {
       text: "Intelligence Packs",
       href: getPermalink("/intelligence-packs"),
     },
