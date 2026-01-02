@@ -19,7 +19,11 @@
   ],
   "installation": {
     "command": "huitzo intelligence pack install video-generation",
-    "requirements": ["Pro account", "GPU compute credits", "Media storage allocation"]
+    "requirements": [
+      "Pro account",
+      "GPU compute credits",
+      "Media storage allocation"
+    ]
   },
   "quickstart": [
     {

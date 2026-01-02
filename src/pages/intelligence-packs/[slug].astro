@@ -2,7 +2,7 @@
 import Layout from '~/layouts/PageLayout.astro';
 import Command from '~/components/Command.astro';
 import CTAButton from '~/components/CTAButton.astro';
-import { loadAllIntelligencePacks, type IntelligencePack, getStatusInfo, getCategoryColors } from '~/utils/intelligence-packs';
+import { loadAllIntelligencePacks, type IntelligencePack } from '~/utils/intelligence-packs';
 
 // Generate static paths for all intelligence packs
 export async function getStaticPaths() {
@@ -35,11 +35,8 @@ const metadata = {
 };
 
 // Get status and category info
-const statusInfo = getStatusInfo(pack.status);
-const categoryColors = getCategoryColors(pack.category);
 const isComingSoon = pack.status === 'coming-soon';
 const isBeta = pack.status === 'beta';
-const isActive = pack.status === 'active';
 const isIdeaPhase = pack.status === 'idea-phase';
 ---
 

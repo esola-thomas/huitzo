@@ -11,7 +11,7 @@ metadata:
   title:
     default: Huitzo - Intelligence-as-a-Service Platform
     template: "%s | Huitzo"
-  description: "Democratize intelligent data analysis through a intelligence-pack based architecture. Build powerful tools with simple CLI commands."
+  description: "Huitzo is the Decision Engine for modern business. It transforms raw data into clear, actionable intelligence through specialized Intelligence Packs."
   robots:
     index: true
     follow: true

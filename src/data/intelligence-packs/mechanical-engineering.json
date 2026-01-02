@@ -19,7 +19,11 @@
   ],
   "installation": {
     "command": "huitzo intelligence pack install mechanical-engineering",
-    "requirements": ["Huitzo account", "Engineering unit system preference", "Material standards library"]
+    "requirements": [
+      "Huitzo account",
+      "Engineering unit system preference",
+      "Material standards library"
+    ]
   },
   "quickstart": [
     {

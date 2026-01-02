@@ -31,7 +31,10 @@ export const footerData = {
       title: "Platform",
       links: [
         { text: "Roadmap", href: getPermalink("/roadmap") },
-        { text: "Intelligence Packs", href: getPermalink("/intelligence-packs") },
+        {
+          text: "Intelligence Packs",
+          href: getPermalink("/intelligence-packs"),
+        },
         {
           text: "CLI Platform (ALPHA USERS)",
           href: "https://cli.huitzo.com",

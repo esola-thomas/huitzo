@@ -19,7 +19,11 @@
   ],
   "installation": {
     "command": "huitzo intelligence pack install gov-compliance",
-    "requirements": ["Enterprise account", "System documentation access", "Compliance framework selection"]
+    "requirements": [
+      "Enterprise account",
+      "System documentation access",
+      "Compliance framework selection"
+    ]
   },
   "quickstart": [
     {

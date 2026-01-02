@@ -19,7 +19,11 @@
   ],
   "installation": {
     "command": "huitzo intelligence pack install personal-assistant",
-    "requirements": ["Email account connection", "Calendar API access", "Huitzo account"]
+    "requirements": [
+      "Email account connection",
+      "Calendar API access",
+      "Huitzo account"
+    ]
   },
   "quickstart": [
     {

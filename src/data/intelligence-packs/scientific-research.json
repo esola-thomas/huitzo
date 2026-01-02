@@ -19,7 +19,11 @@
   ],
   "installation": {
     "command": "huitzo intelligence pack install scientific-research",
-    "requirements": ["Research credentials", "Data analysis environment", "Statistical computing packages"]
+    "requirements": [
+      "Research credentials",
+      "Data analysis environment",
+      "Statistical computing packages"
+    ]
   },
   "quickstart": [
     {

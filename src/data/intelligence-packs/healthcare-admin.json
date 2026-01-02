@@ -19,7 +19,11 @@
   ],
   "installation": {
     "command": "huitzo intelligence pack install healthcare-admin",
-    "requirements": ["Healthcare provider credentials", "EHR system integration", "HIPAA compliance certification"]
+    "requirements": [
+      "Healthcare provider credentials",
+      "EHR system integration",
+      "HIPAA compliance certification"
+    ]
   },
   "quickstart": [
     {

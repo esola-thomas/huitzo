@@ -9,8 +9,6 @@ const packsByStatus = await getIntelligencePacksByStatusGroups();
 
 // Get unique categories for filtering
 const uniqueCategories = await getAllCategories();
-const categories = ['All', ...uniqueCategories.map(c => c.charAt(0).toUpperCase() + c.slice(1))];
-const statuses = ['All', 'Active', 'Beta', 'Coming Soon', 'Idea Phase'];
 
 // Calculate counts for each category
 const categoryCounts = uniqueCategories.reduce((acc, cat) => {
@@ -284,7 +282,6 @@ const statusSections = [
 
       sections.forEach(section => {
         const htmlSection = section as HTMLElement;
-        const sectionStatus = htmlSection.dataset.sectionStatus || '';
         const packCards = htmlSection.querySelectorAll('.pack-card');
         let sectionVisibleCount = 0;
 

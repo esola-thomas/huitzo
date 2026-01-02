@@ -139,20 +139,20 @@ huitzo.com/
 
 All commands are run from the root of the project:
 
-| Command                        | Action                                         |
-| :----------------------------- | :--------------------------------------------- |
-| `npm install`                  | Installs dependencies                          |
-| `npm run dev`                  | Starts local dev server at `localhost:4321`    |
-| `npm run build`                | Build your production site to `./dist/`        |
-| `npm run preview`              | Preview your build locally, before deploying   |
-| `npm run check`                | Run all checks (Astro types, ESLint, Prettier) |
-| `npm run check:astro`          | Type-check all Astro files                     |
-| `npm run check:eslint`         | Lint code with ESLint                          |
-| `npm run check:prettier`       | Check code formatting with Prettier            |
-| `npm run fix`                  | Auto-fix ESLint and Prettier issues            |
-| `npm run generate:pack-docs`   | Generate intelligence pack documentation       |
-| `npm run validate:packs`       | Validate all intelligence pack data against schema |
-| `npm run validate:roadmap`     | Validate roadmap data against schema           |
+| Command                      | Action                                             |
+| :--------------------------- | :------------------------------------------------- |
+| `npm install`                | Installs dependencies                              |
+| `npm run dev`                | Starts local dev server at `localhost:4321`        |
+| `npm run build`              | Build your production site to `./dist/`            |
+| `npm run preview`            | Preview your build locally, before deploying       |
+| `npm run check`              | Run all checks (Astro types, ESLint, Prettier)     |
+| `npm run check:astro`        | Type-check all Astro files                         |
+| `npm run check:eslint`       | Lint code with ESLint                              |
+| `npm run check:prettier`     | Check code formatting with Prettier                |
+| `npm run fix`                | Auto-fix ESLint and Prettier issues                |
+| `npm run generate:pack-docs` | Generate intelligence pack documentation           |
+| `npm run validate:packs`     | Validate all intelligence pack data against schema |
+| `npm run validate:roadmap`   | Validate roadmap data against schema               |
 
 ## 📄 Pages & Features
 
@@ -230,7 +230,10 @@ To add a new intelligence pack to the website:
        { "title": "Step 2", "description": "..." }
      ],
      "commands": [
-       { "command": "intelligence-packs command --flag", "description": "What it does" }
+       {
+         "command": "intelligence-packs command --flag",
+         "description": "What it does"
+       }
      ]
    }
    ```
@@ -248,12 +251,12 @@ To add a new intelligence pack to the website:
 
 ### Current Intelligence Packs
 
-| Intelligence Pack                   | Slug                    | Status      | Version |
-| ----------------------------------- | ----------------------- | ----------- | ------- |
-| Financial Intelligence              | `financial`             | Active      | 1.0.0   |
-| Mechanical Engineering Intelligence | `mechanical-engineering`| Idea Phase  | 0.0.0   |
-| Job Market Report                   | `job-report`            | Coming Soon | 0.8.0   |
-| Rubber Ducky                        | `rubber-ducky`          | Coming Soon | 0.7.0   |
+| Intelligence Pack                   | Slug                     | Status      | Version |
+| ----------------------------------- | ------------------------ | ----------- | ------- |
+| Financial Intelligence              | `financial`              | Active      | 1.0.0   |
+| Mechanical Engineering Intelligence | `mechanical-engineering` | Idea Phase  | 0.0.0   |
+| Job Market Report                   | `job-report`             | Coming Soon | 0.8.0   |
+| Rubber Ducky                        | `rubber-ducky`           | Coming Soon | 0.7.0   |
 
 ### Intelligence Pack Data Validation
 

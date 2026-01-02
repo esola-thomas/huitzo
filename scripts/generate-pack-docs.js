@@ -11,8 +11,14 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const schemaPath = path.join(__dirname, "../src/data/intelligence-packs/schema.json");
-const docsPath = path.join(__dirname, "../src/data/intelligence-packs/SCHEMA.md");
+const schemaPath = path.join(
+  __dirname,
+  "../src/data/intelligence-packs/schema.json",
+);
+const docsPath = path.join(
+  __dirname,
+  "../src/data/intelligence-packs/SCHEMA.md",
+);
 
 function getTypeDescription(prop) {
   let type = prop.type;

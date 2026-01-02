@@ -14,7 +14,13 @@ export interface IntelligencePack {
   tagline: string;
   description: string;
   category: string;
-  status: "active" | "beta" | "coming-soon" | "idea-phase" | "deprecated" | "archived";
+  status:
+    | "active"
+    | "beta"
+    | "coming-soon"
+    | "idea-phase"
+    | "deprecated"
+    | "archived";
   features?: string[];
   pricing?: {
     free?: {
@@ -87,7 +93,9 @@ export async function loadAllIntelligencePacks(): Promise<IntelligencePack[]> {
     if (pack && pack.id && pack.slug && pack.name && pack.status) {
       packs.push(pack);
     } else {
-      console.warn(`Intelligence pack at ${filepath} is missing required fields`);
+      console.warn(
+        `Intelligence pack at ${filepath} is missing required fields`,
+      );
     }
   }
 
@@ -102,7 +110,9 @@ export async function loadAllIntelligencePacks(): Promise<IntelligencePack[]> {
 /**
  * Load all intelligence packs and create a map by slug for easy lookup
  */
-export async function loadIntelligencePacksMap(): Promise<Record<string, IntelligencePack>> {
+export async function loadIntelligencePacksMap(): Promise<
+  Record<string, IntelligencePack>
+> {
   const packs = await loadAllIntelligencePacks();
   const packsMap: Record<string, IntelligencePack> = {};
 
@@ -116,7 +126,9 @@ export async function loadIntelligencePacksMap(): Promise<Record<string, Intelli
 /**
  * Get a single intelligence pack by slug
  */
-export async function getIntelligencePackBySlug(slug: string): Promise<IntelligencePack | null> {
+export async function getIntelligencePackBySlug(
+  slug: string,
+): Promise<IntelligencePack | null> {
   const packsMap = await loadIntelligencePacksMap();
   return packsMap[slug] || null;
 }
@@ -214,7 +226,10 @@ export const CATEGORY_COLORS = {
  * Get category color classes
  */
 export function getCategoryColors(category: string) {
-  return CATEGORY_COLORS[category as keyof typeof CATEGORY_COLORS] || CATEGORY_COLORS.default;
+  return (
+    CATEGORY_COLORS[category as keyof typeof CATEGORY_COLORS] ||
+    CATEGORY_COLORS.default
+  );
 }
 
 /**

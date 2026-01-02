@@ -1,24 +1,17 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import IntelligencePackCard from '~/components/IntelligencePackCard.astro';
-import { getIntelligencePacksByStatus, getIntelligencePackStats } from '~/utils/intelligence-packs';
+import Features from '~/components/widgets/Features.astro';
+import Content from '~/components/widgets/Content.astro';
+import { getIntelligencePacksByStatus } from '~/utils/intelligence-packs';
 
 // Get the first active pack for featured display
 const activePacks = await getIntelligencePacksByStatus('active');
 const featuredPack = activePacks[0] || null;
 
-// Compute safe stats for hero section
-const packStats = await getIntelligencePackStats();
-const packCount = packStats?.total ?? 0;
-const packsInDev = packStats?.comingSoon + packStats?.beta || 0;
-
-// Find current milestone from roadmap
-const roadmapModule = await import('~/data/roadmap.json');
-const currentMilestone = roadmapModule.default.milestones.find(m => m.status === 'in-progress');
-
 const metadata = {
-  title: 'Huitzo - Intelligence on Demand',
-  description: 'Huitzo intelligence packs analyze your data and deliver actionable insights so you decide faster and smarter.',
+  title: 'Huitzo - The Decision Engine for Business',
+  description: 'Huitzo transforms your raw business data into clear, actionable intelligence. No complex dashboards, no data teams—just the answers you need.',
 };
 ---
 
@@ -28,356 +21,179 @@ const metadata = {
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto text-center">
         <h1 class="text-4xl lg:text-6xl font-bold mb-6 leading-normal lg:leading-tight">
-          Your Competition Has Data.
-          <span class="text-gradient animated-gradient block">You'll Have Intelligence on Demand.</span>
+          Stop Guessing. <span class="text-gradient animated-gradient">Start Deciding.</span>
         </h1>
 
         <p class="text-xl text-muted mb-6 leading-relaxed max-w-3xl mx-auto">
-          Huitzo intelligence packs analyze your data and deliver actionable insights so you can decide faster and smarter.
+          Huitzo transforms your raw business data into clear, actionable intelligence. 
+          No complex dashboards, no expensive data teams just the answers you need to grow.
         </p>
-
-        <div class="bg-[var(--aw-color-bg-secondary)]/60 border border-gray-700 rounded-lg px-6 py-5 mb-8 max-w-2xl mx-auto text-left">
-          <p class="text-sm uppercase tracking-[0.3em] text-primary font-semibold mb-3">Why Now</p>
-          <p class="text-base text-muted leading-relaxed">
-            The world generates 402 million terabytes of data every day. Without the right tools, it's just noise. With Huitzo, it becomes your competitive edge.
-          </p>
-        </div>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
           <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="btn-primary">
-            Get Started →
+            Launch Platform
           </a>
           <a href="/intelligence-packs" class="btn-secondary">
             Explore Intelligence Packs
           </a>
         </div>
-
-        <!-- Key Stats -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-gray-700 max-w-2xl mx-auto">
-          <div>
-            <div class="text-2xl font-bold text-primary font-mono">{packCount}</div>
-            <div class="text-sm text-muted">Intelligence packs</div>
-          </div>
-          <div>
-            <div class="text-2xl font-bold text-primary font-mono">{packsInDev}</div>
-            <div class="text-sm text-muted">In development</div>
-          </div>
-          <div>
-            <div class="text-2xl font-bold text-primary font-mono">May '26</div>
-            <div class="text-sm text-muted">Public launch</div>
-          </div>
-        </div>
       </div>
     </div>
   </section>
 
-  <!-- The Problem Section -->
+  <!-- Executive Summary -->
+  <Content
+    isReversed
+    tagline="The Huitzo Advantage"
+    title="Intelligence, Packaged for Business"
+    items={[
+      {
+        title: 'Connect Your Tools',
+        description: 'Seamlessly link your existing business tools (Stripe, AWS, GitHub, CRM) in seconds.',
+      },
+      {
+        title: 'Select Your Pack',
+        description: 'Choose from specialized Intelligence Packs designed for Finance, Operations, or Market Research.',
+      },
+      {
+        title: 'Get Answers, Not Just Data',
+        description: 'Receive immediate, actionable insights and recommendations—not just raw charts.',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+      alt: 'Huitzo Dashboard',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Your AI Analyst Team
+      </h3>
+      <p class="text-lg text-muted mb-6">
+        Most businesses are drowning in data but starving for insights. Huitzo bridges the gap between passive dashboards and active decision-making.
+      </p>
+    </Fragment>
+  </Content>
+
+  <!-- Architecture -->
+  <Features
+    id="how-it-works"
+    title="How It Works"
+    subtitle="Enterprise-grade intelligence, simplified for everyone."
+    columns={2}
+    items={[
+      {
+        title: 'Secure Foundation',
+        description: 'Built on a robust, secure core that handles authentication and data orchestration, ensuring your business data stays safe.',
+        icon: 'tabler:lock',
+      },
+      {
+        title: 'Visual Intelligence',
+        description: 'Forget complex command lines. Huitzo provides clear, interactive dashboards that highlight exactly what you need to know.',
+        icon: 'tabler:layout-dashboard',
+      },
+      {
+        title: 'Intelligence Packs',
+        description: 'Think of them as "Apps" for your business intelligence. Each pack is a specialized agent trained to solve a specific problem.',
+        icon: 'tabler:package',
+      },
+      {
+        title: 'Seamless Integrations',
+        description: 'Our standardized "Bridge" technology connects to your infrastructure (Email, Slack, Cloud) without custom coding.',
+        icon: 'tabler:api',
+      },
+    ]}
+  />
+
+  <!-- Competitive Landscape -->
+  <Features
+    id="why-huitzo"
+    title="Why You Should Choose Huitzo"
+    subtitle="Beyond chatbots and spreadsheets."
+    columns={2}
+    items={[
+      {
+        title: 'Beyond Chatbots',
+        description: 'Chatbots are great for writing emails, but can they analyze your server logs or financial runway? Huitzo connects to real data to do real work.',
+        icon: 'tabler:message-chatbot',
+      },
+      {
+        title: 'Beyond Dashboards',
+        description: 'Traditional dashboards show you what happened yesterday. Huitzo tells you what to do today.',
+        icon: 'tabler:chart-dots',
+      },
+      {
+        title: 'Action Oriented',
+        description: 'Don\'t just view data act on it. Huitzo Packs can trigger workflows, send alerts, and execute tasks.',
+        icon: 'tabler:bolt',
+      },
+      {
+        title: 'Unified Platform',
+        description: 'Stop jumping between ten different tools. Huitzo brings your Code, Data, and Insights into one unified view.',
+        icon: 'tabler:box-model',
+      },
+    ]}
+  />
+
+  <!-- Market Analysis -->
   <section class="py-20 bg-[var(--aw-color-bg-secondary)]/50">
     <div class="container mx-auto px-4">
-      <div class="max-w-5xl mx-auto">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl lg:text-4xl font-bold mb-4">
-            While You're Drowning in Data, Your Competitors Are Making Moves
-          </h2>
-          <p class="text-lg text-muted">
-            Too much information. Not enough clarity. Sound familiar?
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl p-6">
-            <div class="text-3xl mb-4">🏢</div>
-            <h3 class="text-lg font-semibold mb-3">The Competitive Gap</h3>
-            <p class="text-sm text-muted leading-relaxed">
-              Your competitors have data teams and expensive consultants. You have spreadsheets and guesswork. The gap widens every day.
-            </p>
-          </div>
-          <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl p-6">
-            <div class="text-3xl mb-4">🤯</div>
-            <h3 class="text-lg font-semibold mb-3">Decision Paralysis</h3>
-            <p class="text-sm text-muted leading-relaxed">
-              More data should lead to better decisions. Instead, it creates more confusion. You're stuck analyzing instead of acting.
-            </p>
-          </div>
-          <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl p-6">
-            <div class="text-3xl mb-4">⏳</div>
-            <h3 class="text-lg font-semibold mb-3">Analysis Fatigue</h3>
-            <p class="text-sm text-muted leading-relaxed">
-              By the time you find the insight, the opportunity has passed. Manual analysis can't keep pace with today's market.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- The Solution Section -->
-  <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
-    <div class="container mx-auto px-4">
-      <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl lg:text-4xl font-bold mb-4">
-            Huitzo: Your On-Demand Analysis Team
-          </h2>
-          <p class="text-lg text-muted max-w-3xl mx-auto">
-            Each intelligence pack specializes in a domain. You get the answers. No team required.
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          <div class="space-y-6">
-            <p class="text-base text-muted leading-relaxed">
-              Right now, there are two types of decision-makers: those with expensive analytics teams, and everyone else flying blind. Huitzo closes that gap.
-            </p>
-            <p class="text-base text-muted leading-relaxed">
-              Our intelligence packs do the heavy lifting by analyzing data, spotting patterns, and delivering clear recommendations. You stay focused on what matters: making the call.
-            </p>
-            <p class="text-base text-muted leading-relaxed">
-              Start with one intelligence pack. Add more as your needs grow. Each one is designed to deliver specific, actionable outputs you can use immediately.
-            </p>
-          </div>
-          <div class="space-y-6">
-            <div class="bg-[var(--aw-color-bg-page)] border border-gray-700 rounded-2xl p-6">
-              <h3 class="text-xl font-semibold mb-2">What We Do</h3>
-              <p class="text-sm text-muted leading-relaxed">
-                Transform raw data into clear recommendations. No dashboards to build and no reports to generate. You just get answers when you need them.
-              </p>
-            </div>
-            <div class="bg-[var(--aw-color-bg-page)] border border-primary/50 border-2 rounded-2xl p-6">
-              <h3 class="text-xl font-semibold text-primary mb-2">The Huitzo Difference</h3>
-              <p class="text-sm text-muted leading-relaxed">
-                We don't just analyze; we interpret, contextualize, and recommend. Each intelligence pack understands your goals and delivers personalized insights.
-              </p>
-            </div>
-            <div class="bg-[var(--aw-color-bg-page)] border border-gray-700 rounded-2xl p-6">
-              <h3 class="text-xl font-semibold mb-2">How It Works</h3>
-              <p class="text-sm text-muted leading-relaxed">
-                Ask a question, get an answer. Our intelligence packs analyze your data in the background and deliver results you can act on in seconds, not days.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Who Benefits -->
-  <section class="py-20 bg-[var(--aw-color-bg-secondary)]/60">
-    <div class="container mx-auto px-4">
-      <div class="max-w-5xl mx-auto text-center mb-14">
-        <h2 class="text-3xl lg:text-4xl font-bold mb-4">Built for Decision-Makers</h2>
-        <p class="text-lg text-muted">
-          Whether you're managing a portfolio or running a business, Huitzo helps you move faster.
+      <div class="max-w-5xl mx-auto text-center">
+        <h2 class="text-3xl lg:text-4xl font-bold mb-8">Solve the "Context Switching" Problem</h2>
+        <p class="text-lg text-muted mb-12">
+          The average professional switches apps 1,200 times a day. It kills productivity. Huitzo stops the madness.
         </p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-        <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl px-5 py-6 text-center">
-          <div class="text-2xl mb-3">📈</div>
-          <h3 class="text-lg font-semibold mb-2">Investors</h3>
-          <p class="text-sm text-muted">Get personalized risk analysis and market insights without the guesswork.</p>
-        </div>
-        <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl px-5 py-6 text-center">
-          <div class="text-2xl mb-3">🚀</div>
-          <h3 class="text-lg font-semibold mb-2">Founders</h3>
-          <p class="text-sm text-muted">Spot trends and make data-backed decisions without hiring analysts.</p>
-        </div>
-        <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl px-5 py-6 text-center">
-          <div class="text-2xl mb-3">🏪</div>
-          <h3 class="text-lg font-semibold mb-2">Small Businesses</h3>
-          <p class="text-sm text-muted">Access the same analytical power as enterprise teams at a fraction of the cost.</p>
-        </div>
-        <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl px-5 py-6 text-center">
-          <div class="text-2xl mb-3">🧠</div>
-          <h3 class="text-lg font-semibold mb-2">Anyone Stuck</h3>
-          <p class="text-sm text-muted">Break through decision paralysis with tools designed to help you think.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- How It Works - Plugin Outputs -->
-  <section class="py-20">
-    <div class="container mx-auto px-4">
-      <div class="max-w-5xl mx-auto">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl lg:text-4xl font-bold mb-4">From Question to Answer in Seconds</h2>
-          <p class="text-lg text-muted">
-            Ask what you need. Get what matters.
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <!-- Financial Analysis Output -->
-          <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-2xl overflow-hidden">
-            <div class="bg-emerald-500/10 border-b border-emerald-500/30 px-6 py-4">
-              <div class="flex items-center gap-3">
-                <span class="text-2xl">💰</span>
-                <div>
-                  <h3 class="font-semibold text-emerald-400">Financial Analysis</h3>
-                  <p class="text-xs text-muted">Available now</p>
-                </div>
-              </div>
-            </div>
-            <div class="p-6">
-              <div class="mb-4">
-                <p class="text-sm text-muted mb-2">You ask:</p>
-                <p class="text-base font-medium">"Should I rebalance my portfolio?"</p>
-              </div>
-              <div class="border-t border-gray-700 pt-4">
-                <p class="text-sm text-muted mb-3">You get:</p>
-                <ul class="space-y-2 text-sm">
-                  <li class="flex items-start gap-2">
-                    <span class="text-emerald-400">✓</span>
-                    <span>Risk profile analysis matched to your criteria.</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="text-emerald-400">✓</span>
-                    <span>Real-time market signals (VIX, sector trends).</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="text-emerald-400">✓</span>
-                    <span>A personalized recommendation with clear reasoning.</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="text-emerald-400">✓</span>
-                    <span>Automated weekly briefings delivered to your inbox.</span>
-                  </li>
-                </ul>
-              </div>
-              <div class="mt-4 pt-4 border-t border-gray-700">
-                <a href="/intelligence-packs/financial" class="text-sm text-primary hover:underline">Learn more →</a>
-              </div>
-            </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-[var(--aw-color-bg-page)] p-6 rounded-lg border border-gray-700">
+            <h3 class="text-xl font-bold mb-4">The Old Way</h3>
+            <p class="text-muted">
+              Ask a chatbot → Copy code → Open Terminal → Run Script → Check Dashboard → Write Email.
+            </p>
           </div>
-
-          <!-- Rubber Ducky Output -->
-          <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-2xl overflow-hidden">
-            <div class="bg-amber-500/10 border-b border-amber-500/30 px-6 py-4">
-              <div class="flex items-center gap-3">
-                <span class="text-2xl">🦆</span>
-                <div>
-                  <h3 class="font-semibold text-amber-400">Rubber Ducky</h3>
-                  <p class="text-xs text-muted">Available now</p>
-                </div>
-              </div>
-            </div>
-            <div class="p-6">
-              <div class="mb-4">
-                <p class="text-sm text-muted mb-2">You say:</p>
-                <p class="text-base font-medium">"I'm stuck on this decision and keep going in circles..."</p>
-              </div>
-              <div class="border-t border-gray-700 pt-4">
-                <p class="text-sm text-muted mb-3">You get:</p>
-                <ul class="space-y-2 text-sm">
-                  <li class="flex items-start gap-2">
-                    <span class="text-amber-400">✓</span>
-                    <span>Guided questions that help you think clearly</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="text-amber-400">✓</span>
-                    <span>A partner that asks rather than tells</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="text-amber-400">✓</span>
-                    <span>Conversation summary with your insights highlighted</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="text-amber-400">✓</span>
-                    <span>Clarity on what you actually want</span>
-                  </li>
-                </ul>
-              </div>
-              <div class="mt-4 pt-4 border-t border-gray-700">
-                <a href="/intelligence-packs/rubber-ducky" class="text-sm text-primary hover:underline">Learn more →</a>
-              </div>
-            </div>
+          <div class="bg-[var(--aw-color-bg-page)] p-6 rounded-lg border border-gray-700">
+            <h3 class="text-xl font-bold mb-4">The Huitzo Way</h3>
+            <p class="text-muted">
+              Select Pack → Run Command → View Insight → Click "Execute". Done.
+            </p>
           </div>
-        </div>
-
-        <p class="text-center text-sm text-muted mt-8">
-          A human analyst takes three days. Huitzo delivers in three seconds.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Project Status Section -->
-  <section class="py-20">
-    <div class="container mx-auto px-4">
-      <div class="max-w-4xl mx-auto">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl lg:text-4xl font-bold mb-4">
-            Building in Public
-          </h2>
-          <p class="text-lg text-muted">
-            We're transparent about where we are and where we're headed. Join us on the journey.
-          </p>
-        </div>
-
-        <div class="card text-center">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center text-left md:text-left">
-            <div class="space-y-4">
-              <h3 class="text-xl font-semibold">Where We Are Now</h3>
-              <p class="text-primary font-medium">Onboarding first users and expanding our intelligence pack catalog</p>
-
-              {currentMilestone && (
-                <div class="bg-[var(--aw-color-bg-secondary)] border border-gray-700 rounded-xl p-5">
-                  <h4 class="text-lg font-semibold mb-3">{currentMilestone.title}</h4>
-                  <div class="flex items-center justify-between mb-2">
-                    <span class="text-sm text-muted">Progress</span>
-                    <span class="text-sm font-mono text-primary">{currentMilestone.progress}%</span>
-                  </div>
-                  <div class="progress-bar mb-4">
-                    <div class="progress-fill" style={`width: ${currentMilestone.progress}%`}></div>
-                  </div>
-                  {currentMilestone.targetDate && (
-                    <p class="text-sm text-muted">Target: {new Date(currentMilestone.targetDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                  )}
-                </div>
-              )}
-
-              <p class="text-sm text-muted">
-                Beta partners receive lifetime founder benefits and direct influence over roadmap priorities.
-              </p>
-            </div>
-
-            <div>
-              <h3 class="text-xl font-semibold mb-4">Milestones</h3>
-              <div class="space-y-3 text-sm">
-                <div class="flex items-center justify-between">
-                  <span class="text-muted">✓ Project Kickoff</span>
-                  <span class="text-[var(--aw-color-success)]">Oct 2025</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-muted">✓ Core Platform MVP</span>
-                  <span class="text-[var(--aw-color-success)]">Nov 2025</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-muted">⏳ Financial Intelligence Beta</span>
-                  <span class="text-muted">Jan 2026</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-muted">⏳ 3+ Intelligence Packs</span>
-                  <span class="text-muted">Jan 2026</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-muted">○ Public Launch</span>
-                  <span class="text-muted">May 2026</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-8 pt-6 border-t border-gray-700 space-y-4">
-            <a href="/roadmap" class="btn-secondary">
-              Inspect the Roadmap →
-            </a>
+          <div class="bg-[var(--aw-color-bg-page)] p-6 rounded-lg border border-gray-700">
+            <h3 class="text-xl font-bold mb-4">The Result</h3>
+            <ul class="text-left text-muted space-y-2">
+              <li>• 10x Faster Decisions</li>
+              <li>• Zero Context Switching</li>
+              <li>• Unified Workflow</li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Strategic Recommendations -->
+  <Features
+    id="use-cases"
+    title="Built for Every Stakeholder"
+    subtitle="Whether you are an investor, a founder, or an operator, Huitzo delivers value."
+    columns={3}
+    items={[
+      {
+        title: 'For Investors',
+        description: 'Perform technical and financial due diligence in seconds. Connect to a portfolio company\'s data and get an instant health check.',
+        icon: 'tabler:chart-pie',
+      },
+      {
+        title: 'For Founders',
+        description: 'Monitor your burn rate, runway, and key metrics without hiring a CFO or Data Analyst. Focus on product, not spreadsheets.',
+        icon: 'tabler:rocket',
+      },
+      {
+        title: 'For Operations',
+        description: 'Automate routine checks, server maintenance, and compliance reporting. Let Huitzo handle the boring stuff.',
+        icon: 'tabler:server',
+      },
+    ]}
+  />
 
   <!-- Intelligence Packs Section -->
   <section class="py-20 bg-[var(--aw-color-bg-secondary)]">
@@ -385,10 +201,10 @@ const metadata = {
       <div class="max-w-5xl mx-auto">
         <div class="text-center mb-12">
           <h2 class="text-3xl lg:text-4xl font-bold mb-4">
-            Intelligence Packs for Every Challenge
+            Intelligence Packs
           </h2>
           <p class="text-lg text-muted">
-            Intelligence-as-a-Service, delivered one pack at a time. Start with one. Expand as you grow.
+            Specialized, high-value bundles of Logic + UI.
           </p>
         </div>
 
@@ -423,10 +239,10 @@ const metadata = {
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="https://cli.huitzo.com" target="_blank" rel="noopener" class="btn-primary">
-            Get Started →
+            Launch Platform (Alpha Users)
           </a>
           <a href="/intelligence-packs" class="btn-secondary">
-            Explore Intelligence Packs
+            Explore Intelligence Pack Ideas 
           </a>
         </div>
 

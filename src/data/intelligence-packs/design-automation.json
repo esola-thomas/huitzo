@@ -19,7 +19,11 @@
   ],
   "installation": {
     "command": "huitzo intelligence pack install design-automation",
-    "requirements": ["Design tools integration", "Frontend framework selection", "Brand assets"]
+    "requirements": [
+      "Design tools integration",
+      "Frontend framework selection",
+      "Brand assets"
+    ]
   },
   "quickstart": [
     {

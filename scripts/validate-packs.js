@@ -116,7 +116,9 @@ function main() {
       .filter((file) => file.endsWith(".json") && file !== "schema.json")
       .map((file) => path.join(packsDir, file));
   } catch (error) {
-    console.error(`❌ Failed to read intelligence packs directory: ${error.message}`);
+    console.error(
+      `❌ Failed to read intelligence packs directory: ${error.message}`,
+    );
     process.exit(1);
   }
 
@@ -125,7 +127,9 @@ function main() {
     return;
   }
 
-  console.log(`🔍 Validating ${packFiles.length} intelligence pack file(s)...\n`);
+  console.log(
+    `🔍 Validating ${packFiles.length} intelligence pack file(s)...\n`,
+  );
 
   let totalErrors = 0;
   const results = [];
